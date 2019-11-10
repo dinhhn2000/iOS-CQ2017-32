@@ -1,4 +1,4 @@
-package com.example.travelsupporter;
+package com.example.travelsupporter.utils;
 
 public class Tour {
     private long id;

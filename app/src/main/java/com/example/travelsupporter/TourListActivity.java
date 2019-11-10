@@ -10,9 +10,10 @@ import android.widget.Toast;
 
 import com.example.travelsupporter.API.TourListResponse;
 import com.example.travelsupporter.API.Travel_Supporter_Client;
+import com.example.travelsupporter.Custom_Adapter.tourListAdapter;
+import com.example.travelsupporter.utils.Tour;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,7 +23,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TourListActivity extends AppCompatActivity {
 
-    private boolean isLoading = true;
     private ArrayList<Tour> tourList = new ArrayList<>();
     private int pageNum = 1;
     private ListView lvTour;

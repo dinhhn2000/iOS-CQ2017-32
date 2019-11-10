@@ -1,4 +1,4 @@
-package com.example.travelsupporter;
+package com.example.travelsupporter.Custom_Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -10,14 +10,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.travelsupporter.API.TourListResponse;
+import com.example.travelsupporter.R;
+import com.example.travelsupporter.utils.Tour;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
-
-import retrofit2.Callback;
 
 public class tourListAdapter extends ArrayAdapter<Tour> {
     private Context context;

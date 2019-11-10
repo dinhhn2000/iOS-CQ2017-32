@@ -13,6 +13,7 @@
         android:layout_height="50dp"
         android:background="@null"
         android:drawableStart="@drawable/ic_search_black_24dp"
+        android:drawablePadding="20dp"
         android:hint="Search"
         android:importantForAutofill="auto"
         android:inputType="text"

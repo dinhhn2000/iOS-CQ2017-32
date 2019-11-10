@@ -1,7 +1,5 @@
 package com.example.travelsupporter.API;
 
-import android.text.Editable;
-
 public class RegisterRequest {
     private String password;
     private String fullName;

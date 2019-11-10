@@ -9,10 +9,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.travelsupporter.API.RegisterRequest;
+import com.example.travelsupporter.API.RegisterResponse;
 import com.example.travelsupporter.API.Travel_Supporter_Client;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -44,14 +49,42 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText gender = findViewById(R.id.gender);
         Button okRegisterInBtn = findViewById(R.id.okRegisterInBtn);
         Button backRegisterInBtn = findViewById(R.id.backRegisterInBtn);
+
         okRegisterInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RegisterRequest registerRequest = new RegisterRequest(password.getText().toString(),full_name.getText().toString(),
-                        email.getText().toString(),phone.getText().toString(),address.getText().toString(),dob.getText().toString(),gender.getText().toString());
+                RegisterRequest registerRequest = new RegisterRequest(password.getText().toString(), full_name.getText().toString(),
+                        email.getText().toString(), phone.getText().toString(), address.getText().toString(), dob.getText().toString(), gender.getText().toString());
 
+                Call<RegisterResponse> call = client.register(registerRequest);
+
+                call.enqueue(new Callback<RegisterResponse>() {
+                    @Override
+                    public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+                        if (!response.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "Error code: " + response.code(), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        RegisterResponse data = response.body();
+                        if (data != null && data.getEmail() != null) {
+                            Toast.makeText(getApplicationContext(), "Register successful", Toast.LENGTH_SHORT).show();
+
+                            // Move to Login screen
+                            Intent intent = new Intent(getApplication(), LoginActivity.class);
+                            intent.putExtra("USER_EMAIL", data.getEmail());
+                            startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
+
         backRegisterInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

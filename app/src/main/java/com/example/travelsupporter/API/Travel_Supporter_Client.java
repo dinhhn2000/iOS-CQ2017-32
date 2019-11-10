@@ -4,7 +4,6 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -17,4 +16,7 @@ public interface Travel_Supporter_Client {
 
     @POST("user/login")
     Call<LoginResponse> login(@Body LoginRequest loginRequest);
+
+    @POST("user/register")
+    Call<RegisterResponse> register(@Body RegisterRequest registerRequest);
 }

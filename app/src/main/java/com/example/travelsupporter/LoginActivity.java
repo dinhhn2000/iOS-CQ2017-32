@@ -3,6 +3,7 @@ package com.example.travelsupporter;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -56,8 +57,14 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         LoginResponse data = response.body();
                         if (data != null && data.getToken() != null) {
+                            // Save token into shared preference
                             editor.putString("token", data.getToken());
                             editor.apply();
+                            Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
+
+                            // Move to TourList screen
+                            Intent intent = new Intent(getApplication(), TourListActivity.class);
+                            startActivity(intent);
                         }
                     }
 

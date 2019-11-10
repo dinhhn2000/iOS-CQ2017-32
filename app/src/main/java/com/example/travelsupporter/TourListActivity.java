@@ -2,6 +2,8 @@ package com.example.travelsupporter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.AbsListView;
@@ -32,6 +34,7 @@ public class TourListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour_list);
 
+        final SharedPreferences sharedPreferences = getSharedPreferences("authentication", Context.MODE_PRIVATE);
         lvTour = findViewById(R.id.tourListLV);
 
         final Retrofit.Builder builder = new Retrofit.Builder()
@@ -39,7 +42,7 @@ public class TourListActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create());
         final tourListAdapter adapter = new tourListAdapter(getApplicationContext(), R.layout.tour_list_item, tourList);
 
-        addTourList(builder, adapter);
+        addTourList(builder, adapter, sharedPreferences);
 
 
         lvTour.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -50,8 +53,8 @@ public class TourListActivity extends AppCompatActivity {
                         lvTour.getFooterViewsCount()) >= (adapter.getCount() - 1)) {
 
                     // Now your listview has hit the bottom
-                    Toast.makeText(getApplicationContext(),"Loading...",Toast.LENGTH_SHORT).show();
-                    addTourList(builder, adapter);
+                    Toast.makeText(getApplicationContext(), "Loading...", Toast.LENGTH_SHORT).show();
+                    addTourList(builder, adapter, sharedPreferences);
                 }
 
             }
@@ -63,12 +66,13 @@ public class TourListActivity extends AppCompatActivity {
         });
     }
 
-    private void addTourList(Retrofit.Builder builder, final tourListAdapter adapter) {
+    private void addTourList(Retrofit.Builder builder, final tourListAdapter adapter, SharedPreferences sharedPreferences) {
         Retrofit retrofit = builder.build();
 
         Travel_Supporter_Client client = retrofit.create(Travel_Supporter_Client.class);
         int rowPerPage = 5;
-        Call<TourListResponse> call = client.getTourList(pageNum++, rowPerPage);
+        String token = sharedPreferences.getString("token", "");
+        Call<TourListResponse> call = client.getTourList(token, pageNum++, rowPerPage);
 
         call.enqueue(new Callback<TourListResponse>() {
             @Override

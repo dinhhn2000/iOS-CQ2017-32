@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".CreateTourActivity">
 
     <TextView
         android:id="@+id/APP_NAME"
@@ -29,10 +29,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="20dp"
-            android:text="Email/Phone" />
+            android:text="Tour Name" />
 
         <EditText
-            android:id="@+id/email_phone"
+            android:id="@+id/tourName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
@@ -42,59 +42,61 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
             android:paddingStart="20dp"
-            android:text="Password" />
+            android:text="Start Time" />
 
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/startTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:background="@drawable/border_rounded_shadow"
-            android:inputType="textPassword"
             android:padding="20dp" />
 
-        <Button
-            android:id="@+id/signInBtn"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="18dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/border_rounded"
-            android:backgroundTint="@color/colorPrimary"
-            android:padding="16dp"
-            android:textColor="#FFFFFF"
-            android:text="sign in"
-            android:textSize="20dp" />
+            android:paddingStart="20dp"
+            android:text="End Time" />
 
-        <Button
-            android:id="@+id/signUpBtn"
+        <EditText
+            android:id="@+id/endTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="18dp"
-            android:layout_marginVertical="30dp"
-            android:background="@drawable/border_rounded"
-            android:backgroundTint="@color/colorPrimary"
-            android:padding="16dp"
-            android:textColor="#FFFFFF"
-            android:text="sign up"
-            android:textSize="20dp" />
-
-        <Button
-            android:id="@+id/createTourBtn"
+            android:layout_marginHorizontal="12dp"
+            android:background="@drawable/border_rounded_shadow"
+            android:padding="20dp" />
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="18dp"
-            android:layout_marginVertical="30dp"
-            android:background="@drawable/border_rounded"
-            android:backgroundTint="@color/colorPrimary"
-            android:padding="16dp"
-            android:text="create tour"
-            android:textColor="#FFFFFF"
-            android:textSize="20dp" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center">
 
+            <Button
+                android:id="@+id/okCreateTourInBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="18dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/border_rounded"
+                android:backgroundTint="@color/colorPrimary"
+                android:layout_margin="16dp"
+                android:text="Ok"
+                android:textColor="#FFFFFF"
+                android:textSize="20dp" />
 
+            <Button
+                android:id="@+id/backCreateTourInBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="18dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/border_rounded"
+                android:backgroundTint="@color/colorPrimary"
+                android:layout_margin="16dp"
+                android:text="Back"
+                android:textColor="#FFFFFF"
+                android:textSize="20dp" />
+        </LinearLayout>
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText password = findViewById(R.id.password);
         Button signInBtn = findViewById(R.id.signInBtn);
         Button signUpBtn = findViewById(R.id.signUpBtn);
+        Button createTourBtn = findViewById(R.id.createTourBtn);
 
         email_phone.setText(getIntent().getStringExtra("USER_EMAIL"));
 
@@ -89,6 +90,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
+        createTourBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplication(), CreateTourActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

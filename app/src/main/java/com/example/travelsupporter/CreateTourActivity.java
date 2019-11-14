@@ -34,6 +34,6 @@ public class CreateTourActivity extends AppCompatActivity {
         final EditText start_time = findViewById(R.id.startTime);
         final EditText end_time = findViewById(R.id.endTime);
         Button okCreateTourInBtn = findViewById(R.id.okCreateTourInBtn);
-        Button backCreateTourInBtn = findViewById(R.id.backCreateTourInBtn);
+
     }
 }

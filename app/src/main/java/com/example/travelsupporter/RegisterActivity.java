@@ -54,7 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 RegisterRequest registerRequest = new RegisterRequest(password.getText().toString(), full_name.getText().toString(),
-                        email.getText().toString(), phone.getText().toString(), address.getText().toString(), dob.getText().toString(), gender.getText().toString());
+                        email.getText().toString(), phone.getText().toString(), address.getText().toString(), dob.getText().toString(),  gender.getText().toString());
 
                 Call<RegisterResponse> call = client.register(registerRequest);
 

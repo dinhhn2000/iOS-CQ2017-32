@@ -3,6 +3,7 @@ package com.example.travelsupporter;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -58,7 +59,16 @@ public class CreateTourActivity extends AppCompatActivity {
                 call.enqueue(new Callback<CreateTourResponse>() {
                     @Override
                     public void onResponse(Call<CreateTourResponse> call, Response<CreateTourResponse> response) {
-
+                        if(!response.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "Error code: " + response.code(), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        CreateTourResponse data = response.body();
+                        if(data != null && data.getStartDate() != 0 && data.getEndDate() != 0) {
+                            Toast.makeText(getApplicationContext(), "Register successful", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplication(), LoginActivity.class);
+                            startActivity(intent);
+                        }
                     }
 
                     @Override

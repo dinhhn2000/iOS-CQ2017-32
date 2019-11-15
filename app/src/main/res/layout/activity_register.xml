@@ -47,22 +47,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                android:paddingStart="20dp"
-                android:text="Password" />
-
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
-                android:background="@drawable/border_rounded_shadow"
-                android:inputType="textPassword"
-                android:padding="20dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:paddingStart="20dp"
                 android:text="Email" />
 
@@ -90,48 +74,38 @@
                 android:background="@drawable/border_rounded_shadow"
                 android:padding="20dp" />
 
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="20dp"
-                android:text="Address" />
+                android:text="Password" />
 
             <EditText
-                android:id="@+id/address"
+                android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
                 android:background="@drawable/border_rounded_shadow"
+                android:inputType="textPassword"
                 android:padding="20dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="20dp"
-                android:text="gender (0: Female, 1:Male)" />
+                android:text="Confrim password" />
 
             <EditText
-                android:id="@+id/gender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_marginHorizontal="12dp"
-                android:background="@drawable/border_rounded_shadow"
-                android:padding="20dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="20dp"
-                android:text="Dob (yyyy-mm-dd)" />
-
-            <EditText
-                android:id="@+id/dod"
+                android:id="@+id/confirmPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
                 android:background="@drawable/border_rounded_shadow"
+                android:inputType="textPassword"
                 android:padding="20dp" />
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"

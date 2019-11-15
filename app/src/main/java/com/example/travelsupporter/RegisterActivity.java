@@ -44,9 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText full_name = findViewById(R.id.fullName);
         final EditText email = findViewById(R.id.email);
         final EditText phone = findViewById(R.id.phone);
-        final EditText address = findViewById(R.id.address);
-        final EditText dob = findViewById(R.id.dod);
-        final EditText gender = findViewById(R.id.gender);
+
         Button okRegisterInBtn = findViewById(R.id.okRegisterInBtn);
         Button backRegisterInBtn = findViewById(R.id.backRegisterInBtn);
 
@@ -54,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 RegisterRequest registerRequest = new RegisterRequest(password.getText().toString(), full_name.getText().toString(),
-                        email.getText().toString(), phone.getText().toString(), address.getText().toString(), dob.getText().toString(),  gender.getText().toString());
+                        email.getText().toString(), phone.getText().toString());
 
                 Call<RegisterResponse> call = client.register(registerRequest);
 

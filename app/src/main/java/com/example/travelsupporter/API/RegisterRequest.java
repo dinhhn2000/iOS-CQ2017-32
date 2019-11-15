@@ -5,19 +5,14 @@ public class RegisterRequest {
     private String fullName;
     private String email;
     private String phone;
-    private String address;
-    private String dob;
-    private String gender;
 
-    public RegisterRequest(String password, String fullName, String email, String phone, String address, String dob, String gender )
+    public RegisterRequest(String password, String fullName, String email, String phone )
     {
         this.password = password;
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;
-        this.address = address;
-        this.dob = dob;
-        this.gender = gender;
+
     }
     public void setPassword(String password) {
         this.password = password;
@@ -31,15 +26,6 @@ public class RegisterRequest {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    public void setAddress(String address) {
-        this.address = address;
-    }
-    public void setDob(String dob) {
-        this.dob = dob;
-    }
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
 
     public String setPassword() {
         return password;
@@ -49,13 +35,5 @@ public class RegisterRequest {
     public String setPhone() {
         return phone;
     }
-    public String setAddress() {
-        return address;
-    }
-    public String setDob() {
-        return dob;
-    }
-    public String setGender() {
-        return gender;
-    }
+
 }

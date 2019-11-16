@@ -50,8 +50,20 @@ public class tourListAdapter extends ArrayAdapter<Tour> {
         viewHolder.avatar.setImageDrawable(context.getDrawable(R.mipmap.beach));
         viewHolder.location.setText(tour.getName());
 
-        String startDate = getDate(Long.parseLong(tour.getStartDate()));
-        String endDate = getDate(Long.parseLong(tour.getEndDate()));
+        String startDate;
+        String endDate;
+        if(tour.getStartDate() != null){
+            startDate = getDate(Long.parseLong(tour.getStartDate()));
+        }
+        else{
+            startDate = getDate(Long.parseLong("0"));
+        }
+        if(tour.getEndDate() != null){
+            endDate = getDate(Long.parseLong(tour.getEndDate()));
+        }
+        else{
+            endDate = getDate(Long.parseLong("0"));
+        }
         viewHolder.date.setText(startDate + " - " + endDate);
 
         int adult = tour.getAdult();

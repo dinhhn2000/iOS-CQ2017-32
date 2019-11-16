@@ -64,8 +64,8 @@
             android:background="@drawable/border_rounded"
             android:backgroundTint="@color/colorPrimary"
             android:padding="16dp"
-            android:textColor="#FFFFFF"
             android:text="sign in"
+            android:textColor="#FFFFFF"
             android:textSize="20dp" />
 
         <Button
@@ -77,37 +77,47 @@
             android:background="@drawable/border_rounded"
             android:backgroundTint="@color/colorPrimary"
             android:padding="16dp"
-            android:textColor="#FFFFFF"
             android:text="sign up"
+            android:textColor="#FFFFFF"
             android:textSize="20dp" />
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:padding="20dp">
 
             <Button
-                android:id="@+id/facebook"
+                android:id="@+id/googleBtn"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:background="@drawable/ic_facebook" />
+                android:background="@drawable/ic_google"
+                app:layout_constraintEnd_toStartOf="@+id/facebookBtn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/google"
+                android:id="@+id/facebookBtn"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:background="@drawable/ic_google" />
-        </LinearLayout>
+                android:layout_marginStart="125dp"
+                android:background="@drawable/ic_facebook"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/googleBtn"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/forgotPassword"
-            android:layout_width="match_parent"
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Forgot password" />
-
+            android:text="Forgot password?"
+            android:textStyle="italic"
+            android:background="@null"
+            android:layout_gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textAllCaps="false"/>
 
     </LinearLayout>
 

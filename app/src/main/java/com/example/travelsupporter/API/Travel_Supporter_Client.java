@@ -17,6 +17,9 @@ public interface Travel_Supporter_Client {
     @POST("user/login")
     Call<LoginResponse> login(@Body LoginRequest loginRequest);
 
+    @POST("user/login/by-facebook")
+    Call<LoginFacebookResponse> loginByFacebook(@Body LoginFacebookRequest loginRequest);
+
     @POST("user/register")
     Call<RegisterResponse> register(@Body RegisterRequest registerRequest);
 

@@ -225,16 +225,31 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <EditText
-            android:id="@+id/avartar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
 
-            android:layout_marginLeft="8dp"
-            android:background="@drawable/border_rounded_shadow"
-            android:drawableEnd="@android:drawable/ic_input_add"
-            android:hint="Choose tour image"
-            android:padding="20dp" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <ImageView
+                android:id="@+id/avartar"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"></ImageView>
+
+            <Button
+                android:id="@+id/buttonLoadPicture"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="0"
+                android:background="@drawable/border_rounded_shadow"
+                android:drawableEnd="@android:drawable/ic_input_add"
+                android:hint="Choose tour image"
+
+                android:padding="20dp"></Button>
+        </LinearLayout>
 
         <RadioButton
             android:id="@+id/isPrivate"

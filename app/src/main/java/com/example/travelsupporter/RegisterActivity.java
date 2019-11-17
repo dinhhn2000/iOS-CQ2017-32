@@ -65,7 +65,8 @@ public class RegisterActivity extends AppCompatActivity {
                         }
 
                         RegisterResponse data = response.body();
-                        if (data != null && data.getEmail() != null) {
+
+                        if (data != null && data.getEmail() != null ) {
                             Toast.makeText(getApplicationContext(), "Register successful", Toast.LENGTH_SHORT).show();
 
                             // Move to Login screen
@@ -90,5 +91,8 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+    private  void creattePost(){
+      //  RegisterRequest registerRequest = new RegisterRequest();
     }
 }

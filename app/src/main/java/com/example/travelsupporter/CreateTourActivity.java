@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.travelsupporter.API.CreateTourRequest;
@@ -29,6 +30,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class CreateTourActivity extends AppCompatActivity {
+
+   // private TextView textViewResult;
 
     private static int RESULT_LOAD_IMAGE = 1;
     @Override
@@ -47,17 +50,18 @@ public class CreateTourActivity extends AppCompatActivity {
         final Travel_Supporter_Client client = retrofit.create(Travel_Supporter_Client.class);
 
         final EditText tour_name = findViewById(R.id.tourName);
-        final EditText start_time = findViewById(R.id.startDate);
-        final EditText end_time = findViewById(R.id.endDate);
+        final EditText minCost = findViewById(R.id.minCost);
+        final EditText maxCost = findViewById(R.id.maxCost);
+        final EditText start_date = findViewById(R.id.startDate);
+        final EditText end_date = findViewById(R.id.endDate);
         final RadioButton is_private = findViewById(R.id.isPrivate);
         final EditText adults = findViewById(R.id.adults);
         final EditText children = findViewById(R.id.children);
-        final EditText minCost = findViewById(R.id.minCost);
-        final EditText maxCost = findViewById(R.id.maxCost);
+
         final ImageView avartar = findViewById(R.id.avartar);
         Button buttonLoadPicture = findViewById(R.id.buttonLoadPicture);
         Button okCreateTourInBtn = findViewById(R.id.okCreateTourInBtn);
-
+      //  textViewResult = findViewById(R.id.textViewResult);
 
         buttonLoadPicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,8 +78,12 @@ public class CreateTourActivity extends AppCompatActivity {
         okCreateTourInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CreateTourRequest createTourRequest = new CreateTourRequest(tour_name.getText().toString(), start_time.getText().toString(), end_time.getText().toString(), is_private.isChecked(),
-                        adults.getText().toString(), children.getText().toString(), minCost.getText().toString(), maxCost.getText().toString(), avartar.toString());
+                CreateTourRequest createTourRequest = new CreateTourRequest(
+
+                        tour_name.getText().toString(), start_date.getText().toString(),
+                        end_date.getText().toString(), is_private.isChecked(),
+                        adults.getText().toString(), children.getText().toString(), minCost.getText().toString(),
+                        maxCost.getText().toString(), avartar.toString());
                 Call<CreateTourResponse> call = client.createtour(createTourRequest);
                 call.enqueue(new Callback<CreateTourResponse>() {
                     @Override
@@ -85,8 +93,9 @@ public class CreateTourActivity extends AppCompatActivity {
                             return;
                         }
                         CreateTourResponse data = response.body();
+
                         if(data != null && data.getStartDate() != 0 && data.getEndDate() != 0) {
-                            Toast.makeText(getApplicationContext(), "Register successful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Create tout successful", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplication(), LoginActivity.class);
                             startActivity(intent);
                         }
@@ -121,4 +130,5 @@ public class CreateTourActivity extends AppCompatActivity {
 
         }
     }
+
 }

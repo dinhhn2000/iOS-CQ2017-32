@@ -5,6 +5,7 @@ public class RegisterRequest {
     private String fullName;
     private String email;
     private String phone;
+    private Integer id;
 
     public RegisterRequest(String password, String fullName, String email, String phone )
     {
@@ -27,13 +28,16 @@ public class RegisterRequest {
         this.phone = phone;
     }
 
-    public String setPassword() {
+    public String getPassword() {
         return password;
     }
-    public String setFullName() { return fullName; }
-    public String setEmail() { return email; }
-    public String setPhone() {
+    public String getFullName() { return fullName; }
+    public String getEmail() { return email; }
+    public String getPhone() {
         return phone;
     }
 
+    public Integer getId() {
+        return id;
+    }
 }

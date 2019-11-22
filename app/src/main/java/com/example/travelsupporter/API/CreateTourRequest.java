@@ -1,84 +1,137 @@
 package com.example.travelsupporter.API;
 
 public class CreateTourRequest {
-    private String tourName;
-    private String startDate;
-    private String endDate;
-
+    private String name;
+    private long startDate;
+    private long endDate;
+    private int sourceLat;
+    private int sourceLong;
+    private int desLat;
+    private int desLong;
     private boolean isPrivate;
-    private String adults;
-    private String children;
-    private String minCost;
-    private String maxCost;
+    private int adults;
+    private int children;
+    private int maxCost;
+    private int minCost;
     private String avatar;
-    public CreateTourRequest (String tourName, String startTime, String endTime, boolean isPrivate, String adults, String children, String minCost, String maxCost, String avatar ){
-        this.tourName = tourName;
-        this.startDate = startTime;
-        this.endDate = endTime;
 
-        this.isPrivate = isPrivate;
-        this.adults = adults;
-        this.children = children;
-        this.minCost = minCost;
-        this.maxCost = maxCost;
-        this.avatar = avatar;
+    public void setName(String name) {
+        this.name = name;
     }
-    public void setTourName(String tourName) {
-        this.tourName = tourName;
-    }
-    public void setStartTime(String startDate) {
+
+    public void setStartDate(long startDate) {
         this.startDate = startDate;
     }
-    public void setEndTime(String endDate) {
+
+    public void setEndDate(long endDate) {
         this.endDate = endDate;
     }
 
-    public void setIsPrivate(boolean isPrivate) {
-        this.isPrivate = isPrivate;
+    public void setSourceLat(int sourceLat) {
+        this.sourceLat = sourceLat;
     }
-    public void setAdults(String adults) {
+
+    public void setSourceLong(int sourceLong) {
+        this.sourceLong = sourceLong;
+    }
+
+    public void setDesLat(int desLat) {
+        this.desLat = desLat;
+    }
+
+    public void setDesLong(int desLong) {
+        this.desLong = desLong;
+    }
+
+    public void setPrivate(boolean aPrivate) {
+        isPrivate = aPrivate;
+    }
+
+    public void setAdults(int adults) {
         this.adults = adults;
     }
-    public void setChildren(String children) {
+
+    public void setChildren(int children) {
         this.children = children;
     }
-    public void setMinCost(String minCost) {
-        this.minCost = minCost;
-    }
-    public void setMaxCost(String maxCost) {
+
+    public void setMaxCost(int maxCost) {
         this.maxCost = maxCost;
     }
+
+    public void setMinCost(int minCost) {
+        this.minCost = minCost;
+    }
+
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
 
-    public String getTourName() {
-        return tourName;
+    public String getName() {
+        return name;
     }
-    public String getStartDate() {
+
+    public long getStartDate() {
         return startDate;
     }
-    public String getEndDate() {
+
+    public long getEndDate() {
         return endDate;
     }
 
-    public boolean getIsPrivate() {
+    public int getSourceLat() {
+        return sourceLat;
+    }
+
+    public int getSourceLong() {
+        return sourceLong;
+    }
+
+    public int getDesLat() {
+        return desLat;
+    }
+
+    public int getDesLong() {
+        return desLong;
+    }
+
+    public boolean isPrivate() {
         return isPrivate;
     }
-    public String getAdults() {
+
+    public int getAdults() {
         return adults;
     }
-    public String getChildren() {
+
+    public int getChildren() {
         return children;
     }
-    public String getMinCost() {
-        return minCost;
-    }
-    public String getMaxCost() {
+
+    public int getMaxCost() {
         return maxCost;
     }
+
+    public int getMinCost() {
+        return minCost;
+    }
+
     public String getAvatar() {
         return avatar;
     }
 
+    public CreateTourRequest(String name, long startDate, long endDate, int sourceLat, int sourceLong, int desLat, int desLong, boolean isPrivate, int adults, int children, int maxCost, int minCost, String avatar) {
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.sourceLat = sourceLat;
+        this.sourceLong = sourceLong;
+        this.desLat = desLat;
+        this.desLong = desLong;
+        this.isPrivate = isPrivate;
+        this.adults = adults;
+        this.children = children;
+        this.maxCost = maxCost;
+        this.minCost = minCost;
+        this.avatar = avatar;
+    }
 }

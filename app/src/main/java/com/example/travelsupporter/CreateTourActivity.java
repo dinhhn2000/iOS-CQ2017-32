@@ -2,6 +2,7 @@ package com.example.travelsupporter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,10 +13,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.travelsupporter.API.CreateTourRequest;
@@ -29,11 +31,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class CreateTourActivity extends AppCompatActivity {
+public class CreateTourActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-   // private TextView textViewResult;
+    // private TextView textViewResult;
 
     private static int RESULT_LOAD_IMAGE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,10 +61,29 @@ public class CreateTourActivity extends AppCompatActivity {
         final EditText adults = findViewById(R.id.adults);
         final EditText children = findViewById(R.id.children);
 
-        final ImageView avartar = findViewById(R.id.avartar);
+        final ImageView avatar = findViewById(R.id.avatar);
         Button buttonLoadPicture = findViewById(R.id.buttonLoadPicture);
         Button okCreateTourInBtn = findViewById(R.id.okCreateTourInBtn);
-      //  textViewResult = findViewById(R.id.textViewResult);
+
+        // Handle pick date
+        final DatePickerDialog datePickerDialog = new DatePickerDialog(getApplicationContext(), CreateTourActivity.this, 2019, 11, 18);
+
+        ImageButton startDateBtn = findViewById(R.id.startDateBtn);
+        ImageButton endDateBtn = findViewById(R.id.endDateBtn);
+
+        startDateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerDialog.show();
+            }
+        });
+
+        endDateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerDialog.show();
+            }
+        });
 
         buttonLoadPicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,44 +100,41 @@ public class CreateTourActivity extends AppCompatActivity {
         okCreateTourInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CreateTourRequest createTourRequest = new CreateTourRequest(
+                Toast.makeText(getApplicationContext(), "Btn clicked", Toast.LENGTH_SHORT).show();
 
-                        tour_name.getText().toString(), start_date.getText().toString(),
-                        end_date.getText().toString(), is_private.isChecked(),
-                        adults.getText().toString(), children.getText().toString(), minCost.getText().toString(),
-                        maxCost.getText().toString(), avartar.toString());
-                Call<CreateTourResponse> call = client.createtour(createTourRequest);
-                call.enqueue(new Callback<CreateTourResponse>() {
-                    @Override
-                    public void onResponse(Call<CreateTourResponse> call, Response<CreateTourResponse> response) {
-                        if(!response.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "Error code: " + response.code(), Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        CreateTourResponse data = response.body();
-
-                        if(data != null && data.getStartDate() != 0 && data.getEndDate() != 0) {
-                            Toast.makeText(getApplicationContext(), "Create tout successful", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplication(), LoginActivity.class);
-                            startActivity(intent);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<CreateTourResponse> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+//                Call<CreateTourResponse> call = client.createTour(createTourRequest);
+//                call.enqueue(new Callback<CreateTourResponse>() {
+//                    @Override
+//                    public void onResponse(Call<CreateTourResponse> call, Response<CreateTourResponse> response) {
+//                        if (!response.isSuccessful()) {
+//                            Toast.makeText(getApplicationContext(), "Error code: " + response.code(), Toast.LENGTH_SHORT).show();
+//                            return;
+//                        }
+//                        CreateTourResponse data = response.body();
+//
+//                        if (data != null && data.getStartDate() != 0 && data.getEndDate() != 0) {
+//                            Toast.makeText(getApplicationContext(), "Create tout successful", Toast.LENGTH_SHORT).show();
+//                            Intent intent = new Intent(getApplication(), LoginActivity.class);
+//                            startActivity(intent);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<CreateTourResponse> call, Throwable t) {
+//                        Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
             }
         });
 
     }
-    protected void onActivityResult(final int requestCode,final int resultCode, final Intent data) {
-        super.onActivityResult(requestCode,resultCode,data);
+
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
             Cursor cursor = getContentResolver().query(selectedImage,
                     filePathColumn, null, null, null);
@@ -125,10 +144,14 @@ public class CreateTourActivity extends AppCompatActivity {
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-            ImageView imageView = (ImageView) findViewById(R.id.avartar);
+            ImageView imageView = findViewById(R.id.avatar);
             imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
         }
     }
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+    }
 }

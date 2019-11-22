@@ -52,13 +52,13 @@ public class tourListAdapter extends ArrayAdapter<Tour> {
 
         String startDate;
         String endDate;
-        if(tour.getStartDate() != null){
+        if(tour.getStartDate() != null && tour.getStartDate().charAt(0) != '-'){
             startDate = getDate(Long.parseLong(tour.getStartDate()));
         }
         else{
             startDate = getDate(Long.parseLong("0"));
         }
-        if(tour.getEndDate() != null){
+        if(tour.getEndDate() != null && tour.getEndDate().charAt(0) != '-'){
             endDate = getDate(Long.parseLong(tour.getEndDate()));
         }
         else{

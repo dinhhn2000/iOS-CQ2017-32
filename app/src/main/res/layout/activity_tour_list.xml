@@ -4,19 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
+    android:background="#EEEEEE"
     tools:context=".TourListActivity">
 
     <EditText
         android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@null"
+        android:layout_marginBottom="10dp"
+        android:background="#FFF"
         android:drawableStart="@drawable/ic_search_black_24dp"
         android:drawablePadding="20dp"
         android:hint="Search"
         android:importantForAutofill="auto"
         android:inputType="text"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,8 +27,11 @@
         android:id="@+id/tourListLV"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:background="#FFFFFF"
         android:divider="#00000000"
         android:dividerHeight="10dp"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText" />
 

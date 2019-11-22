@@ -40,8 +40,9 @@ public class TourListActivity extends AppCompatActivity {
         final Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("http://35.197.153.192:3000/")
                 .addConverterFactory(GsonConverterFactory.create());
-        final tourListAdapter adapter = new tourListAdapter(getApplicationContext(), R.layout.tour_list_item, tourList);
 
+        final tourListAdapter adapter = new tourListAdapter(getApplicationContext(), R.layout.tour_list_item, tourList);
+        lvTour.setAdapter(adapter);
         addTourList(builder, adapter, sharedPreferences);
 
 
@@ -56,7 +57,6 @@ public class TourListActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Loading...", Toast.LENGTH_SHORT).show();
                     addTourList(builder, adapter, sharedPreferences);
                 }
-
             }
 
             @Override
@@ -82,7 +82,6 @@ public class TourListActivity extends AppCompatActivity {
                         ArrayList<Tour> getData = new ArrayList<Tour>(response.body().getTours());
                         tourList.addAll(getData);
                         adapter.notifyDataSetChanged();
-                        lvTour.setAdapter(adapter);
                     }
                 }
             }

@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,11 +20,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.travelsupporter.API.CreateTourRequest;
 import com.example.travelsupporter.API.CreateTourResponse;
 import com.example.travelsupporter.API.Travel_Supporter_Client;
+
+import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,6 +41,8 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
     // private TextView textViewResult;
 
     private static int RESULT_LOAD_IMAGE = 1;
+    private DatePickerDialog.OnDateSetListener startDateSetListener;
+    private DatePickerDialog.OnDateSetListener endDateSetListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,37 +60,99 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
         final Travel_Supporter_Client client = retrofit.create(Travel_Supporter_Client.class);
 
         final EditText tour_name = findViewById(R.id.tourName);
-        final EditText minCost = findViewById(R.id.minCost);
-        final EditText maxCost = findViewById(R.id.maxCost);
-        final EditText start_date = findViewById(R.id.startDate);
-        final EditText end_date = findViewById(R.id.endDate);
+        final EditText minCost = findViewById(R.id.minCostEditText);
+        final EditText maxCost = findViewById(R.id.maxCostEditText);
+        final TextView start_date = findViewById(R.id.startDateTV);
+        final TextView end_date = findViewById(R.id.endDateTV);
         final RadioButton is_private = findViewById(R.id.isPrivate);
-        final EditText adults = findViewById(R.id.adults);
-        final EditText children = findViewById(R.id.children);
-
+        final EditText adults = findViewById(R.id.adultsEditText);
+        final EditText children = findViewById(R.id.childrenEditText);
         final ImageView avatar = findViewById(R.id.avatar);
         Button buttonLoadPicture = findViewById(R.id.buttonLoadPicture);
-        Button okCreateTourInBtn = findViewById(R.id.okCreateTourInBtn);
+        Button confirmCreateTourBtn = findViewById(R.id.confirmCreateTourBtn);
 
         // Handle pick date
-        final DatePickerDialog datePickerDialog = new DatePickerDialog(getApplicationContext(), CreateTourActivity.this, 2019, 11, 18);
-
         ImageButton startDateBtn = findViewById(R.id.startDateBtn);
         ImageButton endDateBtn = findViewById(R.id.endDateBtn);
 
         startDateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                datePickerDialog.show();
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        CreateTourActivity.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        startDateSetListener,
+                        year, month, day
+                );
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
             }
         });
 
         endDateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                datePickerDialog.show();
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        CreateTourActivity.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        endDateSetListener,
+                        year, month, day
+                );
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
             }
         });
+
+        startDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                Toast.makeText(getApplicationContext(), "Date choosed: " + dayOfMonth + "/" + month + "/" + year,
+                        Toast.LENGTH_SHORT).show();
+                start_date.setText(dayOfMonth + "/" + month + "/" + year);
+            }
+        };
+
+        endDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                Toast.makeText(getApplicationContext(), "Date choosed: " + dayOfMonth + "/" + month + "/" + year,
+                        Toast.LENGTH_SHORT).show();
+                end_date.setText(dayOfMonth + "/" + month + "/" + year);
+            }
+        };
+
+        // HANDLE PIN LOCATION
+        ImageButton startLocation = findViewById(R.id.startLocation);
+        ImageButton destLocation = findViewById(R.id.destinationLocation);
+
+        startLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplication(), GetLocationActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        destLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplication(), GetLocationActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        // HANDLE CHOOSE PICTURE
 
         buttonLoadPicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +166,7 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
         });
 
 
-        okCreateTourInBtn.setOnClickListener(new View.OnClickListener() {
+        confirmCreateTourBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "Btn clicked", Toast.LENGTH_SHORT).show();

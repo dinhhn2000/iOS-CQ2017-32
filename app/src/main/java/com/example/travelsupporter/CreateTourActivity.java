@@ -7,12 +7,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -27,7 +31,16 @@ import com.example.travelsupporter.API.CreateTourRequest;
 import com.example.travelsupporter.API.CreateTourResponse;
 import com.example.travelsupporter.API.Travel_Supporter_Client;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,9 +53,20 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
 
     // private TextView textViewResult;
 
-    private static int RESULT_LOAD_IMAGE = 1;
+    private static int RESULT_LOAD_IMAGE = 0;
+    private static int RESULT_START_LOCATION = 1;
+    private static int RESULT_DEST_LOCATION = 2;
     private DatePickerDialog.OnDateSetListener startDateSetListener;
     private DatePickerDialog.OnDateSetListener endDateSetListener;
+    private String imageBase64 = null;
+
+    // Input data
+    private long startTime;
+    private long endTime;
+    private double startLat;
+    private double startLong;
+    private double endLat;
+    private double endLong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +74,6 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
         setContentView(R.layout.activity_create_tour);
 
         final SharedPreferences sharedPreferences = getSharedPreferences("authentication", Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedPreferences.edit();
 
         final Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("http://35.197.153.192:3000/")
@@ -67,7 +90,7 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
         final RadioButton is_private = findViewById(R.id.isPrivate);
         final EditText adults = findViewById(R.id.adultsEditText);
         final EditText children = findViewById(R.id.childrenEditText);
-        final ImageView avatar = findViewById(R.id.avatar);
+        final ImageView tourImage = findViewById(R.id.tourImage);
         Button buttonLoadPicture = findViewById(R.id.buttonLoadPicture);
         Button confirmCreateTourBtn = findViewById(R.id.confirmCreateTourBtn);
 
@@ -118,7 +141,17 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 Toast.makeText(getApplicationContext(), "Date choosed: " + dayOfMonth + "/" + month + "/" + year,
                         Toast.LENGTH_SHORT).show();
-                start_date.setText(dayOfMonth + "/" + month + "/" + year);
+                String dateInString = dayOfMonth + "/" + month + "/" + year;
+                start_date.setText(dateInString);
+
+                // Convert to timestamp
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                try {
+                    Date date = formatter.parse(dateInString);
+                    startTime = date.getTime();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         };
 
@@ -127,7 +160,17 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 Toast.makeText(getApplicationContext(), "Date choosed: " + dayOfMonth + "/" + month + "/" + year,
                         Toast.LENGTH_SHORT).show();
-                end_date.setText(dayOfMonth + "/" + month + "/" + year);
+                String dateInString = dayOfMonth + "/" + month + "/" + year;
+                end_date.setText(dateInString);
+
+                // Convert to timestamp
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                try {
+                    Date date = formatter.parse(dateInString);
+                    endTime = date.getTime();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         };
 
@@ -139,7 +182,7 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplication(), GetLocationActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, RESULT_START_LOCATION);
             }
         });
 
@@ -147,13 +190,11 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplication(), GetLocationActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, RESULT_DEST_LOCATION);
             }
         });
 
-
         // HANDLE CHOOSE PICTURE
-
         buttonLoadPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -169,30 +210,52 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
         confirmCreateTourBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Btn clicked", Toast.LENGTH_SHORT).show();
+                RadioButton privateBtn = findViewById(R.id.isPrivate);
 
-//                Call<CreateTourResponse> call = client.createTour(createTourRequest);
-//                call.enqueue(new Callback<CreateTourResponse>() {
-//                    @Override
-//                    public void onResponse(Call<CreateTourResponse> call, Response<CreateTourResponse> response) {
-//                        if (!response.isSuccessful()) {
-//                            Toast.makeText(getApplicationContext(), "Error code: " + response.code(), Toast.LENGTH_SHORT).show();
-//                            return;
-//                        }
-//                        CreateTourResponse data = response.body();
-//
-//                        if (data != null && data.getStartDate() != 0 && data.getEndDate() != 0) {
-//                            Toast.makeText(getApplicationContext(), "Create tout successful", Toast.LENGTH_SHORT).show();
-//                            Intent intent = new Intent(getApplication(), LoginActivity.class);
-//                            startActivity(intent);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<CreateTourResponse> call, Throwable t) {
-//                        Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-//                });
+                CreateTourRequest createTourRequest = new CreateTourRequest(
+                        tour_name.getText().toString(),
+                        startTime,
+                        endTime,
+                        startLat,
+                        startLong,
+                        endLat,
+                        endLong,
+                        privateBtn.isChecked(),
+                        Integer.parseInt(adults.getText().toString()),
+                        Integer.parseInt(children.getText().toString()),
+                        Integer.parseInt(minCost.getText().toString()),
+                        Integer.parseInt(maxCost.getText().toString()),
+                        imageBase64
+                );
+
+                // Get token
+                String token = sharedPreferences.getString("token", "");
+
+                Call<CreateTourResponse> call = client.createTour(token, createTourRequest);
+                call.enqueue(new Callback<CreateTourResponse>() {
+                    @Override
+                    public void onResponse(Call<CreateTourResponse> call, Response<CreateTourResponse> response) {
+                        if (!response.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "Error code: " + response.code(), Toast.LENGTH_SHORT).show();
+                            Log.d("createTour", "onResponse: Create fail - " + response.message());
+                            return;
+                        }
+                        CreateTourResponse data = response.body();
+
+                        if (data != null && data.getStartDate() != 0 && data.getEndDate() != 0) {
+                            Toast.makeText(getApplicationContext(), "Create tout successful", Toast.LENGTH_SHORT).show();
+                            Log.d("createTour", "onResponse: Create success");
+                            Intent intent = new Intent(getApplication(), LoginActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<CreateTourResponse> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.d("createTour", "onResponse: Create fail");
+                    }
+                });
             }
         });
 
@@ -201,21 +264,48 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null) {
 
-            Cursor cursor = getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
+            Uri selectedImageUri = data.getData();
+//            Toast.makeText(getApplicationContext(), "Image url: " + selectedImage, Toast.LENGTH_SHORT).show();
+            ImageView imageView = findViewById(R.id.tourImage);
+            imageView.setImageURI(Uri.parse(selectedImageUri.toString()));
 
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
+            //encode image to base64 string
+            if (selectedImageUri != null) {
+                Bitmap bitmap = null;
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-            ImageView imageView = findViewById(R.id.avatar);
-            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                byte[] byteArray = outputStream.toByteArray();
 
+                //Use your Base64 String as you wish
+                imageBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                Log.d("Base64", imageBase64);
+            }
+        }
+
+        if (requestCode == RESULT_START_LOCATION && resultCode == RESULT_OK && data != null) {
+            TextView startLocationTV = findViewById(R.id.startLocationTV);
+            startLocationTV.setMovementMethod(new ScrollingMovementMethod());
+            startLong = data.getDoubleExtra("LONG", -1);
+            startLat = data.getDoubleExtra("LAT", -1);
+            String startLocale = String.format("%.3f", startLat) + '-' + String.format("%.3f", startLong);
+            startLocationTV.setText(startLocale);
+        }
+
+        if (requestCode == RESULT_DEST_LOCATION && resultCode == RESULT_OK && data != null) {
+            TextView destinationLocationTV = findViewById(R.id.destinationLocationTV);
+            destinationLocationTV.setMovementMethod(new ScrollingMovementMethod());
+            endLat = data.getDoubleExtra("LAT", -1);
+            endLong = data.getDoubleExtra("LONG", -1);
+            String endLocale = String.format("%.3f", endLat) + '-' + String.format("%.3f", endLong);
+            destinationLocationTV.setText(endLocale);
         }
     }
 

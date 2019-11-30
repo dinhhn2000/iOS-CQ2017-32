@@ -7,13 +7,18 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,9 +32,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GetLocationActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -40,8 +50,9 @@ public class GetLocationActivity extends FragmentActivity implements OnMapReadyC
     private GoogleMap mMap;
     private GoogleApiClient client;
     private LocationRequest locationRequest;
-    private Location lastLocation;
-    private Marker currentLocation;
+    private Marker currentLocationMarker = null;
+    private EditText locationSearch;
+    private double latitude, longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +63,16 @@ public class GetLocationActivity extends FragmentActivity implements OnMapReadyC
             checkLocationPermission();
         }
 
-        EditText locationSearch = findViewById(R.id.locationSearch);
+        locationSearch = findViewById(R.id.locationSearch);
 
         locationSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-//                    performSearch();
+                    // Searching
+                    String searchString = locationSearch.getText().toString();
+                    search(searchString);
+
                     return true;
                 }
                 return false;
@@ -69,6 +83,19 @@ public class GetLocationActivity extends FragmentActivity implements OnMapReadyC
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        Button saveLoactionBtn = findViewById(R.id.saveLoactionBtn);
+        saveLoactionBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Move back to create tour screen
+                Intent intent = new Intent();
+                intent.putExtra("LAT", latitude);
+                intent.putExtra("LONG", longitude);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
     }
 
     @Override
@@ -92,15 +119,26 @@ public class GetLocationActivity extends FragmentActivity implements OnMapReadyC
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Get current location
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
+
+            mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+                @Override
+                public void onMapLongClick(LatLng latLng) {
+                    if (currentLocationMarker != null)
+                        currentLocationMarker.remove();
+
+                    latitude = latLng.latitude;
+                    longitude = latLng.longitude;
+                    locationSearch.setText("(" + latLng.latitude + '-' + latLng.longitude + ')');
+                    currentLocationMarker = mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .title("Chosen coordinate")
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                }
+            });
         }
-    }
-
-    public void onClick(View v) {
-
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -113,11 +151,51 @@ public class GetLocationActivity extends FragmentActivity implements OnMapReadyC
         client.connect();
     }
 
+    private void search(String searchString) {
+        Geocoder geocoder = new Geocoder(GetLocationActivity.this);
+        List<Address> list = new ArrayList<>();
+        try {
+            list = geocoder.getFromLocationName(searchString, 1);
+        } catch (IOException e) {
+            Log.e("Error", "search: IOException " + e.getMessage());
+        }
+
+        if (list.size() > 0) {
+            Address address = list.get(0);
+            Log.d("searching", "search: " + address);
+
+            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+
+            if (currentLocationMarker != null)
+                currentLocationMarker.remove();
+            currentLocationMarker = mMap.addMarker(new MarkerOptions()
+                    .position(latLng)
+                    .title("Chosen coordinate")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+
+        }
+    }
+
     @Override
     public void onLocationChanged(Location location) {
-        lastLocation = location;
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+        if (currentLocationMarker != null) {
+            currentLocationMarker.remove();
+        }
+        LatLng latLng = new LatLng(latitude, longitude);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+        markerOptions.title("Current Location");
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        currentLocationMarker = mMap.addMarker(markerOptions);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
 
+        if (client != null) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(client, this);
+        }
     }
 
     @Override
@@ -149,7 +227,6 @@ public class GetLocationActivity extends FragmentActivity implements OnMapReadyC
 
     @Override
     public void onConnectionSuspended(int i) {
-
     }
 
     @Override

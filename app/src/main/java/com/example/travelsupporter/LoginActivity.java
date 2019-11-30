@@ -46,6 +46,14 @@ public class LoginActivity extends AppCompatActivity {
         final SharedPreferences sharedPreferences = getSharedPreferences("authentication", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPreferences.edit();
 
+        // Check log in
+        String token = sharedPreferences.getString("token", "");
+        if(token != ""){
+            // Move to TourList screen
+            Intent intent = new Intent(getApplication(), CreateTourActivity.class);
+            startActivity(intent);
+        }
+
         final Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("http://35.197.153.192:3000/")
                 .addConverterFactory(GsonConverterFactory.create());

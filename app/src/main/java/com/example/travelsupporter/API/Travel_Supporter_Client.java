@@ -26,6 +26,7 @@ public interface Travel_Supporter_Client {
     Call<RegisterResponse> register(@Body RegisterRequest registerRequest);
 
     @POST("tour/create")
-    Call<CreateTourResponse> createTour(@Body CreateTourRequest createTourRequest);
+    Call<CreateTourResponse> createTour(@Header("Authorization") String header,
+                                        @Body CreateTourRequest createTourRequest);
 
 }

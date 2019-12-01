@@ -15,6 +15,21 @@ public class CreateTourRequest {
     private int minCost;
     private String avatar;
 
+    public CreateTourRequest(String name, long startDate, long endDate, double sourceLat, double sourceLong, double desLat, double desLong, boolean isPrivate, int adults, int children, int maxCost, int minCost) {
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.sourceLat = sourceLat;
+        this.sourceLong = sourceLong;
+        this.desLat = desLat;
+        this.desLong = desLong;
+        this.isPrivate = isPrivate;
+        this.adults = adults;
+        this.children = children;
+        this.maxCost = maxCost;
+        this.minCost = minCost;
+    }
+
     public CreateTourRequest(String name, long startDate, long endDate, double sourceLat, double sourceLong, double desLat, double desLong, boolean isPrivate, int adults, int children, int maxCost, int minCost, String avatar) {
         this.name = name;
         this.startDate = startDate;

@@ -165,6 +165,8 @@ public class GetLocationActivity extends FragmentActivity implements OnMapReadyC
             Log.d("searching", "search: " + address);
 
             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+            latitude = latLng.latitude;
+            longitude = latLng.longitude;
 
             if (currentLocationMarker != null)
                 currentLocationMarker.remove();

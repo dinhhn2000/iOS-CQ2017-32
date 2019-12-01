@@ -14,6 +14,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Base64;
 import android.util.Log;
@@ -58,15 +60,15 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
     private static int RESULT_DEST_LOCATION = 2;
     private DatePickerDialog.OnDateSetListener startDateSetListener;
     private DatePickerDialog.OnDateSetListener endDateSetListener;
-    private String imageBase64 = null;
+    private String imageBase64 = "";
 
     // Input data
-    private long startTime;
-    private long endTime;
-    private double startLat;
-    private double startLong;
-    private double endLat;
-    private double endLong;
+    private long startTime = -1;
+    private long endTime = -1;
+    private double startLat = -1;
+    private double startLong = -1;
+    private double endLat = -1;
+    private double endLong = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,16 +85,48 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
         final Travel_Supporter_Client client = retrofit.create(Travel_Supporter_Client.class);
 
         final EditText tour_name = findViewById(R.id.tourName);
-        final EditText minCost = findViewById(R.id.minCostEditText);
-        final EditText maxCost = findViewById(R.id.maxCostEditText);
         final TextView start_date = findViewById(R.id.startDateTV);
         final TextView end_date = findViewById(R.id.endDateTV);
         final RadioButton is_private = findViewById(R.id.isPrivate);
         final EditText adults = findViewById(R.id.adultsEditText);
         final EditText children = findViewById(R.id.childrenEditText);
-        final ImageView tourImage = findViewById(R.id.tourImage);
+        final EditText maxCost = findViewById(R.id.maxCostEditText);
+        final EditText minCost = findViewById(R.id.minCostEditText);
         Button buttonLoadPicture = findViewById(R.id.buttonLoadPicture);
         Button confirmCreateTourBtn = findViewById(R.id.confirmCreateTourBtn);
+
+        // Handle edit text when empty
+        TextWatcher watcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (adults.getText().length() == 0) {
+                    adults.setText("0");
+                }
+                if (children.getText().length() == 0) {
+                    children.setText("0");
+                }
+                if (minCost.getText().length() == 0) {
+                    minCost.setText("0");
+                }
+                if (maxCost.getText().length() == 0) {
+                    maxCost.setText("0");
+                }
+            }
+        };
+        adults.addTextChangedListener(watcher);
+        children.addTextChangedListener(watcher);
+        minCost.addTextChangedListener(watcher);
+        maxCost.addTextChangedListener(watcher);
 
         // Handle pick date
         ImageButton startDateBtn = findViewById(R.id.startDateBtn);
@@ -207,10 +241,16 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
         });
 
 
+
         confirmCreateTourBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RadioButton privateBtn = findViewById(R.id.isPrivate);
+                // Check if user fill all necessary fields
+                if (tour_name.getText().toString() == "" || startTime == -1 || endTime == -1 ||
+                        startLat == -1 || startLong == -1 || endLat == -1 || endLong == -1) {
+                    Toast.makeText(getApplicationContext(), "Please fill the other fields", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 CreateTourRequest createTourRequest = new CreateTourRequest(
                         tour_name.getText().toString(),
@@ -220,12 +260,12 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
                         startLong,
                         endLat,
                         endLong,
-                        privateBtn.isChecked(),
+                        is_private.isChecked(),
                         Integer.parseInt(adults.getText().toString()),
                         Integer.parseInt(children.getText().toString()),
                         Integer.parseInt(minCost.getText().toString()),
-                        Integer.parseInt(maxCost.getText().toString()),
-                        imageBase64
+                        Integer.parseInt(maxCost.getText().toString())
+//                        imageBase64
                 );
 
                 // Get token
@@ -253,7 +293,7 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
                     @Override
                     public void onFailure(Call<CreateTourResponse> call, Throwable t) {
                         Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.d("createTour", "onResponse: Create fail");
+                        Log.d("createTour", "onResponse: Create fail - " + t.getMessage());
                     }
                 });
             }

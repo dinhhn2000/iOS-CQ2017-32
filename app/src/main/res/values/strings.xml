@@ -3,5 +3,6 @@
     <string name="facebook_app_id">558246415004528</string>
     <string name="fb_login_protocol_scheme">fb558246415004528</string>
     <string name="title_activity_get_location">Map</string>
+    <string name="title_activity_add_stop_point">Map</string>
 
 </resources>

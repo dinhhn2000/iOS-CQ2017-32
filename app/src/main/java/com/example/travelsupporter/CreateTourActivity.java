@@ -94,7 +94,15 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
         final EditText minCost = findViewById(R.id.minCostEditText);
         Button buttonLoadPicture = findViewById(R.id.buttonLoadPicture);
         Button confirmCreateTourBtn = findViewById(R.id.confirmCreateTourBtn);
+        Button settingBtn = findViewById(R.id.settingBtn);
 
+        settingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplication(), SettingActivity.class);
+                startActivity(intent);
+            }
+        });
         // Handle edit text when empty
         TextWatcher watcher = new TextWatcher() {
             @Override
@@ -347,6 +355,8 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
             String endLocale = String.format("%.3f", endLat) + '-' + String.format("%.3f", endLong);
             destinationLocationTV.setText(endLocale);
         }
+
+
     }
 
     @Override

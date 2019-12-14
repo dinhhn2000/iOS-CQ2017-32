@@ -15,6 +15,8 @@ public interface Travel_Supporter_Client {
     Call<TourListResponse> getTourList(@Header("Authorization") String header,
                                        @Query("pageNum") int pageNum,
                                        @Query("rowPerPage") int rowPerPage);
+    @GET("/user/info")
+    Call<UserInfoResponse> getUserInfo(@Header("Authorization") String header);
 
     @POST("user/login")
     Call<LoginResponse> login(@Body LoginRequest loginRequest);

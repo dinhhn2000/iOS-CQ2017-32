@@ -30,5 +30,8 @@ public interface Travel_Supporter_Client {
     @POST("tour/create")
     Call<CreateTourResponse> createTour(@Header("Authorization") String header,
                                         @Body CreateTourRequest createTourRequest);
+    @POST("/user/edit-info")
+    Call<MessageResponse> updateUserInfo(@Header("Authorization") String header,
+                                               @Body UpdateUserInfoRequest updateUserInfoRequest);
 
 }

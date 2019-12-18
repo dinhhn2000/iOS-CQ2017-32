@@ -62,11 +62,18 @@ public class LoginActivity extends AppCompatActivity {
 
         final EditText email_phone = findViewById(R.id.email_phone);
         final EditText password = findViewById(R.id.password);
+        final Button forgotPassword = findViewById(R.id.forgotPassword);
         Button signInBtn = findViewById(R.id.signInBtn);
         Button signUpBtn = findViewById(R.id.signUpBtn);
 
         email_phone.setText(getIntent().getStringExtra("USER_EMAIL"));
-
+    forgotPassword.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        Intent intent = new Intent(getApplication(), ForgotPassword.class);
+        startActivity(intent);
+    }
+});
         signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

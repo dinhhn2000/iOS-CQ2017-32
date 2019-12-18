@@ -110,14 +110,15 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
+            android:id="@+id/forgotPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Forgot password?"
-            android:textStyle="italic"
-            android:background="@null"
             android:layout_gravity="center"
+            android:background="@null"
+            android:text="Forgot password?"
+            android:textAllCaps="false"
             android:textColor="@color/colorPrimary"
-            android:textAllCaps="false"/>
+            android:textStyle="italic" />
 
     </LinearLayout>
 

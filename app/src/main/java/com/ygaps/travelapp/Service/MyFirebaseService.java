@@ -21,6 +21,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.ygaps.travelapp.MainActivity;
 import com.ygaps.travelapp.R;
 
+
 public class MyFirebaseService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseService";
 
@@ -50,14 +51,14 @@ public class MyFirebaseService extends FirebaseMessagingService {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
-        String channelId = getString(R.string.project_id);
+        String channelId = getString(R.string.facebook_app_id);// project_id
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channelId)
                         .setSmallIcon(R.drawable.ic_launcher_background)
                         .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background))
-                        .setContentTitle(getString(R.string.project_id))
+                        .setContentTitle(getString(R.string.facebook_app_id)) //project_id
                         .setContentText(messageBody)
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)

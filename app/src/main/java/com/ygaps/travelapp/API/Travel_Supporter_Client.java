@@ -16,6 +16,9 @@ public interface Travel_Supporter_Client {
     @GET("/user/info")
     Call<UserInfoResponse> getUserInfo(@Header("Authorization") String header);
 
+    @GET("/user/send-active")
+    Call<SendEmailVerificationResponse> GetEmailVerification();
+
     @POST("user/login")
     Call<LoginResponse> login(@Body LoginRequest loginRequest);
 
@@ -31,5 +34,11 @@ public interface Travel_Supporter_Client {
     @POST("/user/edit-info")
     Call<MessageResponse> updateUserInfo(@Header("Authorization") String header,
                                                @Body UpdateUserInfoRequest updateUserInfoRequest);
+
+    @POST("user/request-otp-recovery")
+    Call<RequestOTP_PasswordRecoveryResponse> RequestOTP(@Body RequestOTP_PasswordRecoveryRequest requestOTP_passwordRecoveryRequest);
+
+    @POST("/user/verify-otp-recovery")
+    Call<MessageResponse> RecoveryPassword (@Body PasswordRecoveryRequest passwordRecoveryRequest);
 
 }

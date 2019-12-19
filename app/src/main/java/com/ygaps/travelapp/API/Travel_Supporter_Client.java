@@ -17,7 +17,8 @@ public interface Travel_Supporter_Client {
     Call<UserInfoResponse> getUserInfo(@Header("Authorization") String header);
 
     @GET("/user/send-active")
-    Call<SendEmailVerificationResponse> GetEmailVerification();
+    Call<SendEmailVerificationResponse> GetEmailVerification(@Query("userId") int userId,
+                                                             @Query("type") String type);
 
     @POST("user/login")
     Call<LoginResponse> login(@Body LoginRequest loginRequest);

@@ -51,22 +51,20 @@ public class ForgotPassword extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String temp = "email";
+
                 RequestOTP_PasswordRecoveryRequest requestOTP_passwordRecoveryRequest = new RequestOTP_PasswordRecoveryRequest(temp,enter_email.getText().toString());
                 Call<RequestOTP_PasswordRecoveryResponse> call = client.RequestOTP(requestOTP_passwordRecoveryRequest);
-
                 if (enter_email.getText().toString() == ""  ) {
-                    Toast.makeText(getApplicationContext(), "Please fill the other fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Please enter a valid email address ", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-
 
                 call.enqueue(new Callback<RequestOTP_PasswordRecoveryResponse>() {
                     @Override
                     public void onResponse(Call<RequestOTP_PasswordRecoveryResponse> call, Response<RequestOTP_PasswordRecoveryResponse> response) {
                         if (!response.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "email invalid" , Toast.LENGTH_SHORT).show();
-                            Log.d("SendEmailVerification", "onResponse: Send email verification fail - " + response.message());
+                            Toast.makeText(getApplicationContext(), "Request successfully sent" , Toast.LENGTH_SHORT).show();
+                            Log.d("SendEmailVerification", "onResponse: Send email verification successfull - " + response.message());
                             return;
                         }
                         RequestOTP_PasswordRecoveryResponse data = response.body();
@@ -74,6 +72,26 @@ public class ForgotPassword extends AppCompatActivity {
                         if (data != null) {
                             Toast.makeText(getApplicationContext(), "Send email verification successful", Toast.LENGTH_SHORT).show();
                             Log.d("SendEmailVerification", "onResponse: Send email verification success");
+
+                            int UserID = data.getUserId();
+                            String temp = data.getType();
+
+                            Call<SendEmailVerificationResponse> call1 = client.GetEmailVerification( UserID,temp);
+                            call1.enqueue(new Callback<SendEmailVerificationResponse>() {
+                                @Override
+                                public void onResponse(Call<SendEmailVerificationResponse> call1, Response<SendEmailVerificationResponse> response) {
+                                    if (response.isSuccessful()) {
+                                        SendEmailVerificationResponse data = response.body();
+                                        Log.d("SendEmailVerification", "onResponse: Send email verification succesful - " + data.getUserId() +" "+ data.getSendTo() +" "+ data.getExpiredOn());
+                                    }
+                                }
+                                @Override
+                                public void onFailure(Call<SendEmailVerificationResponse> call, Throwable t) {
+                                    Toast.makeText(getApplicationContext(), "Send email verification fail " , Toast.LENGTH_SHORT).show();
+                                    Log.d("Response_Error", "onFailure: " + t.getMessage());
+                                }
+                            });
+
                             Intent intent = new Intent(getApplication(), LoginActivity.class);
                             startActivity(intent);
                         }
@@ -81,9 +99,8 @@ public class ForgotPassword extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<RequestOTP_PasswordRecoveryResponse> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), "Send email verification fail " , Toast.LENGTH_SHORT).show();
-                        Log.d("SendEmailVerification", "onResponse: Send email verification fail - " + t.getMessage());
-
+                        Toast.makeText(getApplicationContext(), "Request send email verification fail " , Toast.LENGTH_SHORT).show();
+                        Log.d("SendEmailVerification", "onResponse: Request Send email verification fail - " + t.getMessage());
                     }
                 });
 

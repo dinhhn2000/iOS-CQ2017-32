@@ -20,6 +20,11 @@ public interface Travel_Supporter_Client {
     Call<SendEmailVerificationResponse> GetEmailVerification(@Query("userId") int userId,
                                                              @Query("type") String type);
 
+    @GET("/user/active")
+    Call<VerifyCode_EmailVerificationResponse> VerifyCode(@Query("userId") int userId,
+                                                          @Query("type") String type,
+                                                          @Query("verifyCode") String verifyCode);
+
     @POST("user/login")
     Call<LoginResponse> login(@Body LoginRequest loginRequest);
 

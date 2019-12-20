@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.ygaps.travelapp.API.RegisterRequest;
 import com.ygaps.travelapp.API.RegisterResponse;
+import com.ygaps.travelapp.API.SendEmailVerificationRequest;
 import com.ygaps.travelapp.API.Travel_Supporter_Client;
 
 import retrofit2.Call;
@@ -70,8 +71,10 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Register successful", Toast.LENGTH_SHORT).show();
 
                             // Move to Login screen
-                            Intent intent = new Intent(getApplication(), LoginActivity.class);
+                            Intent intent = new Intent(getApplication(), ChooseType.class);
                             intent.putExtra("USER_EMAIL", data.getEmail());
+                            intent.putExtra("USER_PHONE", data.getPhone());
+                            intent.putExtra("USER_ID", data.getId());
                             startActivity(intent);
                         }
                     }

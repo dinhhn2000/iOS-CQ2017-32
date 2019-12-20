@@ -26,7 +26,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".VerifyOTP"></activity>
+        <activity android:name=".ChooseType"></activity>
+        <activity android:name=".VerifyCode" />
+        <activity android:name=".VerifyOTP" />
         <activity android:name=".ForgotPassword" />
 
         <service android:name=".Service.MyFirebaseService">

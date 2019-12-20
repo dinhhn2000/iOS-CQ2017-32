@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".VerifyOTP">
+    tools:context=".VerifyCode"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/textView3"
@@ -18,18 +18,8 @@
         tools:layout_editor_absoluteY="131dp" />
 
 
-
-
     <EditText
-        android:id="@+id/enterNewPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp"
-        android:background="@drawable/border_rounded_shadow"
-        android:hint="Enter new password"
-        android:padding="20dp" />
-    <EditText
-        android:id="@+id/enterCodeOTP"
+        android:id="@+id/enterCode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
@@ -38,7 +28,7 @@
         android:padding="20dp" />
 
     <Button
-        android:id="@+id/submit"
+        android:id="@+id/submitCode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="18dp"

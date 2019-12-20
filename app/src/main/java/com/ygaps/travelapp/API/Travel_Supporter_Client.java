@@ -40,6 +40,7 @@ public interface Travel_Supporter_Client {
     Call<RequestOTP_PasswordRecoveryResponse> RequestOTP(@Body RequestOTP_PasswordRecoveryRequest requestOTP_passwordRecoveryRequest);
 
     @POST("/user/verify-otp-recovery")
-    Call<MessageResponse> RecoveryPassword (@Body PasswordRecoveryRequest passwordRecoveryRequest);
+    Call<MessageResponse> RecoveryPassword (@Body VerifyOTP_PasswordRecoveryRequest verifyOTP_passwordRecoveryRequest);
+
 
 }

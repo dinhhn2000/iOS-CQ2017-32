@@ -60,8 +60,6 @@ public class UserActivity extends AppCompatActivity {
                     return;
                 }
                 UserInfoResponse data = response.body();
-
-
                 if(data == null)
                 {
                     Log.d("UserInfoResponse", "response fail " + response.message());

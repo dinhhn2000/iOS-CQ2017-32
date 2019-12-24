@@ -17,6 +17,7 @@ import com.example.travelsupporter.API.LoginFacebookResponse;
 import com.example.travelsupporter.API.LoginResponse;
 import com.example.travelsupporter.API.Travel_Supporter_Client;
 import com.example.travelsupporter.API.LoginRequest;
+import com.example.travelsupporter.utils.Tour;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -50,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         String token = sharedPreferences.getString("token", "");
         if(token != ""){
             // Move to TourList screen
-            Intent intent = new Intent(getApplication(), CreateTourActivity.class);
+            Intent intent = new Intent(getApplication(), StopPointInfoActivity.class);
             startActivity(intent);
         }
 
@@ -89,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
 
                             // Move to TourList screen
-                            Intent intent = new Intent(getApplication(), CreateTourActivity.class);
+                            Intent intent = new Intent(getApplication(), TourListActivity.class);
                             startActivity(intent);
                         }
                     }

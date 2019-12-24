@@ -1,19 +1,15 @@
 package com.example.travelsupporter;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.AbsListView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.travelsupporter.API.CreateTourRequest;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.travelsupporter.API.TourListResponse;
 import com.example.travelsupporter.API.Travel_Supporter_Client;
 import com.example.travelsupporter.Custom_Adapter.tourListAdapter;
@@ -27,16 +23,16 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class TourListActivity extends AppCompatActivity {
+public class PersonalTourList extends AppCompatActivity {
 
     private ArrayList<Tour> tourList = new ArrayList<>();
-    private int pageNum = 1;
+    private int pageIndex = 1;
     private ListView lvTour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tour_list);
+        setContentView(R.layout.activity_personal_tour_list);
 
         final SharedPreferences sharedPreferences = getSharedPreferences("authentication", Context.MODE_PRIVATE);
         lvTour = findViewById(R.id.tourListLV);
@@ -67,16 +63,6 @@ public class TourListActivity extends AppCompatActivity {
 
             }
         });
-
-        Button createTourBtn = findViewById(R.id.createTourBtn);
-        createTourBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Move to TourList screen
-                Intent intent = new Intent(getApplication(), CreateTourActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     private void addTourList(Retrofit.Builder builder, final tourListAdapter adapter, SharedPreferences sharedPreferences) {
@@ -85,7 +71,7 @@ public class TourListActivity extends AppCompatActivity {
         Travel_Supporter_Client client = retrofit.create(Travel_Supporter_Client.class);
         int rowPerPage = 5;
         String token = sharedPreferences.getString("token", "");
-        Call<TourListResponse> call = client.getTourList(token, pageNum++, rowPerPage);
+        Call<TourListResponse> call = client.getPersonalTourList(token, pageIndex++, rowPerPage);
 
         call.enqueue(new Callback<TourListResponse>() {
             @Override
@@ -105,5 +91,4 @@ public class TourListActivity extends AppCompatActivity {
             }
         });
     }
-
 }

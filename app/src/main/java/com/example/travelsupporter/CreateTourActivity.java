@@ -285,7 +285,7 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
                         if (data != null && data.getStartDate() != 0 && data.getEndDate() != 0) {
                             Toast.makeText(getApplicationContext(), "Create tout successful", Toast.LENGTH_SHORT).show();
                             Log.d("createTour", "onResponse: Create success");
-                            Intent intent = new Intent(getApplication(), LoginActivity.class);
+                            Intent intent = new Intent(getApplication(), AddStopPointActivity.class);
                             startActivity(intent);
                         }
                     }

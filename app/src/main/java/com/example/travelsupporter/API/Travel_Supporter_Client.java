@@ -16,6 +16,11 @@ public interface Travel_Supporter_Client {
                                        @Query("pageNum") int pageNum,
                                        @Query("rowPerPage") int rowPerPage);
 
+    @GET("tour/history-user")
+    Call<TourListResponse> getPersonalTourList(@Header("Authorization") String header,
+                                       @Query("pageIndex") int pageIndex,
+                                       @Query("pageSize") int pageSize);
+
     @POST("user/login")
     Call<LoginResponse> login(@Body LoginRequest loginRequest);
 

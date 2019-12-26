@@ -1,6 +1,14 @@
 package com.example.travelsupporter.API;
 
-import java.util.List;
+import com.ygaps.travelapp.API.CreateTourRequest;
+import com.ygaps.travelapp.API.CreateTourResponse;
+import com.ygaps.travelapp.API.LoginFacebookRequest;
+import com.ygaps.travelapp.API.LoginFacebookResponse;
+import com.ygaps.travelapp.API.LoginRequest;
+import com.ygaps.travelapp.API.LoginResponse;
+import com.ygaps.travelapp.API.RegisterRequest;
+import com.ygaps.travelapp.API.RegisterResponse;
+import com.ygaps.travelapp.API.TourListResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

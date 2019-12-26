@@ -12,9 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border_rounded_shadow"
-        android:hint="Search"
         android:drawableLeft="@drawable/ic_search_black_24dp"
         android:drawablePadding="5dp"
+        android:hint="Search"
         android:imeOptions="actionSearch"
         android:inputType="text"
         android:padding="20dp"
@@ -32,14 +32,14 @@
         tools:context=".GetLocationActivity" />
 
     <Button
-        android:id="@+id/saveLoactionBtn"
+        android:id="@+id/saveLocationBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:background="@drawable/border_rounded"
         android:backgroundTint="@color/colorPrimary"
-        android:textColor="#FFFFFF"
         android:text="save"
+        android:textColor="#FFFFFF"
         map:layout_constraintBottom_toBottomOf="parent"
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintStart_toStartOf="parent" />

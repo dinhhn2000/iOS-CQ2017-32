@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
     <TextView
         android:id="@+id/APP_NAME"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="50dp"
+        android:padding="40dp"
         android:text="TRAVEL SUPPORTER"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
-        android:textSize="25dp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -63,7 +66,7 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/border_rounded"
             android:backgroundTint="@color/colorPrimary"
-            android:padding="16dp"
+            android:padding="15dp"
             android:text="sign in"
             android:textColor="#FFFFFF"
             android:textSize="20dp" />
@@ -76,7 +79,7 @@
             android:layout_marginVertical="30dp"
             android:background="@drawable/border_rounded"
             android:backgroundTint="@color/colorPrimary"
-            android:padding="16dp"
+            android:padding="15dp"
             android:text="sign up"
             android:textColor="#FFFFFF"
             android:textSize="20dp" />
@@ -89,8 +92,8 @@
 
             <Button
                 android:id="@+id/googleBtn"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:background="@drawable/ic_google"
                 app:layout_constraintEnd_toStartOf="@+id/facebookBtn"
                 app:layout_constraintStart_toStartOf="parent"
@@ -98,8 +101,8 @@
 
             <Button
                 android:id="@+id/facebookBtn"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="125dp"
                 android:background="@drawable/ic_facebook"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -110,15 +113,16 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
+            android:id="@+id/forgotPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Forgot password?"
-            android:textStyle="italic"
-            android:background="@null"
             android:layout_gravity="center"
+            android:background="@null"
+            android:text="Forgot password?"
+            android:textAllCaps="false"
             android:textColor="@color/colorPrimary"
-            android:textAllCaps="false"/>
+            android:textStyle="italic" />
 
     </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
+</ScrollView>

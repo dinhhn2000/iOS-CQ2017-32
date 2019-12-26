@@ -55,7 +55,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:background="@drawable/border_rounded"
                 android:padding="8dp"
                 android:spinnerMode="dropdown" />
 
@@ -79,7 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="Service type" />
+                android:text="Province" />
 
             <Spinner
                 android:id="@+id/stopPointProvince"

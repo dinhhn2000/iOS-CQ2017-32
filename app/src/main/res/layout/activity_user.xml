@@ -187,25 +187,13 @@
                         android:layout_marginTop="30dp"
                         android:background="@drawable/border_rounded"
                         android:backgroundTint="@color/colorPrimary"
-                        android:text="OK"
+                        android:text="Confirn"
+                        android:textAllCaps="false"
                         android:textColor="#FFFFFF"
                         android:textSize="20dp" />
 
 
 
-                    <Button
-                        android:id="@+id/btn_user_back"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_margin="16dp"
-                        android:layout_marginHorizontal="18dp"
-                        android:layout_marginTop="30dp"
-                        android:background="@drawable/border_rounded"
-                        android:backgroundTint="@color/colorPrimary"
-                        android:text="Back"
-                        android:textColor="#FFFFFF"
-                        android:textSize="20dp" />
                     </LinearLayout>
                 </LinearLayout>
 

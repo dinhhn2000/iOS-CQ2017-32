@@ -45,7 +45,7 @@ public class UserActivity extends AppCompatActivity {
         final EditText date = findViewById(R.id.edit_date);
         final EditText gender = findViewById(R.id.edit_gender);
         final Button btnUpdateUserInfo = findViewById(R.id.btn_user_edit);
-        final Button btnBack = findViewById(R.id.btn_user_back);
+
         // Get token
         String token = sharedPreferences.getString("token", "");
 
@@ -172,18 +172,7 @@ public class UserActivity extends AppCompatActivity {
                 email.setText(Email);
                 date.setText(Date);
                 gender.setText(Gender);
-                //Log.d("updateUserInfo", "onResponse: Update temp fullname - " + Name);
-                //Log.d("updateUserInfo", "onResponse: Update temp phone numbber - " + Phone);
-                //Log.d("updateUserInfo", "onResponse: Update temp email - " + Email);
-                //Log.d("updateUserInfo", "onResponse: Update temp date - " + Date);
-                //Log.d("updateUserInfo", "onResponse: Update temp gender - " + temp);
 
-                //Log.d("updateUserInfo", "onResponse: Update fullname - " + full_name.getText().toString());
-                //Log.d("updateUserInfo", "onResponse: Update phone numbber - " + phone.getText().toString());
-                //Log.d("updateUserInfo", "onResponse: Update email - " + email.getText().toString());
-                //Log.d("updateUserInfo", "onResponse: Update date - " + date.getText().toString());
-                //Log.d("updateUserInfo", "onResponse: Update gender - " + gender.getText().toString());
-                //Integer.parseInt(gender.getText().toString()
 
                 UpdateUserInfoRequest updateUserInfoRequest = new UpdateUserInfoRequest(full_name.getText().toString(),email.getText().toString(),phone.getText().toString(),date.getText().toString(),temp);
                 // Get token
@@ -204,7 +193,8 @@ public class UserActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Update User Info Response successful", Toast.LENGTH_SHORT).show();
                             Log.d("UpdateUserInfo", "onResponse: Update success");
                         }
-                        Intent intent = new Intent(getApplication(), UserActivity.class);
+
+                        Intent intent = new Intent(getApplication(), MainActivity.class);
                         startActivity(intent);
                         data.setMessage("Message : Successful");
                         Toast.makeText(getApplicationContext(), "Successful " , Toast.LENGTH_SHORT).show();
@@ -220,13 +210,7 @@ public class UserActivity extends AppCompatActivity {
 
             }
         });
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplication(), SettingActivity.class);
-                startActivity(intent);
-            }
-        });
+
     }
 
 }

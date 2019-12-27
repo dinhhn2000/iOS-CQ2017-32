@@ -8,67 +8,65 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    BottomNavigationView bottomNavigation;
+    private BottomNavigationView mMainNav;
+    private FrameLayout mMainFrame;
+    private TourListFragment tourListFragment;
+    private FutureFragment futureFragment;
+    private MapFragment mapFragment;
+    private NotificationFragment notificationFragment;
+    private SettingFragment settingFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bottomNavigation = findViewById(R.id.navigation);
-        bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
-        //openFragment(ListFragment.newInstance("", ""));
-        Intent intent6 = new Intent(getApplication(), SettingActivity.class);
-        startActivity(intent6);
+        mMainFrame = (FrameLayout) findViewById(R.id.navigation) ;
+        mMainNav= findViewById(R.id.navigation);
 
-    }
-    public void openFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-    BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
+        tourListFragment = new TourListFragment();
+        futureFragment = new FutureFragment();
+        mapFragment = new MapFragment();
+        notificationFragment = new NotificationFragment();
+        settingFragment = new SettingFragment();
 
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment fragment;
-            switch (item.getItemId()) {
-                case R.id.navigation_tour:
-                    Intent intent5 = new Intent(getApplication(), UserActivity.class);
-                    startActivity(intent5);
-                    return true;
-                case R.id.navigation_future:
-                    Intent intent4 = new Intent(getApplication(), SettingActivity.class);
-                    startActivity(intent4);
-                    //openFragment(FutureFragment.newInstance("", ""));
-                    return true;
-                case R.id.navigation_map:
-                    Intent intent3 = new Intent(getApplication(), SettingActivity.class);
-                    startActivity(intent3);
-                   // openFragment(MapFragment.newInstance("", ""));
-                    return true;
-                case R.id.navigation_notification:
-                    Intent intent2 = new Intent(getApplication(), SettingActivity.class);
-                    startActivity(intent2);
 
-                    return true;
-                case R.id.navigation_setting:
-                    Intent intent1 = new Intent(getApplication(), SettingActivity.class);
-                    startActivity(intent1);
-                    return true;
+        mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.navigation_tour:
+                        setFrament(tourListFragment);
+                        return true;
+                    case R.id.navigation_future:
+                        setFrament(futureFragment);
+                        return true;
+                    case R.id.navigation_map:
+                        setFrament(mapFragment);
+                        return true;
+                    case R.id.navigation_notification:
+                        setFrament(notificationFragment);
+
+                        return true;
+                    case R.id.navigation_setting:
+                        setFrament(settingFragment);
+                        return true;
+                }
+                return false;
             }
-            return false;
-        }
+        });
 
-    };
-
-
+    }
+private void setFrament(Fragment frament){
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame_container,frament);
+        fragmentTransaction.commit();
+}
 }

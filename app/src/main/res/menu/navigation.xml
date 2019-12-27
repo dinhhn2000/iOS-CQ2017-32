@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_tour"
+        android:icon="@mipmap/ic_list_tour"
+        android:title="@string/title_Tour" />
+
+    <item
+        android:id="@+id/navigation_future"
+        android:icon="@mipmap/ic_launcher_future"
+        android:title="@string/title_Future" />
+
+    <item
+        android:id="@+id/navigation_map"
+        android:icon="@mipmap/ic_launcher_map"
+        android:title="@string/title_Map" />
+
+    <item
+        android:id="@+id/navigation_notification"
+        android:icon="@mipmap/ic_launcher_notification"
+        android:title="@string/title_Notification" />
+
+    <item
+        android:id="@+id/navigation_setting"
+        android:icon="@mipmap/ic_launcher_setting"
+        android:title="@string/title_Setting" />
+
+</menu>

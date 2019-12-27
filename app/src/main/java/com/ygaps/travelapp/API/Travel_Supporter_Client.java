@@ -54,5 +54,4 @@ public interface Travel_Supporter_Client {
     @POST("/user/verify-otp-recovery")
     Call<MessageResponse> RecoveryPassword(@Body VerifyOTP_PasswordRecoveryRequest verifyOTP_passwordRecoveryRequest);
 
-
 }

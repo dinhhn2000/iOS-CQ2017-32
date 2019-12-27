@@ -6,4 +6,5 @@
     <color name="startblue">#64B2E2</color>
     <color name="endblue">#0796EE</color>
     <color name="circle">#079</color>
+    <color name="bgBottomNavigation">#FF9800</color>
 </resources>

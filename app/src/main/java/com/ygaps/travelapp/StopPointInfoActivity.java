@@ -214,7 +214,7 @@ public class StopPointInfoActivity extends AppCompatActivity implements DatePick
         serviceTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(StopPointInfoActivity.this, serviceTypeSpinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(StopPointInfoActivity.this, serviceTypeSpinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
                 serviceTypeId[0] = i;
             }
 
@@ -243,7 +243,7 @@ public class StopPointInfoActivity extends AppCompatActivity implements DatePick
         provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(StopPointInfoActivity.this, provinceSpinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(StopPointInfoActivity.this, provinceSpinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
                 provinceId[0] = i;
             }
 
@@ -266,8 +266,8 @@ public class StopPointInfoActivity extends AppCompatActivity implements DatePick
                     return;
                 }
 
-                long lat = getIntent().getLongExtra("LAT", 0);
-                long lon = getIntent().getLongExtra("LONG", 0);
+                double lat = getIntent().getDoubleExtra("LAT", 0);
+                double lon = getIntent().getDoubleExtra("LONG", 0);
 
                 StopPoint newStopPoint = new StopPoint(stopPointName.getText().toString(),
                         stopPointAddress.getText().toString(), provinceId[0],

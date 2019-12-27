@@ -2,20 +2,27 @@ package com.ygaps.travelapp.API;
 
 import com.ygaps.travelapp.utils.StopPoint;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class AddStopPointRequest {
     private String tourId;
-    private StopPoint[] stopPoints;
+    private ArrayList<StopPoint> stopPoints;
     private int[] deleteIds;
 
-    public AddStopPointRequest(String tourId, StopPoint[] stopPoints, int[] deleteIds) {
+    public AddStopPointRequest(String tourId, ArrayList<StopPoint> stopPoints, int[] deleteIds) {
         this.tourId = tourId;
         this.stopPoints = stopPoints;
         this.deleteIds = deleteIds;
     }
 
-    public AddStopPointRequest(String tourId, StopPoint[] stopPoints) {
-        this.tourId = tourId;
-        this.stopPoints = stopPoints;
+    @Override
+    public String toString() {
+        return "AddStopPointRequest{" +
+                "tourId='" + tourId + '\'' +
+                ", stopPoints=" + stopPoints +
+                ", deleteIds=" + Arrays.toString(deleteIds) +
+                '}';
     }
 
     public String getTourId() {
@@ -26,11 +33,11 @@ public class AddStopPointRequest {
         this.tourId = tourId;
     }
 
-    public StopPoint[] getStopPoints() {
+    public ArrayList<StopPoint> getStopPoints() {
         return stopPoints;
     }
 
-    public void setStopPoints(StopPoint[] stopPoints) {
+    public void setStopPoints(ArrayList<StopPoint> stopPoints) {
         this.stopPoints = stopPoints;
     }
 

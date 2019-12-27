@@ -1,5 +1,8 @@
 package com.ygaps.travelapp.utils;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class StopPoint implements Serializable {
@@ -7,21 +10,22 @@ public class StopPoint implements Serializable {
     private String name;
     private String address;
     private int provinceId;
-    private long lat;
-    private long Long;
+    private double lat;
+    @SerializedName("long")
+    @Expose
+    private double Long;
     private long arriveAt;
     private long leaveAt;
     private int serviceTypeId;
     private int minCost;
     private int maxCost;
 
-
-    public StopPoint(String name, String address, int provinceId, long lat, long aLong, long arriveAt, long leaveAt, int serviceTypeId, int minCost, int maxCost) {
+    public StopPoint(String name, String address, int provinceId, double lat, double aLong, long arriveAt, long leaveAt, int serviceTypeId, int minCost, int maxCost) {
+        Long = aLong;
         this.name = name;
         this.address = address;
         this.provinceId = provinceId;
         this.lat = lat;
-        Long = aLong;
         this.arriveAt = arriveAt;
         this.leaveAt = leaveAt;
         this.serviceTypeId = serviceTypeId;
@@ -32,18 +36,26 @@ public class StopPoint implements Serializable {
     @Override
     public String toString() {
         return "StopPoint{" +
-                "id=" + id +
+                "Long=" + Long +
+                ", id=" + id +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", provinceId=" + provinceId +
                 ", lat=" + lat +
-                ", Long=" + Long +
                 ", arriveAt=" + arriveAt +
                 ", leaveAt=" + leaveAt +
                 ", serviceTypeId=" + serviceTypeId +
                 ", minCost=" + minCost +
                 ", maxCost=" + maxCost +
                 '}';
+    }
+
+    public double getLong() {
+        return Long;
+    }
+
+    public void setLong(double aLong) {
+        Long = aLong;
     }
 
     public int getId() {
@@ -78,19 +90,19 @@ public class StopPoint implements Serializable {
         this.provinceId = provinceId;
     }
 
-    public long getLat() {
+    public double getLat() {
         return lat;
     }
 
-    public void setLat(long lat) {
+    public void setLat(double lat) {
         this.lat = lat;
     }
 
-    public long getArrivalAt() {
+    public long getArriveAt() {
         return arriveAt;
     }
 
-    public void setArrivalAt(long arriveAt) {
+    public void setArriveAt(long arriveAt) {
         this.arriveAt = arriveAt;
     }
 

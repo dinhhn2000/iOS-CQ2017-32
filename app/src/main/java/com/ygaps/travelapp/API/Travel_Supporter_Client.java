@@ -1,5 +1,7 @@
 package com.ygaps.travelapp.API;
 
+import java.util.Calendar;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -53,5 +55,9 @@ public interface Travel_Supporter_Client {
 
     @POST("/user/verify-otp-recovery")
     Call<MessageResponse> RecoveryPassword(@Body VerifyOTP_PasswordRecoveryRequest verifyOTP_passwordRecoveryRequest);
+
+    @POST("tour/set-stop-points")
+    Call<MessageResponse> addStopPoint(@Header("Authorization") String header,
+                                       @Body AddStopPointRequest addStopPointRequest);
 
 }

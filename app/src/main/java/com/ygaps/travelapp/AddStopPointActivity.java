@@ -7,7 +7,9 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -37,11 +39,20 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.ygaps.travelapp.API.AddStopPointRequest;
+import com.ygaps.travelapp.API.MessageResponse;
+import com.ygaps.travelapp.API.Travel_Supporter_Client;
 import com.ygaps.travelapp.utils.StopPoint;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AddStopPointActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -151,6 +162,18 @@ public class AddStopPointActivity extends FragmentActivity implements OnMapReady
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (mMap != null) { //prevent crashing if the map doesn't exist yet (eg. on starting activity)
+            mMap.clear();
+
+            // add markers from database to the map
+
+        }
+    }
+
     protected synchronized void buildGoogleApiClient() {
         client = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -250,10 +273,59 @@ public class AddStopPointActivity extends FragmentActivity implements OnMapReady
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == RESULT_STOP_POINT_INFO && resultCode == RESULT_OK && data != null) {
-            StopPoint newStopPoint = (StopPoint)data.getSerializableExtra("NEW_STOP_POINT");
-            Log.d("NEW_STOP_POINT", "onActivityResult: " + newStopPoint.toString());
+            StopPoint newStopPoint = (StopPoint) data.getSerializableExtra("NEW_STOP_POINT");
+//            Log.d("NEW_STOP_POINT", "onActivityResult: " + newStopPoint.toString());
             stopPoints.add(newStopPoint);
+            long tourId = getIntent().getLongExtra("TOUR_ID", -1);
+            int[] deleteId = new int[0];
+
+            AddStopPointRequest request = new AddStopPointRequest(String.valueOf(tourId), stopPoints, deleteId);
+//            Log.d("NEW_STOP_POINT", "onActivityResult: " + request.toString());
+
+            if (addStopPoint(request))
+                onResume();
+            else onResume();
         }
 
+    }
+
+    public boolean addStopPoint(AddStopPointRequest request) {
+        final SharedPreferences sharedPreferences = getSharedPreferences("authentication", Context.MODE_PRIVATE);
+
+        final Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("http://35.197.153.192:3000/")
+                .addConverterFactory(GsonConverterFactory.create());
+
+        Retrofit retrofit = builder.build();
+        final Travel_Supporter_Client client = retrofit.create(Travel_Supporter_Client.class);
+
+        // Get token
+        String token = sharedPreferences.getString("token", "");
+
+        Call<MessageResponse> call = client.addStopPoint(token, request);
+        final boolean[] result = {false};
+        call.enqueue(new Callback<MessageResponse>() {
+            @Override
+            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Error code: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                MessageResponse message = response.body();
+
+                if (message != null && message.equals("Successful")) {
+                    Toast.makeText(getApplicationContext(), "Add stop point successful", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplication(), AddStopPointActivity.class);
+                    startActivity(intent);
+                    result[0] = true;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MessageResponse> call, Throwable t) {
+            }
+        });
+
+        return result[0];
     }
 }

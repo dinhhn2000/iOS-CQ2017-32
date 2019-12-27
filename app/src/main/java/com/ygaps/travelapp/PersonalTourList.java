@@ -5,14 +5,19 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ygaps.travelapp.API.TourListResponse;
 import com.ygaps.travelapp.API.Travel_Supporter_Client;
 import com.ygaps.travelapp.Custom_Adapter.tourListAdapter;
@@ -31,11 +36,57 @@ public class PersonalTourList extends AppCompatActivity {
     private ArrayList<Tour> tourList = new ArrayList<>();
     private int pageIndex = 1;
     private ListView lvTour;
+    BottomNavigationView bottomNavigation;
+
+    public void openFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    Fragment fragment;
+                    switch (item.getItemId()) {
+
+                        case R.id.navigation_future:
+                            Intent intent4 = new Intent(getApplication(), SettingActivity.class);
+                            startActivity(intent4);
+                            //openFragment(FutureFragment.newInstance("", ""));
+                            return true;
+                        case R.id.navigation_map:
+                            Intent intent3 = new Intent(getApplication(), SettingActivity.class);
+                            startActivity(intent3);
+                            // openFragment(MapFragment.newInstance("", ""));
+                            return true;
+                        case R.id.navigation_notification:
+                            Intent intent2 = new Intent(getApplication(), NotificationList.class);
+                            startActivity(intent2);
+
+                            return true;
+                        case R.id.navigation_setting:
+                            Intent intent1 = new Intent(getApplication(), SettingActivity.class);
+                            startActivity(intent1);
+                            return true;
+                    }
+                    return false;
+                }
+
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_tour_list);
+
+        bottomNavigation = findViewById(R.id.navigation);
+        bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+
+
 
         final SharedPreferences sharedPreferences = getSharedPreferences("authentication", Context.MODE_PRIVATE);
         lvTour = findViewById(R.id.personalTourListLV);

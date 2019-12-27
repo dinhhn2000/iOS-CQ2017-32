@@ -1,7 +1,6 @@
 package com.ygaps.travelapp;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -11,14 +10,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-
-
-import com.ygaps.travelapp.ListFragment;
-import com.ygaps.travelapp.FutureFragment;
-import com.ygaps.travelapp.MapFragment;
-import com.ygaps.travelapp.NotificationFragment;
-import com.ygaps.travelapp.SettingFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -67,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_notification:
                     Intent intent2 = new Intent(getApplication(), SettingActivity.class);
                     startActivity(intent2);
-                    //openFragment(NotificationFragment.newInstance("", ""));
+
                     return true;
                 case R.id.navigation_setting:
                     Intent intent1 = new Intent(getApplication(), SettingActivity.class);

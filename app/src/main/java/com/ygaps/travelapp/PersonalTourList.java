@@ -94,6 +94,7 @@ public class PersonalTourList extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (response.body() != null && response.body().getTours().size() > 0) {
                         ArrayList<Tour> getData = new ArrayList<Tour>(response.body().getTours());
+                        Log.d("PERSONAL_TOUR", "onResponse: " + getData);
                         tourList.addAll(getData);
                         adapter.notifyDataSetChanged();
                     }

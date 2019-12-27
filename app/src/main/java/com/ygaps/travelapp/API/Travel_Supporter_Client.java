@@ -32,6 +32,11 @@ public interface Travel_Supporter_Client {
     Call<VerifyCode_EmailVerificationResponse> VerifyCode(@Query("userId") int userId,
                                                           @Query("type") String type,
                                                           @Query("verifyCode") String verifyCode);
+    @GET("/tour/notification-list")
+    Call<NotificationListResponse> getNotification (@Header("Authorization") String header,
+                                                    @Query("pageIndex") String tourId,
+                                                    @Query("pageIndex") int pageIndex,
+                                                    @Query("pageSize") String pageSize);
 
     @POST("user/login")
     Call<LoginResponse> login(@Body LoginRequest loginRequest);

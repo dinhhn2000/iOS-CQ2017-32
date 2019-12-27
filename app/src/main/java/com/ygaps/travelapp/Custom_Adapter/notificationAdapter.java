@@ -11,40 +11,39 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ygaps.travelapp.R;
+import com.ygaps.travelapp.utils.Notification;
 import com.ygaps.travelapp.utils.Tour;
-
+import com.ygaps.travelapp.NotificationList;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class tourListAdapter extends ArrayAdapter<Tour> {
+public class notificationAdapter extends ArrayAdapter<Notification> {
     private Context context;
     private int resource;
-    private ArrayList<Tour> arrTour;
+    private ArrayList<Notification> arrNotifi;
 
-    public tourListAdapter(Context context, int resource, ArrayList<Tour> arrTour) {
-        super(context, resource, arrTour);
+    public notificationAdapter(Context context, int resource, ArrayList<Notification> arrNotifi) {
+        super(context, resource, arrNotifi);
         this.context = context;
         this.resource = resource;
-        this.arrTour = arrTour;
+        this.arrNotifi = arrNotifi;
     }
-
     @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
+        notificationAdapter.ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.tour_list_item, parent, false);
-            viewHolder = new ViewHolder();
-            viewHolder.avatar = (ImageView) convertView.findViewById(R.id.tourAvatar);
-            viewHolder.location = (TextView) convertView.findViewById(R.id.tourLocation);
-            viewHolder.date = (TextView) convertView.findViewById(R.id.tourDate);
-            viewHolder.people = (TextView) convertView.findViewById(R.id.tourPeople);
-            viewHolder.price = (TextView) convertView.findViewById(R.id.tourPrice);
+            convertView = LayoutInflater.from(context).inflate(R.layout.activity_notification, parent, false);
+            viewHolder = new notificationAdapter.ViewHolder();
+            viewHolder.avatar = (ImageView) convertView.findViewById(R.id.avatarNotification);
+            viewHolder.notification = (TextView) convertView.findViewById(R.id.notificationTV);
+            viewHolder.time = (TextView) convertView.findViewById(R.id.timeNotification);
+
 
             convertView.setTag(viewHolder);
         } else {
-            viewHolder = (ViewHolder) convertView.getTag();
+            viewHolder = (notificationAdapter.ViewHolder) convertView.getTag();
         }
 
 
@@ -53,10 +52,9 @@ public class tourListAdapter extends ArrayAdapter<Tour> {
 
     public class ViewHolder {
         ImageView avatar;
-        TextView location;
-        TextView date;
-        TextView people;
-        TextView price;
+        TextView notification;
+        TextView time;
+
     }
 
     private String getDate(long time) {
@@ -65,4 +63,5 @@ public class tourListAdapter extends ArrayAdapter<Tour> {
         String date = DateFormat.format("dd/MM/yyyy", cal).toString();
         return date;
     }
+
 }

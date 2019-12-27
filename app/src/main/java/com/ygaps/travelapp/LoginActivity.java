@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
 
                             // Move to TourList screen
-                            Intent intent = new Intent(getApplication(), MainActivity.class);
+                            Intent intent = new Intent(getApplication(), PersonalTourList.class);
                             startActivity(intent);
                         }
                     }

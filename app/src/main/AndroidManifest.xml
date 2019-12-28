@@ -20,13 +20,13 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NotificationList"></activity>
+        <activity android:name=".NotificationList" />
         <activity android:name=".Notification" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -63,11 +63,13 @@
             android:label="@string/title_activity_get_location" />
         <activity
             android:name=".CreateTourActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:label="Create tour"/>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".TourListActivity" />
         <activity android:name=".PersonalTourList" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity" >
+        </activity>
         <activity
             android:name=".LoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">

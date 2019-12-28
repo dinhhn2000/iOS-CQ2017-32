@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -146,7 +147,7 @@ public class AddStopPointActivity extends FragmentActivity implements OnMapReady
 
                     latitude = latLng.latitude;
                     longitude = latLng.longitude;
-                    locationSearch.setText("(" + latLng.latitude + '-' + latLng.longitude + ')');
+//                    locationSearch.setText("(" + latLng.latitude + '-' + latLng.longitude + ')');
                     currentLocationMarker = mMap.addMarker(new MarkerOptions()
                             .position(latLng)
                             .title("Chosen coordinate")
@@ -160,6 +161,14 @@ public class AddStopPointActivity extends FragmentActivity implements OnMapReady
                 }
             });
         }
+
+        ImageButton backBtn = findViewById(R.id.backBtn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override

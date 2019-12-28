@@ -5,71 +5,73 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    BottomNavigationView bottomNavigation;
+    private BottomNavigationView mMainNav;
+    private FrameLayout mMainFrame;
+    private TourListFragment tourListFragment;
+    private FutureFragment futureFragment;
+    private MapFragment mapFragment;
+    private NotificationFragment notificationFragment;
+    private SettingFragment settingFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bottomNavigation = findViewById(R.id.navigation);
-        bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
-        //openFragment(ListFragment.newInstance("", ""));
-        Intent intent6 = new Intent(getApplication(), SettingActivity.class);
-        startActivity(intent6);
+        mMainFrame = (FrameLayout) findViewById(R.id.navigation);
+        mMainNav = findViewById(R.id.navigation);
+//        Set personal tour list as default fragment
+//        mMainNav.setSelectedItemId(R.id.navigation_tour);
 
-    }
+        tourListFragment = new TourListFragment();
+        futureFragment = new FutureFragment();
+        mapFragment = new MapFragment();
+        notificationFragment = new NotificationFragment();
+        settingFragment = new SettingFragment();
 
-    public void openFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
 
-    BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Fragment fragment;
-                    switch (item.getItemId()) {
-                        case R.id.navigation_tour:
-                            Intent intent5 = new Intent(getApplication(), UserActivity.class);
-                            startActivity(intent5);
-                            return true;
-                        case R.id.navigation_future:
-                            Intent intent4 = new Intent(getApplication(), SettingActivity.class);
-                            startActivity(intent4);
-                            //openFragment(FutureFragment.newInstance("", ""));
-                            return true;
-                        case R.id.navigation_map:
-                            Intent intent3 = new Intent(getApplication(), SettingActivity.class);
-                            startActivity(intent3);
-                            // openFragment(MapFragment.newInstance("", ""));
-                            return true;
-                        case R.id.navigation_notification:
-                            Intent intent2 = new Intent(getApplication(), SettingActivity.class);
-                            startActivity(intent2);
-
-                            return true;
-                        case R.id.navigation_setting:
-                            Intent intent1 = new Intent(getApplication(), SettingActivity.class);
-                            startActivity(intent1);
-                            return true;
-                    }
-                    return false;
+        mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Log.d("initial_fragment", "onNavigationItemSelected: " + item.getItemId());
+                switch (item.getItemId()) {
+                    case R.id.navigation_tour:
+                        setFragment(tourListFragment);
+                        return true;
+                    case R.id.navigation_future:
+                        setFragment(futureFragment);
+                        return true;
+                    case R.id.navigation_map:
+                        setFragment(mapFragment);
+                        return true;
+                    case R.id.navigation_notification:
+                        setFragment(notificationFragment);
+                        return true;
+                    case R.id.navigation_setting:
+                        setFragment(settingFragment);
+                        return true;
                 }
+                return false;
+            }
+        });
 
-            };
+        if (savedInstanceState == null) {
+            mMainNav.setSelectedItemId(R.id.navigation_tour); // change to whichever id should be default
+        }
+    }
 
-
+    private void setFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame_container, fragment);
+        fragmentTransaction.commit();
+    }
 }

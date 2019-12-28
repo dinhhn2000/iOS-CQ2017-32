@@ -1,6 +1,7 @@
 package com.ygaps.travelapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -69,6 +70,17 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_tour);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed(); // Implemented by activity
+            }
+        });
+
         final SharedPreferences sharedPreferences = getSharedPreferences("authentication", Context.MODE_PRIVATE);
 
         final Retrofit.Builder builder = new Retrofit.Builder()
@@ -88,15 +100,15 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
         final EditText minCost = findViewById(R.id.minCostEditText);
         Button buttonLoadPicture = findViewById(R.id.buttonLoadPicture);
         Button confirmCreateTourBtn = findViewById(R.id.confirmCreateTourBtn);
-        Button settingBtn = findViewById(R.id.settingBtn);
+//        Button settingBtn = findViewById(R.id.settingBtn);
 
-        settingBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplication(), SettingActivity.class);
-                startActivity(intent);
-            }
-        });
+//        settingBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getApplication(), SettingActivity.class);
+//                startActivity(intent);
+//            }
+//        });
         // Handle edit text when empty
         TextWatcher watcher = new TextWatcher() {
             @Override
@@ -241,7 +253,6 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
             }
         });
-
 
 
         confirmCreateTourBtn.setOnClickListener(new View.OnClickListener() {

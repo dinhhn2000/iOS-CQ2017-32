@@ -37,55 +37,11 @@ public class NotificationList extends AppCompatActivity {
     private ListView lvNotification;
     private int pageSize = 5;
     private int userId = 34;
-    BottomNavigationView bottomNavigation;
 
-    public void openFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
-    BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Fragment fragment;
-                    switch (item.getItemId()) {
-                        case R.id.navigation_tour:
-                            Intent intent5 = new Intent(getApplication(), PersonalTourList.class);
-                            startActivity(intent5);
-                            return true;
-                        case R.id.navigation_future:
-                            Intent intent4 = new Intent(getApplication(), SettingActivity.class);
-                            startActivity(intent4);
-                            //openFragment(FutureFragment.newInstance("", ""));
-                            return true;
-                        case R.id.navigation_map:
-                            Intent intent3 = new Intent(getApplication(), SettingActivity.class);
-                            startActivity(intent3);
-                            // openFragment(MapFragment.newInstance("", ""));
-                            return true;
-
-                        case R.id.navigation_setting:
-                            Intent intent1 = new Intent(getApplication(), SettingActivity.class);
-                            startActivity(intent1);
-                            return true;
-                    }
-                    return false;
-                }
-
-            };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_list);
-
-
-
-        bottomNavigation = findViewById(R.id.navigation);
-        bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
         final SharedPreferences sharedPreferences = getSharedPreferences("authentication", Context.MODE_PRIVATE);
         lvNotification = findViewById(R.id.notificationListLV);

@@ -7,7 +7,13 @@
     android:orientation="vertical"
     tools:context=".TourInfoActivity">
 
-
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
+        app:titleTextColor="#FFFFFF" />
 
     <!--    <TextView-->
     <!--        android:id="@+id/APP_NAME"-->
@@ -351,22 +357,23 @@
                     android:id="@+id/listComment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginHorizontal="5dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_weight="3"
+                    android:layout_weight="1"
                     android:background="@drawable/border_rounded"
                     android:backgroundTint="@color/colorPrimary"
-                    android:text="Comment"
+                    android:text="Comments"
                     android:textAllCaps="false"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp" />
 
                 <Button
-                    android:id="@+id/members"
+                    android:id="@+id/ratingBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_weight="3"
+                    android:layout_weight="1"
                     android:background="@drawable/border_rounded"
                     android:backgroundTint="@color/colorPrimary"
                     android:text="Rating"
@@ -377,40 +384,79 @@
 
             </LinearLayout>
 
-            <Button
-            android:id="@+id/ConfirmTourInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/border_rounded"
-            android:backgroundTint="@color/colorPrimary"
-            android:text="Update Tour"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/finishTrip"
+                <Button
+                    android:id="@+id/ConfirmTourInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_rounded"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="Update Tour"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/memberBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_rounded"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="Members"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/border_rounded"
-                android:backgroundTint="@color/colorPrimary"
-                android:text="Finish"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp" />
-            <Button
-                android:id="@+id/deleteTrip"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/border_rounded"
-                android:backgroundTint="@color/colorPrimary"
-                android:text="Delete"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/finishTrip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_rounded"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="Finish"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/deleteTrip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_rounded"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="Delete"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+
+
+            </LinearLayout>
+
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

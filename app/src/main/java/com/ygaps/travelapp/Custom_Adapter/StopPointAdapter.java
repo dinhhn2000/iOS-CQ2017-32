@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -138,41 +137,7 @@ public class StopPointAdapter extends ArrayAdapter<StopPoint> {
                             @Override
                             public void onFormSubmitted(String feedback) {
                                 Toast.makeText(context, feedback, Toast.LENGTH_LONG).show();
-                                final SharedPreferences sharedPreferences = context.getSharedPreferences("authentication", Context.MODE_PRIVATE);
-
-                                final Retrofit.Builder builder = new Retrofit.Builder()
-                                        .baseUrl("http://35.197.153.192:3000/")
-                                        .addConverterFactory(GsonConverterFactory.create());
-
-                                Retrofit retrofit = builder.build();
-                                final Travel_Supporter_Client client = retrofit.create(Travel_Supporter_Client.class);
-
-                                // Get token
-                                String token = sharedPreferences.getString("token", "");
-
-                                RatingStopPointRequest request = new RatingStopPointRequest(stopPoint.getServiceId(),feedback,(int) rating[0]);
-
-                                Call<MessageResponse> call = client.sendFeedbackToStopPoint(token, request);
-                                final boolean[] result = {false};
-                                call.enqueue(new Callback<MessageResponse>() {
-                                    @Override
-                                    public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
-                                        if (!response.isSuccessful()) {
-                                            Toast.makeText(context.getApplicationContext(), "Error code: " + response.code(), Toast.LENGTH_SHORT).show();
-                                            return;
-                                        }
-                                        MessageResponse message = response.body();
-
-                                        if (message != null && message.getMessage().equals("Successful")) {
-                                            Toast.makeText(context.getApplicationContext(), "Rating successful", Toast.LENGTH_SHORT).show();
-                                            result[0] = true;
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<MessageResponse> call, Throwable t) {
-                                    }
-                                });
+                                sendFeedback(stopPoint, feedback, rating[0]);
                             }
                         }).build();
 
@@ -181,6 +146,44 @@ public class StopPointAdapter extends ArrayAdapter<StopPoint> {
         });
 
         return convertView;
+    }
+
+    public void sendFeedback(StopPoint stopPoint, String feedback, float rating) {
+        final SharedPreferences sharedPreferences = context.getSharedPreferences("authentication", Context.MODE_PRIVATE);
+
+        final Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("http://35.197.153.192:3000/")
+                .addConverterFactory(GsonConverterFactory.create());
+
+        Retrofit retrofit = builder.build();
+        final Travel_Supporter_Client client = retrofit.create(Travel_Supporter_Client.class);
+
+        // Get token
+        String token = sharedPreferences.getString("token", "");
+
+        RatingStopPointRequest request = new RatingStopPointRequest(stopPoint.getServiceId(), feedback, (int) rating);
+
+        Call<MessageResponse> call = client.sendFeedbackToStopPoint(token, request);
+        final boolean[] result = {false};
+        call.enqueue(new Callback<MessageResponse>() {
+            @Override
+            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(context.getApplicationContext(), "Error code: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                MessageResponse message = response.body();
+
+                if (message != null && message.getMessage().equals("Successful")) {
+                    Toast.makeText(context.getApplicationContext(), "Rating successful", Toast.LENGTH_SHORT).show();
+                    result[0] = true;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MessageResponse> call, Throwable t) {
+            }
+        });
     }
 
     public class ViewHolder {

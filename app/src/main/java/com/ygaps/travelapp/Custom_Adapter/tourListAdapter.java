@@ -2,6 +2,7 @@ package com.ygaps.travelapp.Custom_Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ygaps.travelapp.LoginActivity;
 import com.ygaps.travelapp.R;
+import com.ygaps.travelapp.TourInfoActivity;
 import com.ygaps.travelapp.utils.Tour;
 
 import java.util.ArrayList;
@@ -33,7 +36,7 @@ public class tourListAdapter extends ArrayAdapter<Tour> {
     @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
+        final ViewHolder viewHolder;
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.tour_list_item, parent, false);
             viewHolder = new ViewHolder();
@@ -43,12 +46,13 @@ public class tourListAdapter extends ArrayAdapter<Tour> {
             viewHolder.people = convertView.findViewById(R.id.tourPeople);
             viewHolder.price = convertView.findViewById(R.id.tourPrice);
             viewHolder.stopPointListBtn = convertView.findViewById(R.id.stopPointListBtn);
-
+            viewHolder.tourInfoBtn = convertView.findViewById(R.id.tourInfoBtn);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        Tour tour = arrTour.get(position);
+
+        final Tour tour = arrTour.get(position);
         viewHolder.avatar.setImageDrawable(context.getDrawable(R.mipmap.beach));
         viewHolder.location.setText(tour.getName());
 
@@ -85,12 +89,21 @@ public class tourListAdapter extends ArrayAdapter<Tour> {
 
             }
         });
-
+        viewHolder.tourInfoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, TourInfoActivity.class);
+                intent.putExtra("TOUR_ID", tour.getId());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
         return convertView;
     }
 
     public class ViewHolder {
         Button stopPointListBtn;
+        Button tourInfoBtn;
         ImageView avatar;
         TextView location;
         TextView date;

@@ -8,6 +8,7 @@ import com.ygaps.travelapp.API.Requests.RegisterRequest;
 import com.ygaps.travelapp.API.Requests.RequestOTP_PasswordRecoveryRequest;
 import com.ygaps.travelapp.API.Requests.RequestOTP_PasswordRecoveryResponse;
 import com.ygaps.travelapp.API.Requests.SuggestedStopPointRequest;
+import com.ygaps.travelapp.API.Requests.UpdateTourRequest;
 import com.ygaps.travelapp.API.Requests.UpdateUserInfoRequest;
 import com.ygaps.travelapp.API.Requests.VerifyOTP_PasswordRecoveryRequest;
 import com.ygaps.travelapp.API.Responses.CreateTourResponse;
@@ -19,6 +20,7 @@ import com.ygaps.travelapp.API.Responses.RegisterResponse;
 import com.ygaps.travelapp.API.Responses.SendEmailVerificationResponse;
 import com.ygaps.travelapp.API.Responses.SuggestedStopPointResponse;
 import com.ygaps.travelapp.API.Responses.TourListResponse;
+import com.ygaps.travelapp.API.Responses.UpdateTourResponse;
 import com.ygaps.travelapp.API.Responses.UserInfoResponse;
 import com.ygaps.travelapp.API.Responses.VerifyCode_EmailVerificationResponse;
 import com.ygaps.travelapp.API.Responses.getTourInfoResponse;
@@ -64,6 +66,8 @@ public interface Travel_Supporter_Client {
     Call<getTourInfoResponse> getTour(@Header("Authorization") String header,
                                       @Query("tourId") long tourId);
 
+
+
     @POST("/tour/suggested-destination-list")
     Call<SuggestedStopPointResponse> getSuggestedStopPoint(@Header("Authorization") String header,
                                                            @Body SuggestedStopPointRequest suggestedStopPointRequest);
@@ -94,5 +98,10 @@ public interface Travel_Supporter_Client {
     @POST("tour/set-stop-points")
     Call<MessageResponse> setStopPoint(@Header("Authorization") String header,
                                        @Body AddStopPointRequest addStopPointRequest);
+
+    @POST("/tour/update-tour")
+    Call<UpdateTourResponse> updateTour(@Header("Authorization") String header,
+                                        @Body UpdateTourRequest updateTourRequest);
+
 
 }

@@ -26,7 +26,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".StopPointListActivity"></activity>
+        <activity android:name=".TourInfoActivity"></activity>
+        <activity android:name=".StopPointListActivity" />
         <activity android:name=".NotificationList" />
         <activity android:name=".Notification" />
         <!--
@@ -70,7 +71,7 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".TourListActivity" />
         <activity android:name=".PersonalTourList" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".LoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">

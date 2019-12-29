@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:background="#EEEEEE"
         tools:context=".TourListActivity">
-    
+
 
     <ListView
         android:id="@+id/personalTourListLV"

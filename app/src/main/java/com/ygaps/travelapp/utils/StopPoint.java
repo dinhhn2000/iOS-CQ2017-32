@@ -19,6 +19,7 @@ public class StopPoint implements Serializable {
     private int serviceTypeId;
     private int minCost;
     private int maxCost;
+    private int serviceId;
 
     public StopPoint(String name, String address, int provinceId, double lat, double aLong, long arrivalAt, long leaveAt, int serviceTypeId, int minCost, int maxCost) {
         Long = aLong;
@@ -47,29 +48,37 @@ public class StopPoint implements Serializable {
         this.maxCost = maxCost;
     }
 
+    public StopPoint(int id, String name, String address, int provinceId, double lat, double aLong, long arrivalAt, long leaveAt, int serviceTypeId, int minCost, int maxCost, int serviceId) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.provinceId = provinceId;
+        this.lat = lat;
+        Long = aLong;
+        this.arrivalAt = arrivalAt;
+        this.leaveAt = leaveAt;
+        this.serviceTypeId = serviceTypeId;
+        this.minCost = minCost;
+        this.maxCost = maxCost;
+        this.serviceId = serviceId;
+    }
+
     @Override
     public String toString() {
         return "StopPoint{" +
-                "Long=" + Long +
-                ", id=" + id +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", provinceId=" + provinceId +
                 ", lat=" + lat +
+                ", Long=" + Long +
                 ", arrivalAt=" + arrivalAt +
                 ", leaveAt=" + leaveAt +
                 ", serviceTypeId=" + serviceTypeId +
                 ", minCost=" + minCost +
                 ", maxCost=" + maxCost +
+                ", serviceId=" + serviceId +
                 '}';
-    }
-
-    public double getLong() {
-        return Long;
-    }
-
-    public void setLong(double aLong) {
-        Long = aLong;
     }
 
     public int getId() {
@@ -112,11 +121,19 @@ public class StopPoint implements Serializable {
         this.lat = lat;
     }
 
-    public long getArriveAt() {
+    public double getLong() {
+        return Long;
+    }
+
+    public void setLong(double aLong) {
+        Long = aLong;
+    }
+
+    public long getArrivalAt() {
         return arrivalAt;
     }
 
-    public void setArriveAt(long arrivalAt) {
+    public void setArrivalAt(long arrivalAt) {
         this.arrivalAt = arrivalAt;
     }
 
@@ -150,5 +167,13 @@ public class StopPoint implements Serializable {
 
     public void setMaxCost(int maxCost) {
         this.maxCost = maxCost;
+    }
+
+    public int getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(int serviceId) {
+        this.serviceId = serviceId;
     }
 }

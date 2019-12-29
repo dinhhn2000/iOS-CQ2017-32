@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/border_rounded_shadow"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/commentUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_person_cyan_24dp"
+        android:drawablePadding="5dp"
+        android:padding="8dp" />
+
+    <TextView
+        android:id="@+id/commentContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_content_copy_red_24dp"
+        android:drawablePadding="5dp"
+        android:padding="8dp"
+        android:textColor="@color/colorPrimary" />
+
+</LinearLayout>

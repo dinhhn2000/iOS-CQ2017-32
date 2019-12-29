@@ -1,6 +1,7 @@
 package com.ygaps.travelapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -28,8 +29,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codemybrainsout.ratingdialog.RatingDialog;
 import com.ygaps.travelapp.API.Requests.UpdateTourRequest;
-import com.ygaps.travelapp.API.Responses.MessageResponse;
 import com.ygaps.travelapp.API.Responses.UpdateTourResponse;
 import com.ygaps.travelapp.API.Responses.getTourInfoResponse;
 import com.ygaps.travelapp.API.Travel_Supporter_Client;
@@ -76,6 +77,18 @@ public class TourInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour_info);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed(); // Implemented by activity
+            }
+        });
+
         final SharedPreferences sharedPreferences = getSharedPreferences("authentication", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -96,6 +109,9 @@ public class TourInfoActivity extends AppCompatActivity {
         final Button updateInfoTour = findViewById(R.id.ConfirmTourInfo);
         final Button finish_trip = findViewById(R.id.finishTrip);
         final Button delete_trip = findViewById(R.id.deleteTrip);
+        final Button commentsBtn = findViewById(R.id.listComment);
+        final Button ratingBtn = findViewById(R.id.ratingBtn);
+        final Button memberBtn = findViewById(R.id.memberBtn);
 
         Intent intent = this.getIntent();
         Bundle db = getIntent().getExtras();
@@ -347,6 +363,7 @@ public class TourInfoActivity extends AppCompatActivity {
 
 
         });
+
         finish_trip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -379,6 +396,7 @@ public class TourInfoActivity extends AppCompatActivity {
                 });
             }
         });
+
         delete_trip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -395,8 +413,6 @@ public class TourInfoActivity extends AppCompatActivity {
                             Log.d("Update Tour", "Finish Response fail - " + response.message());
                             return;
                         }
-                        UpdateTourResponse data = response.body();
-
                         Intent intent = new Intent(getApplication(), MainActivity.class);
                         startActivity(intent);
 
@@ -411,6 +427,34 @@ public class TourInfoActivity extends AppCompatActivity {
                 });
             }
         });
+
+        commentsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplication(), TourCommentListActivity.class);
+                intent.putExtra("TOUR_ID", tourId);
+                startActivity(intent);
+            }
+        });
+
+        ratingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplication(), TourMemberListActivity.class);
+                intent.putExtra("TOUR_ID", tourId);
+                startActivity(intent);
+            }
+        });
+
+        memberBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplication(), TourMemberListActivity.class);
+                intent.putExtra("TOUR_ID", tourId);
+                startActivity(intent);
+            }
+        });
+
 
     }
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
@@ -460,9 +504,6 @@ public class TourInfoActivity extends AppCompatActivity {
             destinationLocationTV.setText(endLocale);
         }
 
-
-    }
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
     }
 }

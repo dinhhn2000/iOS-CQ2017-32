@@ -24,7 +24,7 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ygaps.travelapp.API.Responses.TourListResponse;
 import com.ygaps.travelapp.API.Travel_Supporter_Client;
-import com.ygaps.travelapp.Custom_Adapter.tourListAdapter;
+import com.ygaps.travelapp.Custom_Adapter.TourListAdapter;
 import com.ygaps.travelapp.utils.Tour;
 
 import java.util.ArrayList;
@@ -56,12 +56,13 @@ public class TourListFragment extends Fragment {
 
         final SharedPreferences sharedPreferences = getActivity().getSharedPreferences("authentication", Context.MODE_PRIVATE);
         lvTour = view.findViewById(R.id.personalTourListLV);
+        lvTour.setEmptyView(view.findViewById(R.id.emptyView));
 
         final Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("http://35.197.153.192:3000/")
                 .addConverterFactory(GsonConverterFactory.create());
 
-        final tourListAdapter adapter = new tourListAdapter(getActivity().getApplicationContext(), R.layout.tour_list_item, tourList);
+        final TourListAdapter adapter = new TourListAdapter(getActivity().getApplicationContext(), R.layout.tour_list_item, tourList);
         lvTour.setAdapter(adapter);
         addTourList(builder, adapter, sharedPreferences);
 
@@ -84,18 +85,6 @@ public class TourListFragment extends Fragment {
             }
         });
 
-        lvTour.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(getApplicationContext(), tourList.get(position).toString(), Toast.LENGTH_SHORT).show();
-                Log.d("personal", "onItemClick: " + tourList.get(position).toString());
-                Intent intent = new Intent(getActivity().getBaseContext(), AddStopPointActivity.class);
-                intent.putExtra("TOUR_ID", tourList.get(position).getId());
-                startActivity(intent);
-
-            }
-        });
-
         FloatingActionButton createBtn = view.findViewById(R.id.createTourBtn);
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,26 +95,30 @@ public class TourListFragment extends Fragment {
             }
         });
 
-        EditText searchEditText = view.findViewById(R.id.personalTourListEditText);
+        final EditText searchEditText = view.findViewById(R.id.personalTourListEditText);
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    performSearch();
+                    if (searchEditText.getText().toString().length() == 0) {
+                        tourList.clear();
+                        pageIndex = 1;
+                        Toast.makeText(getActivity().getApplicationContext(), "Loading...", Toast.LENGTH_SHORT).show();
+                        addTourList(builder, adapter, sharedPreferences);
+                        return true;
+                    }
+                    Toast.makeText(getActivity().getApplicationContext(), "Loading...", Toast.LENGTH_SHORT).show();
+                    searchTourList(builder, adapter, sharedPreferences, searchEditText.getText().toString());
                     return true;
                 }
                 return false;
-            }
-
-            private void performSearch() {
-
             }
         });
 
         return view;
     }
 
-    private void addTourList(Retrofit.Builder builder, final tourListAdapter adapter, SharedPreferences sharedPreferences) {
+    private void addTourList(Retrofit.Builder builder, final TourListAdapter adapter, SharedPreferences sharedPreferences) {
         Retrofit retrofit = builder.build();
 
         Travel_Supporter_Client client = retrofit.create(Travel_Supporter_Client.class);
@@ -138,7 +131,8 @@ public class TourListFragment extends Fragment {
             public void onResponse(Call<TourListResponse> call, Response<TourListResponse> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null && response.body().getTours().size() > 0) {
-                        ArrayList<Tour> getData = new ArrayList<Tour>(response.body().getTours());
+                        ArrayList<Tour> getData = new ArrayList<>(response.body().getTours());
+                        getData = getActiveTour(getData);
                         tourList.addAll(getData);
                         adapter.notifyDataSetChanged();
                         Log.d("zzz", "onResponse: " + tourList);
@@ -151,5 +145,48 @@ public class TourListFragment extends Fragment {
                 Log.d("Response_Error", "onFailure: " + t.getMessage());
             }
         });
+    }
+
+    private void searchTourList(Retrofit.Builder builder, final TourListAdapter adapter, SharedPreferences sharedPreferences, String keyword) {
+        Retrofit retrofit = builder.build();
+
+        Travel_Supporter_Client client = retrofit.create(Travel_Supporter_Client.class);
+        int rowPerPage = 100;
+        String token = sharedPreferences.getString("token", "");
+        Call<TourListResponse> call = client.searchTour(token, keyword, 1, rowPerPage);
+
+        call.enqueue(new Callback<TourListResponse>() {
+            @Override
+            public void onResponse(Call<TourListResponse> call, Response<TourListResponse> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null && response.body().getTours().size() == 0) {
+                        tourList.clear();
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    if (response.body() != null && response.body().getTours().size() > 0) {
+                        ArrayList<Tour> getData = new ArrayList<>(response.body().getTours());
+                        tourList.clear();
+                        getData = getActiveTour(getData);
+                        tourList.addAll(getData);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TourListResponse> call, Throwable t) {
+                Log.d("Response_Error", "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    public ArrayList<Tour> getActiveTour(ArrayList<Tour> data) {
+        ArrayList<Tour> result = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            if (data.get(i).getStatus() == 0 || data.get(i).getStatus() == 1)
+                result.add(data.get(i));
+        }
+        return result;
     }
 }

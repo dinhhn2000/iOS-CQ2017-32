@@ -4,6 +4,7 @@ import com.ygaps.travelapp.API.Requests.AddStopPointRequest;
 import com.ygaps.travelapp.API.Requests.CreateTourRequest;
 import com.ygaps.travelapp.API.Requests.LoginFacebookRequest;
 import com.ygaps.travelapp.API.Requests.LoginRequest;
+import com.ygaps.travelapp.API.Requests.RatingStopPointRequest;
 import com.ygaps.travelapp.API.Requests.RegisterRequest;
 import com.ygaps.travelapp.API.Requests.RequestOTP_PasswordRecoveryRequest;
 import com.ygaps.travelapp.API.Requests.RequestOTP_PasswordRecoveryResponse;
@@ -18,6 +19,7 @@ import com.ygaps.travelapp.API.Responses.MessageResponse;
 import com.ygaps.travelapp.API.Responses.NotificationListResponse;
 import com.ygaps.travelapp.API.Responses.RegisterResponse;
 import com.ygaps.travelapp.API.Responses.SendEmailVerificationResponse;
+import com.ygaps.travelapp.API.Responses.StopPointFeedbackResponse;
 import com.ygaps.travelapp.API.Responses.SuggestedStopPointResponse;
 import com.ygaps.travelapp.API.Responses.TourListResponse;
 import com.ygaps.travelapp.API.Responses.UpdateTourResponse;
@@ -66,11 +68,25 @@ public interface Travel_Supporter_Client {
     Call<getTourInfoResponse> getTour(@Header("Authorization") String header,
                                       @Query("tourId") long tourId);
 
+    @GET("/tour/search-history-user")
+    Call<TourListResponse> searchTour(@Header("Authorization") String header,
+                                      @Query("searchKey") String keyword,
+                                      @Query("pageIndex") int pageIndex,
+                                      @Query("pageSize") int pageSize);
 
+    @GET("/tour/get/feedback-service")
+    Call<StopPointFeedbackResponse> getStopPointFeedback(@Header("Authorization") String header,
+                                                         @Query("serviceId") long serviceId,
+                                                         @Query("pageIndex") int pageIndex,
+                                                         @Query("pageSize") int pageSize);
 
     @POST("/tour/suggested-destination-list")
     Call<SuggestedStopPointResponse> getSuggestedStopPoint(@Header("Authorization") String header,
                                                            @Body SuggestedStopPointRequest suggestedStopPointRequest);
+
+    @POST("/tour/add/feedback-service")
+    Call<MessageResponse> sendFeedbackToStopPoint(@Header("Authorization") String header,
+                                                  @Body RatingStopPointRequest RatingStopPointRequest);
 
     @POST("user/login")
     Call<LoginResponse> login(@Body LoginRequest loginRequest);

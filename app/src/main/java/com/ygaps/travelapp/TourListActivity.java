@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.ygaps.travelapp.API.Responses.TourListResponse;
 import com.ygaps.travelapp.API.Travel_Supporter_Client;
-import com.ygaps.travelapp.Custom_Adapter.tourListAdapter;
+import com.ygaps.travelapp.Custom_Adapter.TourListAdapter;
 import com.ygaps.travelapp.utils.Tour;
 
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class TourListActivity extends AppCompatActivity {
                 .baseUrl("http://35.197.153.192:3000/")
                 .addConverterFactory(GsonConverterFactory.create());
 
-        final tourListAdapter adapter = new tourListAdapter(getApplicationContext(), R.layout.tour_list_item, tourList);
+        final TourListAdapter adapter = new TourListAdapter(getApplicationContext(), R.layout.tour_list_item, tourList);
         lvTour.setAdapter(adapter);
         addTourList(builder, adapter, sharedPreferences);
 
@@ -78,7 +78,7 @@ public class TourListActivity extends AppCompatActivity {
         });
     }
 
-    private void addTourList(Retrofit.Builder builder, final tourListAdapter adapter, SharedPreferences sharedPreferences) {
+    private void addTourList(Retrofit.Builder builder, final TourListAdapter adapter, SharedPreferences sharedPreferences) {
         Retrofit retrofit = builder.build();
 
         Travel_Supporter_Client client = retrofit.create(Travel_Supporter_Client.class);
@@ -91,7 +91,7 @@ public class TourListActivity extends AppCompatActivity {
             public void onResponse(Call<TourListResponse> call, Response<TourListResponse> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null && response.body().getTours().size() > 0) {
-                        ArrayList<Tour> getData = new ArrayList<Tour>(response.body().getTours());
+                        ArrayList<Tour> getData = new ArrayList<>(response.body().getTours());
                         tourList.addAll(getData);
                         adapter.notifyDataSetChanged();
                     }

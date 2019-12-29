@@ -58,6 +58,17 @@
 
         </ListView>
 
+        <TextView
+            android:id="@+id/emptyView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="There are no tour suitable"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toBottomOf="@+id/personalTourListLV"
+            app:layout_constraintTop_toBottomOf="@+id/personalTourListEditText" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

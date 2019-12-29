@@ -26,7 +26,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity android:name=".NotificationList" />
         <activity android:name=".Notification" />
         <!--
@@ -45,6 +44,7 @@
         <activity android:name=".VerifyCode" />
         <activity android:name=".VerifyOTP" />
         <activity android:name=".ForgotPassword" />
+        <activity android:name=".TourInfoActivity" />
 
         <service android:name=".Service.MyFirebaseService">
             <intent-filter>
@@ -68,6 +68,11 @@
             android:label="Create tour"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
+            android:name=".TourCommentListActivity"
+            android:label="Comments"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
             android:name=".StopPointListActivity"
             android:label="Stop point list"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
@@ -78,7 +83,7 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".TourListActivity" />
         <activity android:name=".PersonalTourList" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".LoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">

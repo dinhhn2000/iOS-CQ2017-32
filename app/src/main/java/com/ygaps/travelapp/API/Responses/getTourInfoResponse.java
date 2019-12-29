@@ -15,7 +15,7 @@ public class getTourInfoResponse {
     private long maxCost;
     private long startDate;
     private long endDate;
-    private int adult;
+    private int adults;
     private int childs;
     private boolean isPrivate;
     private String avatar;
@@ -24,7 +24,7 @@ public class getTourInfoResponse {
     private ArrayList<Member> members;
 
     public getTourInfoResponse(long id, long hostId, int status, String name, long minCost,
-                               long maxCost, long startDate, long endDate, int adult, int childs,
+                               long maxCost, long startDate, long endDate, int adults, int childs,
                                boolean isPrivate, String avatar, ArrayList<StopPoint> stopPoints,
                                ArrayList<TourComment> comments, ArrayList<Member> members) {
         this.id = id;
@@ -35,7 +35,7 @@ public class getTourInfoResponse {
         this.maxCost = maxCost;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.adult = adult;
+        this.adults = adults;
         this.childs = childs;
         this.isPrivate = isPrivate;
         this.avatar = avatar;
@@ -55,7 +55,7 @@ public class getTourInfoResponse {
                 ", maxCost=" + maxCost +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", adult=" + adult +
+                ", adults=" + adults +
                 ", childs=" + childs +
                 ", isPrivate=" + isPrivate +
                 ", avatar='" + avatar + '\'' +
@@ -129,12 +129,12 @@ public class getTourInfoResponse {
         this.endDate = endDate;
     }
 
-    public int getAdult() {
-        return adult;
+    public int getadults() {
+        return adults;
     }
 
-    public void setAdult(int adult) {
-        this.adult = adult;
+    public void setadults(int adults) {
+        this.adults = adults;
     }
 
     public int getChilds() {

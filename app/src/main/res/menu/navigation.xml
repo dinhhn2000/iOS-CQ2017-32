@@ -9,7 +9,7 @@
     <item
         android:id="@+id/navigation_future"
         android:icon="@mipmap/ic_launcher_future"
-        android:title="@string/title_Future" />
+        android:title="@string/title_History" />
 
     <item
         android:id="@+id/navigation_map"

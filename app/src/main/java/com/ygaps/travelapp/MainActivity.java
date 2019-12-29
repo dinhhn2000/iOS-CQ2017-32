@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView mMainNav;
     private FrameLayout mMainFrame;
     private TourListFragment tourListFragment;
-    private FutureFragment futureFragment;
+    private HistoryTourListFragment HistoryTourListFragment;
     private MapFragment mapFragment;
     private NotificationFragment notificationFragment;
     private SettingFragment settingFragment;
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 //        mMainNav.setSelectedItemId(R.id.navigation_tour);
 
         tourListFragment = new TourListFragment();
-        futureFragment = new FutureFragment();
+        HistoryTourListFragment = new HistoryTourListFragment();
         mapFragment = new MapFragment();
         notificationFragment = new NotificationFragment();
         settingFragment = new SettingFragment();
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                         setFragment(tourListFragment);
                         return true;
                     case R.id.navigation_future:
-                        setFragment(futureFragment);
+                        setFragment(HistoryTourListFragment);
                         return true;
                     case R.id.navigation_map:
                         setFragment(mapFragment);

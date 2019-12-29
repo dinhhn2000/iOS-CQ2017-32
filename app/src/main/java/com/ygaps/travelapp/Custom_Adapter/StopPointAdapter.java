@@ -40,7 +40,6 @@ public class StopPointAdapter extends ArrayAdapter<StopPoint> {
     private Context context;
     private int resource;
     private ArrayList<StopPoint> arrStopPoint;
-    private PopupWindow mPopupWindow;
 
     public StopPointAdapter(Activity activity, int resource, ArrayList<StopPoint> arrStopPoint) {
         super(activity.getApplicationContext(), resource, arrStopPoint);

@@ -108,18 +108,14 @@ public class UserActivity extends AppCompatActivity {
                     return;
                 }
 
-                String Name = "";
-                String Phone = "";
-                String Email = "";
-                String Date = "";
-                String Gender = "";
+
                 int temp = 0;
 
-                Name = full_name.getText().toString();
-                Phone = phone.getText().toString();
-                Email = email.getText().toString();
-                Date = date.getText().toString();
-                Gender = gender.getText().toString();
+                String Name = full_name.getText().toString();
+                String Phone = phone.getText().toString();
+                String Email = email.getText().toString();
+                String Date = date.getText().toString();
+                String Gender = gender.getText().toString();
                // Log.d("updateUserInfo", "onResponse: before - " + temp);
                // Log.d("updateUserInfo", "onResponse: before - " + gender.getText().length());
 
@@ -174,7 +170,8 @@ public class UserActivity extends AppCompatActivity {
                 gender.setText(Gender);
 
 
-                UpdateUserInfoRequest updateUserInfoRequest = new UpdateUserInfoRequest(full_name.getText().toString(),email.getText().toString(),phone.getText().toString(),date.getText().toString(),temp);
+                UpdateUserInfoRequest updateUserInfoRequest = new UpdateUserInfoRequest(full_name.getText().toString(),email.getText().toString(),
+                        phone.getText().toString(),date.getText().toString(),temp);
                 // Get token
                 String token = sharedPreferences.getString("token", "");
 

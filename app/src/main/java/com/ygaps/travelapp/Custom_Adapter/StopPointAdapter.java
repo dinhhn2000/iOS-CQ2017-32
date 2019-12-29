@@ -1,8 +1,10 @@
 package com.ygaps.travelapp.Custom_Adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,27 +12,32 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.codemybrainsout.ratingdialog.RatingDialog;
 import com.ygaps.travelapp.R;
-import com.ygaps.travelapp.StopPointListActivity;
+import com.ygaps.travelapp.StopPointFeedbackListActivity;
 import com.ygaps.travelapp.utils.StopPoint;
-import com.ygaps.travelapp.utils.Tour;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class stopPointAdapter extends ArrayAdapter<StopPoint> {
+
+public class StopPointAdapter extends ArrayAdapter<StopPoint> {
+    private final Activity activity;
     private Context context;
     private int resource;
     private ArrayList<StopPoint> arrStopPoint;
+    private PopupWindow mPopupWindow;
 
-    public stopPointAdapter(Context context, int resource, ArrayList<StopPoint> arrStopPoint) {
-        super(context, resource, arrStopPoint);
-        this.context = context;
+    public StopPointAdapter(Activity activity, int resource, ArrayList<StopPoint> arrStopPoint) {
+        super(activity.getApplicationContext(), resource, arrStopPoint);
+        this.activity = activity;
+        this.context = activity.getApplicationContext();
         this.resource = resource;
         this.arrStopPoint = arrStopPoint;
     }
@@ -38,7 +45,7 @@ public class stopPointAdapter extends ArrayAdapter<StopPoint> {
     @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        stopPointAdapter.ViewHolder viewHolder;
+        StopPointAdapter.ViewHolder viewHolder;
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.stop_point_item, parent, false);
             viewHolder = new ViewHolder();
@@ -53,7 +60,7 @@ public class stopPointAdapter extends ArrayAdapter<StopPoint> {
 
             convertView.setTag(viewHolder);
         } else {
-            viewHolder = (stopPointAdapter.ViewHolder) convertView.getTag();
+            viewHolder = (StopPointAdapter.ViewHolder) convertView.getTag();
         }
         final StopPoint stopPoint = arrStopPoint.get(position);
         viewHolder.avatar.setImageDrawable(context.getDrawable(R.mipmap.beach));
@@ -79,8 +86,8 @@ public class stopPointAdapter extends ArrayAdapter<StopPoint> {
 
         String startDate;
         String endDate;
-        if (stopPoint.getArriveAt() > 0) {
-            startDate = getDate(stopPoint.getArriveAt());
+        if (stopPoint.getArrivalAt() > 0) {
+            startDate = getDate(stopPoint.getArrivalAt());
         } else {
             startDate = getDate(Long.parseLong("0"));
         }
@@ -99,8 +106,9 @@ public class stopPointAdapter extends ArrayAdapter<StopPoint> {
         viewHolder.stopPointCommentsListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, StopPointListActivity.class);
-                intent.putExtra("TOUR_ID", stopPoint.getId());
+                Intent intent = new Intent(context, StopPointFeedbackListActivity.class);
+                intent.putExtra("SERVICE_ID", (long) stopPoint.getServiceId());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
         });
@@ -108,7 +116,23 @@ public class stopPointAdapter extends ArrayAdapter<StopPoint> {
         viewHolder.stopPointRatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final RatingDialog ratingDialog = new RatingDialog.Builder(activity)
+                        .threshold(10)
+                        .playstoreUrl("")
+                        .onRatingChanged(new RatingDialog.Builder.RatingDialogListener() {
+                            @Override
+                            public void onRatingSelected(float rating, boolean thresholdCleared) {
+                                Toast.makeText(context, " "+rating, Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .onRatingBarFormSumbit(new RatingDialog.Builder.RatingDialogFormListener() {
+                            @Override
+                            public void onFormSubmitted(String feedback) {
+                                Toast.makeText(context, feedback, Toast.LENGTH_LONG).show();
+                           }
+                        }).build();
 
+                ratingDialog.show();
             }
         });
 
@@ -135,4 +159,5 @@ public class stopPointAdapter extends ArrayAdapter<StopPoint> {
         String date = DateFormat.format("dd/MM/yyyy", cal).toString();
         return date;
     }
+
 }

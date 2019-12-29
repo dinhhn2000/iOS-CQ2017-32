@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ygaps.travelapp.AddStopPointActivity;
 import com.ygaps.travelapp.R;
 import com.ygaps.travelapp.StopPointListActivity;
 import com.ygaps.travelapp.utils.Tour;
@@ -20,12 +21,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class tourListAdapter extends ArrayAdapter<Tour> {
+public class TourListAdapter extends ArrayAdapter<Tour> {
     private Context context;
     private int resource;
     private ArrayList<Tour> arrTour;
 
-    public tourListAdapter(Context context, int resource, ArrayList<Tour> arrTour) {
+    public TourListAdapter(Context context, int resource, ArrayList<Tour> arrTour) {
         super(context, resource, arrTour);
         this.context = context;
         this.resource = resource;
@@ -39,6 +40,7 @@ public class tourListAdapter extends ArrayAdapter<Tour> {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.tour_list_item, parent, false);
             viewHolder = new ViewHolder();
+
             viewHolder.avatar = convertView.findViewById(R.id.tourAvatar);
             viewHolder.location = convertView.findViewById(R.id.tourLocation);
             viewHolder.date = convertView.findViewById(R.id.tourDate);
@@ -91,6 +93,16 @@ public class tourListAdapter extends ArrayAdapter<Tour> {
             }
         });
 
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, AddStopPointActivity.class);
+                intent.putExtra("TOUR_ID", tour.getId());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
+
         return convertView;
     }
 
@@ -101,7 +113,6 @@ public class tourListAdapter extends ArrayAdapter<Tour> {
         TextView date;
         TextView people;
         TextView price;
-
     }
 
     private String getDate(long time) {

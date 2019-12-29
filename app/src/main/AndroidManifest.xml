@@ -71,6 +71,10 @@
             android:name=".StopPointListActivity"
             android:label="Stop point list"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".StopPointFeedbackListActivity"
+            android:label="Feedbacks"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".TourListActivity" />
         <activity android:name=".PersonalTourList" />

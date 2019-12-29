@@ -17,6 +17,7 @@ import com.ygaps.travelapp.API.Responses.MessageResponse;
 import com.ygaps.travelapp.API.Responses.NotificationListResponse;
 import com.ygaps.travelapp.API.Responses.RegisterResponse;
 import com.ygaps.travelapp.API.Responses.SendEmailVerificationResponse;
+import com.ygaps.travelapp.API.Responses.StopPointFeedbackResponse;
 import com.ygaps.travelapp.API.Responses.SuggestedStopPointResponse;
 import com.ygaps.travelapp.API.Responses.TourListResponse;
 import com.ygaps.travelapp.API.Responses.UserInfoResponse;
@@ -63,6 +64,18 @@ public interface Travel_Supporter_Client {
     @GET("/tour/info")
     Call<getTourInfoResponse> getTour(@Header("Authorization") String header,
                                       @Query("tourId") long tourId);
+
+    @GET("/tour/search-history-user")
+    Call<TourListResponse> searchTour(@Header("Authorization") String header,
+                                      @Query("searchKey") String keyword,
+                                      @Query("pageIndex") int pageIndex,
+                                      @Query("pageSize") int pageSize);
+
+    @GET("/tour/get/feedback-service")
+    Call<StopPointFeedbackResponse> getStopPointFeedback(@Header("Authorization") String header,
+                                                         @Query("serviceId") long serviceId,
+                                                         @Query("pageIndex") int pageIndex,
+                                                         @Query("pageSize") int pageSize);
 
     @POST("/tour/suggested-destination-list")
     Call<SuggestedStopPointResponse> getSuggestedStopPoint(@Header("Authorization") String header,

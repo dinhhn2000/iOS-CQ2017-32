@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/border_rounded_shadow"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/feedbackUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_person_cyan_24dp"
+        android:drawablePadding="5dp"
+        android:padding="8dp" />
+
+    <TextView
+        android:id="@+id/feedbackPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_local_phone_red_24dp"
+        android:drawablePadding="5dp"
+        android:padding="8dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/feedbackDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_calendar_today_24px"
+        android:drawablePadding="5dp"
+        android:padding="8dp" />
+
+    <TextView
+        android:id="@+id/feedbackContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_content_copy_red_24dp"
+        android:drawablePadding="5dp"
+        android:padding="8dp"
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/feedbackRating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_star_yellow_24dp"
+        android:drawablePadding="5dp"
+        android:padding="8dp"
+        android:textColor="@color/colorPrimary" />
+
+</LinearLayout>

@@ -1,6 +1,6 @@
 package com.ygaps.travelapp.API.Responses;
 
-import com.ygaps.travelapp.utils.Comment;
+import com.ygaps.travelapp.utils.TourComment;
 import com.ygaps.travelapp.utils.Member;
 import com.ygaps.travelapp.utils.StopPoint;
 
@@ -20,13 +20,13 @@ public class getTourInfoResponse {
     private boolean isPrivate;
     private String avatar;
     private ArrayList<StopPoint> stopPoints;
-    private ArrayList<Comment> comments;
+    private ArrayList<TourComment> comments;
     private ArrayList<Member> members;
 
     public getTourInfoResponse(long id, long hostId, int status, String name, long minCost,
                                long maxCost, long startDate, long endDate, int adult, int childs,
                                boolean isPrivate, String avatar, ArrayList<StopPoint> stopPoints,
-                               ArrayList<Comment> comments, ArrayList<Member> members) {
+                               ArrayList<TourComment> comments, ArrayList<Member> members) {
         this.id = id;
         this.hostId = hostId;
         this.status = status;
@@ -169,11 +169,11 @@ public class getTourInfoResponse {
         this.stopPoints = stopPoints;
     }
 
-    public ArrayList<Comment> getComments() {
+    public ArrayList<TourComment> getTourComments() {
         return comments;
     }
 
-    public void setComments(ArrayList<Comment> comments) {
+    public void setTourComments(ArrayList<TourComment> comments) {
         this.comments = comments;
     }
 

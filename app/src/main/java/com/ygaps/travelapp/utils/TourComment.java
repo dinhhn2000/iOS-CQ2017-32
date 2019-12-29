@@ -1,12 +1,12 @@
 package com.ygaps.travelapp.utils;
 
-public class Comment {
+public class TourComment {
     private long id;
     private String name;
     private String comment;
     private String avatar;
 
-    public Comment(long id, String name, String comment, String avatar) {
+    public TourComment(long id, String name, String comment, String avatar) {
         this.id = id;
         this.name = name;
         this.comment = comment;

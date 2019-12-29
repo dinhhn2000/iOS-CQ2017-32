@@ -8,6 +8,7 @@ import com.ygaps.travelapp.API.Requests.RatingStopPointRequest;
 import com.ygaps.travelapp.API.Requests.RegisterRequest;
 import com.ygaps.travelapp.API.Requests.RequestOTP_PasswordRecoveryRequest;
 import com.ygaps.travelapp.API.Requests.RequestOTP_PasswordRecoveryResponse;
+import com.ygaps.travelapp.API.Requests.SendCommentRequest;
 import com.ygaps.travelapp.API.Requests.SuggestedStopPointRequest;
 import com.ygaps.travelapp.API.Requests.UpdateTourRequest;
 import com.ygaps.travelapp.API.Requests.UpdateUserInfoRequest;
@@ -83,6 +84,10 @@ public interface Travel_Supporter_Client {
     @POST("/tour/suggested-destination-list")
     Call<SuggestedStopPointResponse> getSuggestedStopPoint(@Header("Authorization") String header,
                                                            @Body SuggestedStopPointRequest suggestedStopPointRequest);
+
+    @POST("/tour/comment")
+    Call<MessageResponse> sendComment(@Header("Authorization") String header,
+                                      @Body SendCommentRequest sendCommentRequest);
 
     @POST("/tour/add/feedback-service")
     Call<MessageResponse> sendFeedbackToStopPoint(@Header("Authorization") String header,

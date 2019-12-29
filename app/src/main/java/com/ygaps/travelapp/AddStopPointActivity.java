@@ -111,19 +111,6 @@ public class AddStopPointActivity extends FragmentActivity implements OnMapReady
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.stopPointMap);
         mapFragment.getMapAsync(this);
-
-//        Button saveLocationBtn = findViewById(R.id.saveLocationBtn);
-//        saveLocationBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Move back to create tour screen
-//                Intent intent = new Intent();
-//                intent.putExtra("LAT", latitude);
-//                intent.putExtra("LONG", longitude);
-//                setResult(RESULT_OK, intent);
-//                finish();
-//            }
-//        });
     }
 
     @Override

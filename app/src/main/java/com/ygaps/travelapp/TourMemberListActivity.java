@@ -70,9 +70,10 @@ public class TourMemberListActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<getTourInfoResponse> call, Response<getTourInfoResponse> response) {
                 if (response.isSuccessful()) {
-                    if (response.body() != null && response.body().getTourComments().size() > 0) {
+                    if (response.body() != null && response.body().getMembers().size() > 0) {
 //                        Log.d("Feedbacks", "onResponse: " + response.body().getFeedbackList());
                         ArrayList<Member> getData = new ArrayList<>(response.body().getMembers());
+                        Log.d("zzz", "onResponse: " + getData.toString());
                         members.addAll(getData);
                         adapter.notifyDataSetChanged();
                     }

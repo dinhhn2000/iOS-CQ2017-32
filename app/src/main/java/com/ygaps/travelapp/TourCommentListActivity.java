@@ -28,7 +28,6 @@ public class TourCommentListActivity extends AppCompatActivity {
 
     private ArrayList<TourComment> comments = new ArrayList<>();
     private ListView lvTourComment;
-    private int pageNum = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +73,8 @@ public class TourCommentListActivity extends AppCompatActivity {
             public void onResponse(Call<getTourInfoResponse> call, Response<getTourInfoResponse> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null && response.body().getTourComments().size() > 0) {
-//                        Log.d("Feedbacks", "onResponse: " + response.body().getFeedbackList());
                         ArrayList<TourComment> getData = new ArrayList<>(response.body().getTourComments());
+//                        Log.d("zzz", "onResponse: " + response.body().getTourComments().toString());
                         comments.addAll(getData);
                         adapter.notifyDataSetChanged();
                     }

@@ -2,6 +2,7 @@ package com.ygaps.travelapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -11,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -19,18 +21,25 @@ import android.text.format.DateFormat;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codemybrainsout.ratingdialog.RatingDialog;
+import com.ygaps.travelapp.API.Requests.SendCommentRequest;
 import com.ygaps.travelapp.API.Requests.UpdateTourRequest;
+import com.ygaps.travelapp.API.Responses.MessageResponse;
 import com.ygaps.travelapp.API.Responses.UpdateTourResponse;
 import com.ygaps.travelapp.API.Responses.getTourInfoResponse;
 import com.ygaps.travelapp.API.Travel_Supporter_Client;
@@ -65,14 +74,17 @@ public class TourInfoActivity extends AppCompatActivity {
     private double endLat = -1;
     private double endLong = -1;
     private long tourId;
-
     private int status;
+
+    private PopupWindow mPopupWindow;
+
     private String getDate(long time) {
         Calendar cal = Calendar.getInstance(Locale.ENGLISH);
         cal.setTimeInMillis(time * 1000);
         String date = DateFormat.format("dd/MM/yyyy", cal).toString();
         return date;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,12 +128,12 @@ public class TourInfoActivity extends AppCompatActivity {
         Intent intent = this.getIntent();
         Bundle db = getIntent().getExtras();
 
-            tourId = intent.getLongExtra("TOUR_ID",0);
+        tourId = intent.getLongExtra("TOUR_ID", 0);
 
         Log.d("TourInfoResponse", "TourID:  " + tourId);
-        String token = sharedPreferences.getString("token","");
+        String token = sharedPreferences.getString("token", "");
 
-        Call<getTourInfoResponse> call = client.getTour(token,tourId);
+        Call<getTourInfoResponse> call = client.getTour(token, tourId);
 
         call.enqueue(new Callback<getTourInfoResponse>() {
             @Override
@@ -152,8 +164,7 @@ public class TourInfoActivity extends AppCompatActivity {
                 start_date.setText(Start);
                 end_date.setText(End);
 
-                if (IsPrivate = true)
-                {
+                if (IsPrivate = true) {
                     is_private.setChecked(true);
                 } else is_private.setChecked(false);
 
@@ -161,8 +172,7 @@ public class TourInfoActivity extends AppCompatActivity {
                 Log.d("TourInfoResponse", data.toString());
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
-                if(data == null)
-                {
+                if (data == null) {
                     Log.d("TourInfoResponse", "response fail " + response.message());
                     return;
                 }
@@ -177,7 +187,6 @@ public class TourInfoActivity extends AppCompatActivity {
             }
 
         });
-
 
 
         TextWatcher watcher = new TextWatcher() {
@@ -314,14 +323,13 @@ public class TourInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (tour_name.getText().toString() == "" || maxCost.getText().toString() == "" || minCost.getText().toString() == "" ||
-                        adults.getText().toString() == "" || children.getText().toString() == ""|| start_date.getText().toString() == "" || end_date.getText().toString() == "") {
+                        adults.getText().toString() == "" || children.getText().toString() == "" || start_date.getText().toString() == "" || end_date.getText().toString() == "") {
                     Toast.makeText(getApplicationContext(), "Please fill the other fields", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                String avatar = "";
                 String id = Long.toString(tourId);
-                UpdateTourRequest updateTourRequest = new UpdateTourRequest( id ,
+                UpdateTourRequest updateTourRequest = new UpdateTourRequest(id,
                         tour_name.getText().toString(),
                         startTime,
                         endTime,
@@ -331,6 +339,7 @@ public class TourInfoActivity extends AppCompatActivity {
                         Integer.parseInt(maxCost.getText().toString()),
                         is_private.isChecked(),
                         status);
+
                 String token = sharedPreferences.getString("token", "");
                 Log.d("Update Tour Info", " Update data " + tour_name + startTime + endTime + startLong + startLat + endLat + endLong);
                 Call<UpdateTourResponse> call = client.updateTour(token, updateTourRequest);
@@ -361,7 +370,6 @@ public class TourInfoActivity extends AppCompatActivity {
             }
 
 
-
         });
 
         finish_trip.setOnClickListener(new View.OnClickListener() {
@@ -370,7 +378,7 @@ public class TourInfoActivity extends AppCompatActivity {
                 String token = sharedPreferences.getString("token", "");
                 String id = Long.toString(tourId);
 
-                UpdateTourRequest finishTripRequest = new UpdateTourRequest( id,2);
+                UpdateTourRequest finishTripRequest = new UpdateTourRequest(id, 2);
                 Call<UpdateTourResponse> call = client.updateTour(token, finishTripRequest);
                 call.enqueue(new Callback<UpdateTourResponse>() {
                     @Override
@@ -403,7 +411,7 @@ public class TourInfoActivity extends AppCompatActivity {
                 String token = sharedPreferences.getString("token", "");
                 String id = Long.toString(tourId);
 
-                UpdateTourRequest finishTripRequest = new UpdateTourRequest( id,-1);
+                UpdateTourRequest finishTripRequest = new UpdateTourRequest(id, -1);
                 Call<UpdateTourResponse> call = client.updateTour(token, finishTripRequest);
                 call.enqueue(new Callback<UpdateTourResponse>() {
                     @Override
@@ -440,9 +448,7 @@ public class TourInfoActivity extends AppCompatActivity {
         ratingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplication(), TourMemberListActivity.class);
-                intent.putExtra("TOUR_ID", tourId);
-                startActivity(intent);
+                popupRating();
             }
         });
 
@@ -457,6 +463,7 @@ public class TourInfoActivity extends AppCompatActivity {
 
 
     }
+
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -505,5 +512,87 @@ public class TourInfoActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    public void popupRating() {
+        // Initialize a new instance of LayoutInflater service
+        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        // Inflate the custom layout/view
+        final View customView = inflater.inflate(R.layout.rating_popup, null);
+
+        // Initialize a new instance of popup window
+        mPopupWindow = new PopupWindow(
+                customView,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            mPopupWindow.setElevation(5.0f);
+        }
+
+        mPopupWindow.setAnimationStyle(R.style.Animation);
+        mPopupWindow.setFocusable(true);
+
+        ImageButton closeBtn = customView.findViewById(R.id.closeRatingPopup);
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Dismiss the popup window
+                mPopupWindow.dismiss();
+            }
+        });
+
+        Button rateBtn = customView.findViewById(R.id.rateBtn);
+        rateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // send comment to tour
+                EditText commentET = customView.findViewById(R.id.commentEditText);
+                String comment = commentET.getText().toString();
+                if (comment.length() == 0) {
+                    Toast.makeText(getApplicationContext(), "Please comment something", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    sendComment(comment);
+                }
+
+            }
+
+            private void sendComment(String comment) {
+                final SharedPreferences sharedPreferences = getSharedPreferences("authentication", Context.MODE_PRIVATE);
+
+                final Retrofit.Builder builder = new Retrofit.Builder()
+                        .baseUrl("http://35.197.153.192:3000/")
+                        .addConverterFactory(GsonConverterFactory.create());
+
+                Retrofit retrofit = builder.build();
+                final Travel_Supporter_Client client = retrofit.create(Travel_Supporter_Client.class);
+
+                // Get token
+                String token = sharedPreferences.getString("token", "");
+
+                SendCommentRequest request = new SendCommentRequest(tourId, comment);
+                Call<MessageResponse> call = client.sendComment(token, request);
+                call.enqueue(new Callback<MessageResponse>() {
+                    @Override
+                    public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                        if (!response.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "Error : " + response.message(), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        Toast.makeText(getApplicationContext(), "Send comment successful", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<MessageResponse> call, Throwable t) {
+                    }
+                });
+            }
+        });
+
+        LinearLayout layout = findViewById(R.id.tourInfo);
+        mPopupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
     }
 }

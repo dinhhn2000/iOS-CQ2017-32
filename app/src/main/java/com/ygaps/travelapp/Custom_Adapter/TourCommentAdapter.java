@@ -2,6 +2,7 @@ package com.ygaps.travelapp.Custom_Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,8 +41,9 @@ public class TourCommentAdapter extends ArrayAdapter<TourComment> {
             viewHolder = (TourCommentAdapter.ViewHolder) convertView.getTag();
         }
         final TourComment comment = arrTourComment.get(position);
+        Log.d("zzz", "getView: " + position);
         viewHolder.name.setText(comment.getName());
-        viewHolder.content.setText(comment.getComment());
+        viewHolder.content.setText(comment.getComment() == null ? "Data lost... We are sorry" : comment.getComment());
 
         return convertView;
     }
@@ -49,7 +51,6 @@ public class TourCommentAdapter extends ArrayAdapter<TourComment> {
     public class ViewHolder {
         TextView content;
         TextView name;
-
     }
 
 }

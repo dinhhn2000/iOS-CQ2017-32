@@ -14,7 +14,11 @@ import android.widget.TextView;
 
 import com.ygaps.travelapp.LoginActivity;
 import com.ygaps.travelapp.R;
+
 import com.ygaps.travelapp.TourInfoActivity;
+
+import com.ygaps.travelapp.StopPointListActivity;
+
 import com.ygaps.travelapp.utils.Tour;
 
 import java.util.ArrayList;
@@ -86,7 +90,10 @@ public class tourListAdapter extends ArrayAdapter<Tour> {
         viewHolder.stopPointListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(context, StopPointListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("TOUR_ID", tour.getId());
+                context.startActivity(intent);
             }
         });
         viewHolder.tourInfoBtn.setOnClickListener(new View.OnClickListener() {

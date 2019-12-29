@@ -26,8 +26,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TourInfoActivity"></activity>
-        <activity android:name=".StopPointListActivity" />
+
         <activity android:name=".NotificationList" />
         <activity android:name=".Notification" />
         <!--
@@ -67,6 +66,10 @@
         <activity
             android:name=".CreateTourActivity"
             android:label="Create tour"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".StopPointListActivity"
+            android:label="Stop point list"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".TourListActivity" />

@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/tourAvatar"
+        android:id="@+id/stopPointAvatar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border_rounded_shadow"
@@ -31,7 +31,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/stopPointTime"
+        android:id="@+id/stopPointDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/ic_calendar_today_24px"

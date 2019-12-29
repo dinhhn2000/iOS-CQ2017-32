@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,14 +17,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codemybrainsout.ratingdialog.RatingDialog;
+import com.ygaps.travelapp.API.Requests.RatingStopPointRequest;
+import com.ygaps.travelapp.API.Responses.MessageResponse;
+import com.ygaps.travelapp.API.Travel_Supporter_Client;
 import com.ygaps.travelapp.R;
 import com.ygaps.travelapp.StopPointFeedbackListActivity;
 import com.ygaps.travelapp.utils.StopPoint;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class StopPointAdapter extends ArrayAdapter<StopPoint> {
@@ -116,20 +124,57 @@ public class StopPointAdapter extends ArrayAdapter<StopPoint> {
         viewHolder.stopPointRatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final float[] rating = {1};
                 final RatingDialog ratingDialog = new RatingDialog.Builder(activity)
                         .threshold(10)
                         .playstoreUrl("")
                         .onRatingChanged(new RatingDialog.Builder.RatingDialogListener() {
                             @Override
-                            public void onRatingSelected(float rating, boolean thresholdCleared) {
-                                Toast.makeText(context, " "+rating, Toast.LENGTH_LONG).show();
+                            public void onRatingSelected(float rate, boolean thresholdCleared) {
+                                Toast.makeText(context, " " + rate, Toast.LENGTH_LONG).show();
+                                rating[0] = rate;
                             }
                         })
                         .onRatingBarFormSumbit(new RatingDialog.Builder.RatingDialogFormListener() {
                             @Override
                             public void onFormSubmitted(String feedback) {
                                 Toast.makeText(context, feedback, Toast.LENGTH_LONG).show();
-                           }
+                                final SharedPreferences sharedPreferences = context.getSharedPreferences("authentication", Context.MODE_PRIVATE);
+
+                                final Retrofit.Builder builder = new Retrofit.Builder()
+                                        .baseUrl("http://35.197.153.192:3000/")
+                                        .addConverterFactory(GsonConverterFactory.create());
+
+                                Retrofit retrofit = builder.build();
+                                final Travel_Supporter_Client client = retrofit.create(Travel_Supporter_Client.class);
+
+                                // Get token
+                                String token = sharedPreferences.getString("token", "");
+
+                                RatingStopPointRequest request = new RatingStopPointRequest(stopPoint.getServiceId(),feedback,(int) rating[0]);
+
+                                Call<MessageResponse> call = client.sendFeedbackToStopPoint(token, request);
+                                final boolean[] result = {false};
+                                call.enqueue(new Callback<MessageResponse>() {
+                                    @Override
+                                    public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                                        if (!response.isSuccessful()) {
+                                            Toast.makeText(context.getApplicationContext(), "Error code: " + response.code(), Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
+                                        MessageResponse message = response.body();
+
+                                        if (message != null && message.getMessage().equals("Successful")) {
+                                            Toast.makeText(context.getApplicationContext(), "Rating successful", Toast.LENGTH_SHORT).show();
+                                            result[0] = true;
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<MessageResponse> call, Throwable t) {
+                                    }
+                                });
+                            }
                         }).build();
 
                 ratingDialog.show();
@@ -144,11 +189,9 @@ public class StopPointAdapter extends ArrayAdapter<StopPoint> {
         Button stopPointCommentsListBtn;
         TextView name;
         TextView service;
-        Button stopPointListBtn;
         ImageView avatar;
         TextView location;
         TextView date;
-        TextView people;
         TextView price;
 
     }

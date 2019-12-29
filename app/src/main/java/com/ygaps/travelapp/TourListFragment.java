@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.ygaps.travelapp.API.TourListResponse;
+import com.ygaps.travelapp.API.Responses.TourListResponse;
 import com.ygaps.travelapp.API.Travel_Supporter_Client;
 import com.ygaps.travelapp.Custom_Adapter.tourListAdapter;
 import com.ygaps.travelapp.utils.Tour;

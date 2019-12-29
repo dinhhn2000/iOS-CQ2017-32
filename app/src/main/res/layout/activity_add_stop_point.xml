@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/addStopPoint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -27,7 +28,7 @@
             android:background="@drawable/border_rounded_shadow"
             android:drawableLeft="@drawable/ic_search_black_24dp"
             android:drawablePadding="5dp"
-            android:hint="Search"
+            android:hint="Search stop point"
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:padding="20dp"

@@ -1,6 +1,27 @@
 package com.ygaps.travelapp.API;
 
-import java.util.Calendar;
+import com.ygaps.travelapp.API.Requests.AddStopPointRequest;
+import com.ygaps.travelapp.API.Requests.CreateTourRequest;
+import com.ygaps.travelapp.API.Requests.LoginFacebookRequest;
+import com.ygaps.travelapp.API.Requests.LoginRequest;
+import com.ygaps.travelapp.API.Requests.RegisterRequest;
+import com.ygaps.travelapp.API.Requests.RequestOTP_PasswordRecoveryRequest;
+import com.ygaps.travelapp.API.Requests.RequestOTP_PasswordRecoveryResponse;
+import com.ygaps.travelapp.API.Requests.SuggestedStopPointRequest;
+import com.ygaps.travelapp.API.Requests.UpdateUserInfoRequest;
+import com.ygaps.travelapp.API.Requests.VerifyOTP_PasswordRecoveryRequest;
+import com.ygaps.travelapp.API.Responses.CreateTourResponse;
+import com.ygaps.travelapp.API.Responses.LoginFacebookResponse;
+import com.ygaps.travelapp.API.Responses.LoginResponse;
+import com.ygaps.travelapp.API.Responses.MessageResponse;
+import com.ygaps.travelapp.API.Responses.NotificationListResponse;
+import com.ygaps.travelapp.API.Responses.RegisterResponse;
+import com.ygaps.travelapp.API.Responses.SendEmailVerificationResponse;
+import com.ygaps.travelapp.API.Responses.SuggestedStopPointResponse;
+import com.ygaps.travelapp.API.Responses.TourListResponse;
+import com.ygaps.travelapp.API.Responses.UserInfoResponse;
+import com.ygaps.travelapp.API.Responses.VerifyCode_EmailVerificationResponse;
+import com.ygaps.travelapp.API.Responses.getTourInfoResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -32,11 +53,20 @@ public interface Travel_Supporter_Client {
     Call<VerifyCode_EmailVerificationResponse> VerifyCode(@Query("userId") int userId,
                                                           @Query("type") String type,
                                                           @Query("verifyCode") String verifyCode);
+
     @GET("/tour/notification-list")
-    Call<NotificationListResponse> getNotification (@Header("Authorization") String header,
-                                                    @Query("pageIndex") String tourId,
-                                                    @Query("pageIndex") int pageIndex,
-                                                    @Query("pageSize") String pageSize);
+    Call<NotificationListResponse> getNotification(@Header("Authorization") String header,
+                                                   @Query("pageIndex") String tourId,
+                                                   @Query("pageIndex") int pageIndex,
+                                                   @Query("pageSize") String pageSize);
+
+    @GET("/tour/info")
+    Call<getTourInfoResponse> getTour(@Header("Authorization") String header,
+                                      @Query("tourId") long tourId);
+
+    @POST("/tour/suggested-destination-list")
+    Call<SuggestedStopPointResponse> getSuggestedStopPoint(@Header("Authorization") String header,
+                                                           @Body SuggestedStopPointRequest suggestedStopPointRequest);
 
     @POST("user/login")
     Call<LoginResponse> login(@Body LoginRequest loginRequest);
@@ -62,7 +92,7 @@ public interface Travel_Supporter_Client {
     Call<MessageResponse> RecoveryPassword(@Body VerifyOTP_PasswordRecoveryRequest verifyOTP_passwordRecoveryRequest);
 
     @POST("tour/set-stop-points")
-    Call<MessageResponse> addStopPoint(@Header("Authorization") String header,
+    Call<MessageResponse> setStopPoint(@Header("Authorization") String header,
                                        @Body AddStopPointRequest addStopPointRequest);
 
 }

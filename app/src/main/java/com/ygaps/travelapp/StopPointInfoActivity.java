@@ -23,7 +23,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ygaps.travelapp.API.AddStopPointRequest;
 import com.ygaps.travelapp.utils.StopPoint;
 
 import java.text.ParseException;
@@ -268,12 +267,22 @@ public class StopPointInfoActivity extends AppCompatActivity implements DatePick
 
                 double lat = getIntent().getDoubleExtra("LAT", 0);
                 double lon = getIntent().getDoubleExtra("LONG", 0);
+                boolean isUpdate = getIntent().getBooleanExtra("IS_UPDATE", false);
 
-                StopPoint newStopPoint = new StopPoint(stopPointName.getText().toString(),
-                        stopPointAddress.getText().toString(), provinceId[0],
-                        lat, lon, arriveAt[0], leaveAt[0], serviceTypeId[0],
-                        Integer.parseInt(stopPointMinCost.getText().toString()),
-                        Integer.parseInt(stopPointMaxCost.getText().toString()));
+                StopPoint newStopPoint;
+                if (isUpdate) {
+                    int id = getIntent().getIntExtra("STOP_POINT_ID", 0);
+                    newStopPoint = new StopPoint(id, stopPointName.getText().toString(),
+                            stopPointAddress.getText().toString(), provinceId[0] + 1,
+                            lat, lon, arriveAt[0], leaveAt[0], serviceTypeId[0] + 1,
+                            Integer.parseInt(stopPointMinCost.getText().toString()),
+                            Integer.parseInt(stopPointMaxCost.getText().toString()));
+                } else
+                    newStopPoint = new StopPoint(stopPointName.getText().toString(),
+                            stopPointAddress.getText().toString(), provinceId[0] + 1,
+                            lat, lon, arriveAt[0], leaveAt[0], serviceTypeId[0] + 1,
+                            Integer.parseInt(stopPointMinCost.getText().toString()),
+                            Integer.parseInt(stopPointMaxCost.getText().toString()));
 
                 // Move back to create tour screen
                 Intent intent = new Intent();

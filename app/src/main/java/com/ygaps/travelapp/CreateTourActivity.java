@@ -28,8 +28,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ygaps.travelapp.API.CreateTourRequest;
-import com.ygaps.travelapp.API.CreateTourResponse;
+import com.ygaps.travelapp.API.Requests.CreateTourRequest;
+import com.ygaps.travelapp.API.Responses.CreateTourResponse;
 import com.ygaps.travelapp.API.Travel_Supporter_Client;
 
 import java.io.ByteArrayOutputStream;

@@ -9,39 +9,76 @@
         android:id="@+id/tourAvatar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="fitXY"
         android:background="@drawable/border_rounded_shadow"
+        android:scaleType="fitXY"
         android:src="@mipmap/beach" />
+
     <TextView
         android:id="@+id/tourLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:drawableStart="@drawable/ic_location_on_black_24dp"
         android:drawablePadding="5dp"
-        android:textStyle="bold"
-        android:drawableStart="@drawable/ic_location_on_black_24dp"/>
+        android:padding="8dp"
+        android:textStyle="bold" />
+
     <TextView
         android:id="@+id/tourDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:drawableStart="@drawable/ic_calendar_today_24px"
         android:drawablePadding="5dp"
-        android:drawableStart="@drawable/ic_calendar_today_24px"/>
+        android:padding="8dp" />
+
     <TextView
         android:id="@+id/tourPeople"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:drawableStart="@drawable/ic_people_black_24dp"
         android:drawablePadding="5dp"
-        android:drawableStart="@drawable/ic_people_black_24dp"/>
+        android:padding="8dp" />
+
     <TextView
         android:id="@+id/tourPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:drawableStart="@drawable/ic_attach_money_black_24dp"
         android:drawablePadding="5dp"
-        android:textColor="@color/colorPrimary"
-        android:drawableStart="@drawable/ic_attach_money_black_24dp"/>
+        android:padding="8dp"
+        android:textColor="@color/colorPrimary" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp">
+
+        <Button
+            android:id="@+id/tourInfoBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:background="@null"
+            android:drawableLeft="@drawable/ic_info_black_24dp"
+            android:text="Tour info" />
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:background="@color/colorPrimary" />
+
+        <Button
+            android:id="@+id/stopPointListBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:background="@null"
+            android:drawableLeft="@drawable/ic_list_black_24dp"
+            android:text="Stop points" />
+    </LinearLayout>
 
 
 </LinearLayout>

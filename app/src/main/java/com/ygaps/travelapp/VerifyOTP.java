@@ -12,11 +12,9 @@ import android.widget.EditText;
 import android.content.Intent;
 import android.widget.Toast;
 
-import com.ygaps.travelapp.API.MessageResponse;
-import com.ygaps.travelapp.API.RequestOTP_PasswordRecoveryRequest;
-import com.ygaps.travelapp.API.RequestOTP_PasswordRecoveryResponse;
+import com.ygaps.travelapp.API.Responses.MessageResponse;
 import com.ygaps.travelapp.API.Travel_Supporter_Client;
-import com.ygaps.travelapp.API.VerifyOTP_PasswordRecoveryRequest;
+import com.ygaps.travelapp.API.Requests.VerifyOTP_PasswordRecoveryRequest;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -12,16 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.ygaps.travelapp.API.LoginResponse;
-import com.ygaps.travelapp.API.MessageResponse;
-import com.ygaps.travelapp.API.RequestOTP_PasswordRecoveryRequest;
-import com.ygaps.travelapp.API.RequestOTP_PasswordRecoveryResponse;
-import com.ygaps.travelapp.API.SendEmailVerificationRequest;
-import com.ygaps.travelapp.API.SendEmailVerificationResponse;
+import com.ygaps.travelapp.API.Requests.RequestOTP_PasswordRecoveryRequest;
+import com.ygaps.travelapp.API.Requests.RequestOTP_PasswordRecoveryResponse;
 import com.ygaps.travelapp.API.Travel_Supporter_Client;
-import com.ygaps.travelapp.API.UpdateUserInfoRequest;
-import com.ygaps.travelapp.API.UserInfoResponse;
-import com.ygaps.travelapp.API.VerifyOTP_PasswordRecoveryRequest;
 
 import retrofit2.Call;
 import retrofit2.Callback;

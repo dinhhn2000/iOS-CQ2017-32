@@ -2,6 +2,7 @@ package com.ygaps.travelapp;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -16,14 +17,17 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,9 +44,13 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.ygaps.travelapp.API.AddStopPointRequest;
-import com.ygaps.travelapp.API.MessageResponse;
+import com.ygaps.travelapp.API.Requests.AddStopPointRequest;
+import com.ygaps.travelapp.API.Requests.SuggestedStopPointRequest;
+import com.ygaps.travelapp.API.Responses.MessageResponse;
+import com.ygaps.travelapp.API.Responses.SuggestedStopPointResponse;
 import com.ygaps.travelapp.API.Travel_Supporter_Client;
+import com.ygaps.travelapp.API.Responses.getTourInfoResponse;
+import com.ygaps.travelapp.utils.Coordinate;
 import com.ygaps.travelapp.utils.StopPoint;
 
 import java.io.IOException;
@@ -58,6 +66,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class AddStopPointActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
+        GoogleMap.OnMarkerClickListener,
         LocationListener {
 
     private static final int REQUEST_LOCATION_CODE = 99;
@@ -69,6 +78,9 @@ public class AddStopPointActivity extends FragmentActivity implements OnMapReady
     private EditText locationSearch;
     private double latitude, longitude;
     private ArrayList<StopPoint> stopPoints = new ArrayList<>();
+    private ArrayList<StopPoint> suggestedStopPoints = new ArrayList<>();
+
+    private PopupWindow mPopupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +150,9 @@ public class AddStopPointActivity extends FragmentActivity implements OnMapReady
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
+            mMap.setOnMarkerClickListener(this);
+
+            getStopPoints();
 
             mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                 @Override
@@ -153,11 +168,7 @@ public class AddStopPointActivity extends FragmentActivity implements OnMapReady
                             .title("Chosen coordinate")
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 
-                    // Move to AddStopPoint screen
-                    Intent intent = new Intent(getApplication(), StopPointInfoActivity.class);
-                    intent.putExtra("LAT", latitude);
-                    intent.putExtra("LONG", longitude);
-                    startActivityForResult(intent, RESULT_STOP_POINT_INFO);
+                    popupStopPoint(false, false);
                 }
             });
         }
@@ -178,9 +189,46 @@ public class AddStopPointActivity extends FragmentActivity implements OnMapReady
         if (mMap != null) { //prevent crashing if the map doesn't exist yet (eg. on starting activity)
             mMap.clear();
 
-            // add markers from database to the map
+            // add  markers from database to the map
+            // Personal stop points
+            for (int i = 0; i < stopPoints.size(); i++) {
+                LatLng latLng = new LatLng(stopPoints.get(i).getLat(), stopPoints.get(i).getLong());
+                mMap.addMarker(new MarkerOptions()
+                        .position(latLng)
+                        .title(stopPoints.get(i).getName())
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
+            }
+
+            // Suggested stop points
+            int count = 0;
+            for (int i = 0; i < suggestedStopPoints.size(); i++) {
+                if (count > 10) break;
+                LatLng latLng = new LatLng(suggestedStopPoints.get(i).getLat(), suggestedStopPoints.get(i).getLong());
+                if (findPersonalTourByLatLong(latLng) == null) {
+                    mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .title(suggestedStopPoints.get(i).getName())
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                    count++;
+                }
+            }
 
         }
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        LatLng latLng = marker.getPosition();
+//        Toast.makeText(getApplicationContext(), latLng.toString(), Toast.LENGTH_SHORT).show();
+        latitude = latLng.latitude;
+        longitude = latLng.longitude;
+
+        boolean isSuggested = true;
+        if (findPersonalTourByLatLong(latLng) != null)
+            isSuggested = false;
+
+        popupStopPoint(isSuggested, true);
+        return false;
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -218,6 +266,8 @@ public class AddStopPointActivity extends FragmentActivity implements OnMapReady
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
+            popupStopPoint(false, false);
+
         }
     }
 
@@ -236,6 +286,7 @@ public class AddStopPointActivity extends FragmentActivity implements OnMapReady
         currentLocationMarker = mMap.addMarker(markerOptions);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
+        getSuggestedStopPoints();
 
         if (client != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(client, this);
@@ -284,21 +335,20 @@ public class AddStopPointActivity extends FragmentActivity implements OnMapReady
         if (requestCode == RESULT_STOP_POINT_INFO && resultCode == RESULT_OK && data != null) {
             StopPoint newStopPoint = (StopPoint) data.getSerializableExtra("NEW_STOP_POINT");
 //            Log.d("NEW_STOP_POINT", "onActivityResult: " + newStopPoint.toString());
-            stopPoints.add(newStopPoint);
+            ArrayList<StopPoint> setStopPoints = new ArrayList<>();
+            setStopPoints.add(newStopPoint);
             long tourId = getIntent().getLongExtra("TOUR_ID", -1);
             int[] deleteId = new int[0];
 
-            AddStopPointRequest request = new AddStopPointRequest(String.valueOf(tourId), stopPoints, deleteId);
+            AddStopPointRequest request = new AddStopPointRequest(String.valueOf(tourId), setStopPoints, deleteId);
 //            Log.d("NEW_STOP_POINT", "onActivityResult: " + request.toString());
 
-            if (addStopPoint(request))
-                onResume();
-            else onResume();
+            setStopPoint(request);
         }
 
     }
 
-    public boolean addStopPoint(AddStopPointRequest request) {
+    public boolean setStopPoint(AddStopPointRequest request) {
         final SharedPreferences sharedPreferences = getSharedPreferences("authentication", Context.MODE_PRIVATE);
 
         final Retrofit.Builder builder = new Retrofit.Builder()
@@ -311,7 +361,7 @@ public class AddStopPointActivity extends FragmentActivity implements OnMapReady
         // Get token
         String token = sharedPreferences.getString("token", "");
 
-        Call<MessageResponse> call = client.addStopPoint(token, request);
+        Call<MessageResponse> call = client.setStopPoint(token, request);
         final boolean[] result = {false};
         call.enqueue(new Callback<MessageResponse>() {
             @Override
@@ -322,11 +372,10 @@ public class AddStopPointActivity extends FragmentActivity implements OnMapReady
                 }
                 MessageResponse message = response.body();
 
-                if (message != null && message.equals("Successful")) {
+                if (message != null && message.getMessage().equals("Successful")) {
                     Toast.makeText(getApplicationContext(), "Add stop point successful", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplication(), AddStopPointActivity.class);
-                    startActivity(intent);
                     result[0] = true;
+                    getStopPoints();
                 }
             }
 
@@ -336,5 +385,212 @@ public class AddStopPointActivity extends FragmentActivity implements OnMapReady
         });
 
         return result[0];
+    }
+
+    public boolean getStopPoints() {
+        final SharedPreferences sharedPreferences = getSharedPreferences("authentication", Context.MODE_PRIVATE);
+
+        final Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("http://35.197.153.192:3000/")
+                .addConverterFactory(GsonConverterFactory.create());
+
+        Retrofit retrofit = builder.build();
+        final Travel_Supporter_Client client = retrofit.create(Travel_Supporter_Client.class);
+
+        // Get token
+        String token = sharedPreferences.getString("token", "");
+
+        long tourId = getIntent().getLongExtra("TOUR_ID", -1);
+//        Log.d("Tour_info_tour_id", "getStopPoints: " + tourId + '/' + token);
+        Call<getTourInfoResponse> call = client.getTour(token, tourId);
+        final boolean[] result = {false};
+        call.enqueue(new Callback<getTourInfoResponse>() {
+            @Override
+            public void onResponse(Call<getTourInfoResponse> call, Response<getTourInfoResponse> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Error : " + response.message(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                getTourInfoResponse res = response.body();
+
+                if (res != null) {
+//                    Toast.makeText(getApplicationContext(), "Get tour info successful", Toast.LENGTH_SHORT).show();
+//                    Log.d("Tour_info", "onResponse: "+ res.toString());
+                    stopPoints = res.getStopPoints();
+                    result[0] = true;
+                    onResume();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<getTourInfoResponse> call, Throwable t) {
+            }
+        });
+
+        return result[0];
+    }
+
+    public boolean getSuggestedStopPoints() {
+        final SharedPreferences sharedPreferences = getSharedPreferences("authentication", Context.MODE_PRIVATE);
+
+        final Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("http://35.197.153.192:3000/")
+                .addConverterFactory(GsonConverterFactory.create());
+
+        Retrofit retrofit = builder.build();
+        final Travel_Supporter_Client client = retrofit.create(Travel_Supporter_Client.class);
+
+        // Get token
+        String token = sharedPreferences.getString("token", "");
+
+        SuggestedStopPointRequest request = new SuggestedStopPointRequest(true, new Coordinate(latitude, longitude));
+        Call<SuggestedStopPointResponse> call = client.getSuggestedStopPoint(token, request);
+
+        final boolean[] result = {false};
+        call.enqueue(new Callback<SuggestedStopPointResponse>() {
+            @Override
+            public void onResponse(Call<SuggestedStopPointResponse> call, Response<SuggestedStopPointResponse> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Error : " + response.message(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                SuggestedStopPointResponse suggestedStopPointResponse = response.body();
+
+                if (suggestedStopPointResponse != null) {
+//                    Toast.makeText(getApplicationContext(), "Get tour info successful", Toast.LENGTH_SHORT).show();
+//                    Log.d("Tour_info", "onResponse: "+ res.toString());
+                    suggestedStopPoints = suggestedStopPointResponse.getStopPoints();
+                    result[0] = true;
+                    onResume();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SuggestedStopPointResponse> call, Throwable t) {
+            }
+        });
+
+        return result[0];
+    }
+
+    public boolean deleteStopPoint(int id) {
+        final SharedPreferences sharedPreferences = getSharedPreferences("authentication", Context.MODE_PRIVATE);
+
+        final Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("http://35.197.153.192:3000/")
+                .addConverterFactory(GsonConverterFactory.create());
+
+        Retrofit retrofit = builder.build();
+        final Travel_Supporter_Client client = retrofit.create(Travel_Supporter_Client.class);
+
+        // Get token
+        String token = sharedPreferences.getString("token", "");
+
+        long tourId = getIntent().getLongExtra("TOUR_ID", -1);
+
+        AddStopPointRequest request = new AddStopPointRequest(String.valueOf(tourId),new ArrayList<StopPoint>(0), new int[]{id});
+
+        Call<MessageResponse> call = client.setStopPoint(token, request);
+        final boolean[] result = {false};
+        call.enqueue(new Callback<MessageResponse>() {
+            @Override
+            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Error code: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                MessageResponse message = response.body();
+
+                if (message != null && message.getMessage().equals("Successful")) {
+                    Toast.makeText(getApplicationContext(), "Delete successful", Toast.LENGTH_SHORT).show();
+                    result[0] = true;
+                    getStopPoints();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MessageResponse> call, Throwable t) {
+            }
+        });
+
+        return result[0];
+    }
+
+    public void popupStopPoint(final boolean isSuggested, final boolean isUpdate) {
+        // Initialize a new instance of LayoutInflater service
+        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        // Inflate the custom layout/view
+        View customView = inflater.inflate(R.layout.stop_point_popup, null);
+
+        // Initialize a new instance of popup window
+        mPopupWindow = new PopupWindow(
+                customView,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            mPopupWindow.setElevation(5.0f);
+        }
+
+        mPopupWindow.setAnimationStyle(R.style.Animation);
+        mPopupWindow.setFocusable(true);
+
+        TextView latPopup = customView.findViewById(R.id.stopPointLatTV);
+        TextView longPopup = customView.findViewById(R.id.stopPointLongTV);
+
+        latPopup.setText(String.valueOf(latitude));
+        longPopup.setText(String.valueOf(longitude));
+
+        ImageButton closeBtn = customView.findViewById(R.id.closeStopPointPopup);
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Dismiss the popup window
+                mPopupWindow.dismiss();
+            }
+        });
+
+        Button createStopPointBtn = customView.findViewById(R.id.createStopPointBtn);
+        createStopPointBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Move to AddStopPoint screen
+//                    Log.d("Stop_point_long_click", "onMapLongClick: " + latitude + '/' + longitude);
+                Intent intent = new Intent(getApplication(), StopPointInfoActivity.class);
+                intent.putExtra("LAT", latitude);
+                intent.putExtra("LONG", longitude);
+                intent.putExtra("IS_UPDATE", isUpdate);
+                startActivityForResult(intent, RESULT_STOP_POINT_INFO);
+            }
+        });
+
+        Button deleteStopPointBtn = customView.findViewById(R.id.deleteStopPointBtn);
+        if (isSuggested) deleteStopPointBtn.setEnabled(false);
+        deleteStopPointBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StopPoint stopPoint = findPersonalTourByLatLong(new LatLng(latitude, longitude));
+                if(stopPoint != null){
+                    deleteStopPoint(stopPoint.getId());
+                }
+                else
+                    Toast.makeText(getApplicationContext(), "Something wrong happened", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        ConstraintLayout layout = findViewById(R.id.addStopPoint);
+        mPopupWindow.showAtLocation(layout, Gravity.BOTTOM, 0, 0);
+    }
+
+    public StopPoint findPersonalTourByLatLong(LatLng latLng) {
+        for (int i = 0; i < stopPoints.size(); i++) {
+            if (stopPoints.get(i).getLat() == latLng.latitude && stopPoints.get(i).getLong() == latLng.longitude) {
+                return stopPoints.get(i);
+            }
+        }
+        return null;
     }
 }

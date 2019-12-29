@@ -3,11 +3,10 @@ package com.ygaps.travelapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import com.ygaps.travelapp.API.NotificationListResponse;
+import com.ygaps.travelapp.API.Responses.NotificationListResponse;
 import com.ygaps.travelapp.API.Travel_Supporter_Client;
 
 import retrofit2.Call;

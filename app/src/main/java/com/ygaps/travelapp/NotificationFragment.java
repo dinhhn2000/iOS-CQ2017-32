@@ -1,32 +1,22 @@
 package com.ygaps.travelapp;
 
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.ygaps.travelapp.API.NotificationListResponse;
-import com.ygaps.travelapp.API.Travel_Supporter_Client;
 import com.ygaps.travelapp.Custom_Adapter.notificationAdapter;
 import com.ygaps.travelapp.utils.Notification;
 
 import java.util.ArrayList;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**

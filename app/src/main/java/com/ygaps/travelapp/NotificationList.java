@@ -1,28 +1,18 @@
 package com.ygaps.travelapp;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.AbsListView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.ygaps.travelapp.API.TourListResponse;
 import com.ygaps.travelapp.API.Travel_Supporter_Client;
 import com.ygaps.travelapp.Custom_Adapter.notificationAdapter;
-import com.ygaps.travelapp.NotificationList;
-import com.ygaps.travelapp.API.NotificationListResponse;
+import com.ygaps.travelapp.API.Responses.NotificationListResponse;
 import java.util.ArrayList;
 import com.ygaps.travelapp.utils.Notification;
 import retrofit2.Call;

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/border_rounded_shadow"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/tourAvatar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_rounded_shadow"
+        android:scaleType="fitXY"
+        android:src="@mipmap/beach" />
+
+    <TextView
+        android:id="@+id/stopPointName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_subtitles_cyan_24dp"
+        android:drawablePadding="5dp"
+        android:padding="8dp" />
+
+    <TextView
+        android:id="@+id/stopPointAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_location_on_black_24dp"
+        android:drawablePadding="5dp"
+        android:padding="8dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/stopPointTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_calendar_today_24px"
+        android:drawablePadding="5dp"
+        android:padding="8dp" />
+
+    <TextView
+        android:id="@+id/stopPointPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_attach_money_black_24dp"
+        android:drawablePadding="5dp"
+        android:padding="8dp"
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/stopPointService"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_business_red_24dp"
+        android:drawablePadding="5dp"
+        android:padding="8dp"
+        android:textColor="@color/colorPrimary" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp">
+
+        <Button
+            android:id="@+id/stopPointCommentsBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@null"
+            android:drawableLeft="@drawable/ic_mode_comment_cyan_24dp"
+            android:text="Comments" />
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:background="@color/colorPrimary" />
+
+        <Button
+            android:id="@+id/stopPointRatingBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@null"
+            android:drawableLeft="@drawable/ic_star_yellow_24dp"
+            android:text="Rating" />
+    </LinearLayout>
+
+
+</LinearLayout>

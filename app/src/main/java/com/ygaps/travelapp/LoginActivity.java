@@ -12,11 +12,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
-import com.ygaps.travelapp.API.LoginFacebookRequest;
-import com.ygaps.travelapp.API.LoginFacebookResponse;
-import com.ygaps.travelapp.API.LoginResponse;
+import com.ygaps.travelapp.API.Requests.LoginFacebookRequest;
+import com.ygaps.travelapp.API.Responses.LoginFacebookResponse;
+import com.ygaps.travelapp.API.Responses.LoginResponse;
 import com.ygaps.travelapp.API.Travel_Supporter_Client;
-import com.ygaps.travelapp.API.LoginRequest;
+import com.ygaps.travelapp.API.Requests.LoginRequest;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;

@@ -11,11 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.ygaps.travelapp.API.MessageResponse;
-import com.ygaps.travelapp.API.SendEmailVerificationRequest;
-import com.ygaps.travelapp.API.SendEmailVerificationResponse;
+import com.ygaps.travelapp.API.Responses.SendEmailVerificationResponse;
 import com.ygaps.travelapp.API.Travel_Supporter_Client;
-import com.ygaps.travelapp.API.VerifyOTP_PasswordRecoveryRequest;
 
 import retrofit2.Call;
 import retrofit2.Callback;

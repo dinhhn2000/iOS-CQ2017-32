@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ygaps.travelapp.API.TourListResponse;
+import com.ygaps.travelapp.API.Responses.TourListResponse;
 import com.ygaps.travelapp.API.Travel_Supporter_Client;
 import com.ygaps.travelapp.Custom_Adapter.tourListAdapter;
 import com.ygaps.travelapp.utils.Tour;

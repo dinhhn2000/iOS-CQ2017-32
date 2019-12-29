@@ -12,10 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.facebook.login.Login;
-import com.ygaps.travelapp.API.SendEmailVerificationResponse;
 import com.ygaps.travelapp.API.Travel_Supporter_Client;
-import com.ygaps.travelapp.API.VerifyCode_EmailVerificationResponse;
+import com.ygaps.travelapp.API.Responses.VerifyCode_EmailVerificationResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;

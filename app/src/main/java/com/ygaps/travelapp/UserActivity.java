@@ -12,10 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.ygaps.travelapp.API.MessageResponse;
+import com.ygaps.travelapp.API.Responses.MessageResponse;
 import com.ygaps.travelapp.API.Travel_Supporter_Client;
-import com.ygaps.travelapp.API.UpdateUserInfoRequest;
-import com.ygaps.travelapp.API.UserInfoResponse;
+import com.ygaps.travelapp.API.Requests.UpdateUserInfoRequest;
+import com.ygaps.travelapp.API.Responses.UserInfoResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;

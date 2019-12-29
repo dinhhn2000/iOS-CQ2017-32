@@ -14,19 +14,33 @@ public class StopPoint implements Serializable {
     @SerializedName("long")
     @Expose
     private double Long;
-    private long arriveAt;
+    private long arrivalAt;
     private long leaveAt;
     private int serviceTypeId;
     private int minCost;
     private int maxCost;
 
-    public StopPoint(String name, String address, int provinceId, double lat, double aLong, long arriveAt, long leaveAt, int serviceTypeId, int minCost, int maxCost) {
+    public StopPoint(String name, String address, int provinceId, double lat, double aLong, long arrivalAt, long leaveAt, int serviceTypeId, int minCost, int maxCost) {
         Long = aLong;
         this.name = name;
         this.address = address;
         this.provinceId = provinceId;
         this.lat = lat;
-        this.arriveAt = arriveAt;
+        this.arrivalAt = arrivalAt;
+        this.leaveAt = leaveAt;
+        this.serviceTypeId = serviceTypeId;
+        this.minCost = minCost;
+        this.maxCost = maxCost;
+    }
+
+    public StopPoint(int id, String name, String address, int provinceId, double lat, double aLong, long arrivalAt, long leaveAt, int serviceTypeId, int minCost, int maxCost) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.provinceId = provinceId;
+        this.lat = lat;
+        Long = aLong;
+        this.arrivalAt = arrivalAt;
         this.leaveAt = leaveAt;
         this.serviceTypeId = serviceTypeId;
         this.minCost = minCost;
@@ -42,7 +56,7 @@ public class StopPoint implements Serializable {
                 ", address='" + address + '\'' +
                 ", provinceId=" + provinceId +
                 ", lat=" + lat +
-                ", arriveAt=" + arriveAt +
+                ", arrivalAt=" + arrivalAt +
                 ", leaveAt=" + leaveAt +
                 ", serviceTypeId=" + serviceTypeId +
                 ", minCost=" + minCost +
@@ -99,11 +113,11 @@ public class StopPoint implements Serializable {
     }
 
     public long getArriveAt() {
-        return arriveAt;
+        return arrivalAt;
     }
 
-    public void setArriveAt(long arriveAt) {
-        this.arriveAt = arriveAt;
+    public void setArriveAt(long arrivalAt) {
+        this.arrivalAt = arrivalAt;
     }
 
     public long getLeaveAt() {

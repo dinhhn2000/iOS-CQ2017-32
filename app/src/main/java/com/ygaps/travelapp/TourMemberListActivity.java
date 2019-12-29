@@ -63,7 +63,7 @@ public class TourMemberListActivity extends AppCompatActivity {
 
         String token = sharedPreferences.getString("token", "");
         long tourId = getIntent().getLongExtra("TOUR_ID", 0);
-//        Log.d("service", "onClick: " + serviceId);
+//       //Log.d("service", "onClick: " + serviceId);
 
         Call<getTourInfoResponse> call = client.getTour(token, tourId);
         call.enqueue(new Callback<getTourInfoResponse>() {
@@ -71,9 +71,9 @@ public class TourMemberListActivity extends AppCompatActivity {
             public void onResponse(Call<getTourInfoResponse> call, Response<getTourInfoResponse> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null && response.body().getMembers().size() > 0) {
-//                        Log.d("Feedbacks", "onResponse: " + response.body().getFeedbackList());
+//                       //Log.d("Feedbacks", "onResponse: " + response.body().getFeedbackList());
                         ArrayList<Member> getData = new ArrayList<>(response.body().getMembers());
-                        Log.d("zzz", "onResponse: " + getData.toString());
+                       //Log.d("zzz", "onResponse: " + getData.toString());
                         members.addAll(getData);
                         adapter.notifyDataSetChanged();
                     }
@@ -82,7 +82,7 @@ public class TourMemberListActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<getTourInfoResponse> call, Throwable t) {
-                Log.d("Response_Error", "onFailure: " + t.getMessage());
+               //Log.d("Response_Error", "onFailure: " + t.getMessage());
             }
         });
     }

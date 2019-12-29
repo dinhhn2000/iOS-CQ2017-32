@@ -162,7 +162,7 @@ public class GetLocationActivity extends FragmentActivity implements OnMapReadyC
 
         if (list.size() > 0) {
             Address address = list.get(0);
-            Log.d("searching", "search: " + address);
+           //Log.d("searching", "search: " + address);
 
             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
             latitude = latLng.latitude;

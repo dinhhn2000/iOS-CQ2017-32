@@ -71,7 +71,7 @@ public class PersonalTourList extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                Toast.makeText(getApplicationContext(), tourList.get(position).toString(), Toast.LENGTH_SHORT).show();
-                Log.d("personal", "onItemClick: " + tourList.get(position).toString());
+                //Log.d("personal", "onItemClick: " + tourList.get(position).toString());
                 Intent intent = new Intent(getBaseContext(), AddStopPointActivity.class);
                 intent.putExtra("TOUR_ID", tourList.get(position).getId());
                 startActivity(intent);
@@ -94,7 +94,7 @@ public class PersonalTourList extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (response.body() != null && response.body().getTours().size() > 0) {
                         ArrayList<Tour> getData = new ArrayList<Tour>(response.body().getTours());
-                        Log.d("PERSONAL_TOUR", "onResponse: " + getData);
+                        //Log.d("PERSONAL_TOUR", "onResponse: " + getData);
                         tourList.addAll(getData);
                         adapter.notifyDataSetChanged();
                     }
@@ -103,7 +103,7 @@ public class PersonalTourList extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<TourListResponse> call, Throwable t) {
-                Log.d("Response_Error", "onFailure: " + t.getMessage());
+                //Log.d("Response_Error", "onFailure: " + t.getMessage());
             }
         });
     }

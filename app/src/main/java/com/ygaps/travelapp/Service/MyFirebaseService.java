@@ -29,7 +29,7 @@ public class MyFirebaseService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // handle a notification payload.
         if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            //Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
 
             sendNotification(remoteMessage.getNotification().getBody());
         }
@@ -37,7 +37,7 @@ public class MyFirebaseService extends FirebaseMessagingService {
 
     @Override
     public void onNewToken(String token) {
-        Log.d(TAG, "Refreshed token: " + token);
+        //Log.d(TAG, "Refreshed token: " + token);
 
         sendRegistrationToServer(token);
     }

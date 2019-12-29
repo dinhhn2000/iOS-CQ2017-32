@@ -70,7 +70,7 @@ public class StopPointListActivity extends AppCompatActivity {
                     if(searchResult != null){
                         stopPointList.clear();
                         stopPointList.addAll(searchResult);
-                        Log.d("SEARCH", "onEditorAction: "+ stopPointList.toString());
+                       //Log.d("SEARCH", "onEditorAction: "+ stopPointList.toString());
                         adapter.notifyDataSetChanged();
                     }
                     return true;
@@ -117,7 +117,7 @@ public class StopPointListActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<getTourInfoResponse> call, Throwable t) {
-                Log.d("Response_Error", "onFailure: " + t.getMessage());
+               //Log.d("Response_Error", "onFailure: " + t.getMessage());
             }
         });
     }

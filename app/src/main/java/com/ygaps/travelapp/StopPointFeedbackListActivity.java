@@ -88,7 +88,7 @@ public class StopPointFeedbackListActivity extends AppCompatActivity {
 
         String token = sharedPreferences.getString("token", "");
         long serviceId = getIntent().getLongExtra("SERVICE_ID", 0);
-        Log.d("service", "onClick: " + serviceId);
+        //Log.d("service", "onClick: " + serviceId);
         int rowPerPage = 5;
 
         Call<StopPointFeedbackResponse> call = client.getStopPointFeedback(token, serviceId, pageNum++, rowPerPage);
@@ -97,7 +97,7 @@ public class StopPointFeedbackListActivity extends AppCompatActivity {
             public void onResponse(Call<StopPointFeedbackResponse> call, Response<StopPointFeedbackResponse> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null && response.body().getFeedbackList().size() > 0) {
-                        Log.d("Feedbacks", "onResponse: " + response.body().getFeedbackList());
+                        //Log.d("Feedbacks", "onResponse: " + response.body().getFeedbackList());
                         ArrayList<StopPointFeedback> getData = new ArrayList<>(response.body().getFeedbackList());
                         feedbacks.addAll(getData);
                         adapter.notifyDataSetChanged();
@@ -107,7 +107,7 @@ public class StopPointFeedbackListActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<StopPointFeedbackResponse> call, Throwable t) {
-                Log.d("Response_Error", "onFailure: " + t.getMessage());
+                //Log.d("Response_Error", "onFailure: " + t.getMessage());
             }
         });
     }

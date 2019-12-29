@@ -41,7 +41,7 @@ public class TourCommentAdapter extends ArrayAdapter<TourComment> {
             viewHolder = (TourCommentAdapter.ViewHolder) convertView.getTag();
         }
         final TourComment comment = arrTourComment.get(position);
-        Log.d("zzz", "getView: " + position);
+       //Log.d("zzz", "getView: " + position);
         viewHolder.name.setText(comment.getName());
         viewHolder.content.setText(comment.getComment() == null ? "Data lost... We are sorry" : comment.getComment());
 

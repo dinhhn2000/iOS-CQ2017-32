@@ -60,7 +60,7 @@ public class VerifyOTP extends AppCompatActivity {
                     public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
                         if (!response.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "Verify OTP fail" , Toast.LENGTH_SHORT).show();
-                            Log.d("VerifyOTP", "onResponse: Verify OTP successfull - " + response.message());
+                            //Log.d("VerifyOTP", "onResponse: Verify OTP successfull - " + response.message());
                             return;
                         }
 
@@ -68,7 +68,7 @@ public class VerifyOTP extends AppCompatActivity {
 
                         if (data != null) {
                             Toast.makeText(getApplicationContext(), "Verify OTP successful", Toast.LENGTH_SHORT).show();
-                            Log.d("VerifyOTP", "onResponse: Verify OTP success"+ data.getMessage());
+                            //Log.d("VerifyOTP", "onResponse: Verify OTP success"+ data.getMessage());
                         }
                         Intent intent = new Intent(getApplication(), LoginActivity.class);
                         startActivity(intent);
@@ -77,7 +77,7 @@ public class VerifyOTP extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<MessageResponse> call, Throwable t) {
                         Toast.makeText(getApplicationContext(), "Verify OTP fail " , Toast.LENGTH_SHORT).show();
-                        Log.d("VerifyOTP", "onResponse: Verify OTP fail - " + t.getMessage());
+                        //Log.d("VerifyOTP", "onResponse: Verify OTP fail - " + t.getMessage());
                     }
                 });
             }

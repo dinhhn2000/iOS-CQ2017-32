@@ -130,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                 final AccessToken accessToken = AccessToken.getCurrentAccessToken();
                 boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
                 if (isLoggedIn) {
-//                    Log.d("TOKEN", "onSuccess: " + accessToken.getToken());
+//                   //Log.d("TOKEN", "onSuccess: " + accessToken.getToken());
                     LoginFacebookRequest loginRequest = new LoginFacebookRequest(accessToken.getToken());
                     Call<LoginFacebookResponse> call = client.loginByFacebook(loginRequest);
 

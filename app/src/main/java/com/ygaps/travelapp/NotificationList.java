@@ -83,14 +83,14 @@ public class NotificationList extends AppCompatActivity {
                         ArrayList<Notification> getData = new ArrayList<Notification>(response.body().getNotification());
                         notification.addAll(getData);
                         adapter.notifyDataSetChanged();
-                        Log.d("Response_Notification", "Successful ");
+                        //Log.d("Response_Notification", "Successful ");
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<NotificationListResponse> call, Throwable t) {
-                Log.d("Response_Notification", "onFailure: " + t.getMessage());
+                //Log.d("Response_Notification", "onFailure: " + t.getMessage());
             }
         });
     }

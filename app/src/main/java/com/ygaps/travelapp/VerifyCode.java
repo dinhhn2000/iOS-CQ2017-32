@@ -58,7 +58,7 @@ public class VerifyCode extends AppCompatActivity {
                     public void onResponse(Call<VerifyCode_EmailVerificationResponse> call, Response<VerifyCode_EmailVerificationResponse> response) {
                         if (!response.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "Verify code fail" , Toast.LENGTH_SHORT).show();
-                            Log.d("VerifyCode", "onResponse: Verify code successfull - " + response.message());
+                            //Log.d("VerifyCode", "onResponse: Verify code successfull - " + response.message());
                             return;
                         }
 
@@ -66,7 +66,7 @@ public class VerifyCode extends AppCompatActivity {
 
                         if (data != null) {
                             Toast.makeText(getApplicationContext(), "Verify code successful", Toast.LENGTH_SHORT).show();
-                            Log.d("VerifyCode", "onResponse: Verify code success "+ data.getSuccess() );
+                            //Log.d("VerifyCode", "onResponse: Verify code success "+ data.getSuccess() );
                         }
                         Intent intent = new Intent(getApplication(), LoginActivity.class);
                         //intent.putExtra("USER_ID", data.getUserId());
@@ -77,7 +77,7 @@ public class VerifyCode extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<VerifyCode_EmailVerificationResponse> call, Throwable t) {
                         Toast.makeText(getApplicationContext(), "Send verify code fail " , Toast.LENGTH_SHORT).show();
-                        Log.d("VerifyCode", "onResponse: Send verify code fail - " + t.getMessage());
+                        //Log.d("VerifyCode", "onResponse: Send verify code fail - " + t.getMessage());
                     }
                 });
             }

@@ -65,7 +65,7 @@ public class TourCommentListActivity extends AppCompatActivity {
 
         String token = sharedPreferences.getString("token", "");
         long tourId = getIntent().getLongExtra("TOUR_ID", 0);
-//        Log.d("service", "onClick: " + serviceId);
+//       //Log.d("service", "onClick: " + serviceId);
 
         Call<getTourInfoResponse> call = client.getTour(token, tourId);
         call.enqueue(new Callback<getTourInfoResponse>() {
@@ -74,7 +74,7 @@ public class TourCommentListActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (response.body() != null && response.body().getTourComments().size() > 0) {
                         ArrayList<TourComment> getData = new ArrayList<>(response.body().getTourComments());
-//                        Log.d("zzz", "onResponse: " + response.body().getTourComments().toString());
+//                       //Log.d("zzz", "onResponse: " + response.body().getTourComments().toString());
                         comments.addAll(getData);
                         adapter.notifyDataSetChanged();
                     }
@@ -83,7 +83,7 @@ public class TourCommentListActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<getTourInfoResponse> call, Throwable t) {
-                Log.d("Response_Error", "onFailure: " + t.getMessage());
+               //Log.d("Response_Error", "onFailure: " + t.getMessage());
             }
         });
     }

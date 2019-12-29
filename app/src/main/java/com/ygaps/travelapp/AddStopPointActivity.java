@@ -239,7 +239,7 @@ public class AddStopPointActivity extends FragmentActivity implements OnMapReady
 
         if (list.size() > 0) {
             Address address = list.get(0);
-            Log.d("searching", "search: " + address);
+            //Log.d("searching", "search: " + address);
 
             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
             latitude = latLng.latitude;
@@ -321,14 +321,14 @@ public class AddStopPointActivity extends FragmentActivity implements OnMapReady
 
         if (requestCode == RESULT_STOP_POINT_INFO && resultCode == RESULT_OK && data != null) {
             StopPoint newStopPoint = (StopPoint) data.getSerializableExtra("NEW_STOP_POINT");
-//            Log.d("NEW_STOP_POINT", "onActivityResult: " + newStopPoint.toString());
+//            //Log.d("NEW_STOP_POINT", "onActivityResult: " + newStopPoint.toString());
             ArrayList<StopPoint> setStopPoints = new ArrayList<>();
             setStopPoints.add(newStopPoint);
             long tourId = getIntent().getLongExtra("TOUR_ID", -1);
             int[] deleteId = new int[0];
 
             AddStopPointRequest request = new AddStopPointRequest(String.valueOf(tourId), setStopPoints, deleteId);
-//            Log.d("NEW_STOP_POINT", "onActivityResult: " + request.toString());
+//            //Log.d("NEW_STOP_POINT", "onActivityResult: " + request.toString());
 
             setStopPoint(request);
         }
@@ -388,7 +388,7 @@ public class AddStopPointActivity extends FragmentActivity implements OnMapReady
         String token = sharedPreferences.getString("token", "");
 
         long tourId = getIntent().getLongExtra("TOUR_ID", -1);
-//        Log.d("Tour_info_tour_id", "getStopPoints: " + tourId + '/' + token);
+//        //Log.d("Tour_info_tour_id", "getStopPoints: " + tourId + '/' + token);
         Call<getTourInfoResponse> call = client.getTour(token, tourId);
         final boolean[] result = {false};
         call.enqueue(new Callback<getTourInfoResponse>() {
@@ -402,7 +402,7 @@ public class AddStopPointActivity extends FragmentActivity implements OnMapReady
 
                 if (res != null) {
 //                    Toast.makeText(getApplicationContext(), "Get tour info successful", Toast.LENGTH_SHORT).show();
-//                    Log.d("Tour_info", "onResponse: "+ res.toString());
+//                    //Log.d("Tour_info", "onResponse: "+ res.toString());
                     stopPoints = res.getStopPoints();
                     result[0] = true;
                     onResume();
@@ -445,7 +445,7 @@ public class AddStopPointActivity extends FragmentActivity implements OnMapReady
 
                 if (suggestedStopPointResponse != null) {
 //                    Toast.makeText(getApplicationContext(), "Get tour info successful", Toast.LENGTH_SHORT).show();
-//                    Log.d("Tour_info", "onResponse: "+ res.toString());
+//                    //Log.d("Tour_info", "onResponse: "+ res.toString());
                     suggestedStopPoints = suggestedStopPointResponse.getStopPoints();
                     result[0] = true;
                     onResume();
@@ -544,7 +544,7 @@ public class AddStopPointActivity extends FragmentActivity implements OnMapReady
             @Override
             public void onClick(View v) {
                 // Move to AddStopPoint screen
-//                    Log.d("Stop_point_long_click", "onMapLongClick: " + latitude + '/' + longitude);
+//                    //Log.d("Stop_point_long_click", "onMapLongClick: " + latitude + '/' + longitude);
                 Intent intent = new Intent(getApplication(), StopPointInfoActivity.class);
                 intent.putExtra("LAT", latitude);
                 intent.putExtra("LONG", longitude);

@@ -51,7 +51,7 @@ public class ForgotPassword extends AppCompatActivity {
                     temp = "email";
                 }
                 else temp = "phone";
-                Log.d("SendEmailVerification", "onResponse: Send email verification successfull - " + temp);
+                //Log.d("SendEmailVerification", "onResponse: Send email verification successfull - " + temp);
                 RequestOTP_PasswordRecoveryRequest requestOTP_passwordRecoveryRequest = new RequestOTP_PasswordRecoveryRequest(temp,enter_value.getText().toString());
                 Call<RequestOTP_PasswordRecoveryResponse> call = client.RequestOTP(requestOTP_passwordRecoveryRequest);
                 if (enter_value.getText().toString() == ""  ) {
@@ -64,7 +64,7 @@ public class ForgotPassword extends AppCompatActivity {
                     public void onResponse(Call<RequestOTP_PasswordRecoveryResponse> call, Response<RequestOTP_PasswordRecoveryResponse> response) {
                         if (!response.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "Request fail" , Toast.LENGTH_SHORT).show();
-                            Log.d("SendEmailVerification", "onResponse: Send email verification successfull - " + response.message());
+                            //Log.d("SendEmailVerification", "onResponse: Send email verification successfull - " + response.message());
                             return;
                         }
 
@@ -75,7 +75,7 @@ public class ForgotPassword extends AppCompatActivity {
                         startActivity(intent);
                         if (data != null) {
                             Toast.makeText(getApplicationContext(), "Send email verification successful", Toast.LENGTH_SHORT).show();
-                            Log.d("SendEmailVerification", "onResponse: Send email verification success");
+                            //Log.d("SendEmailVerification", "onResponse: Send email verification success");
 
                             UserId = data.getUserId();
                             //String temp = data.getType();
@@ -85,7 +85,7 @@ public class ForgotPassword extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<RequestOTP_PasswordRecoveryResponse> call, Throwable t) {
                         Toast.makeText(getApplicationContext(), "Request send email verification fail " , Toast.LENGTH_SHORT).show();
-                        Log.d("SendEmailVerification", "onResponse: Request Send email verification fail - " + t.getMessage());
+                        //Log.d("SendEmailVerification", "onResponse: Request Send email verification fail - " + t.getMessage());
                     }
                 });
 
@@ -101,13 +101,13 @@ public class ForgotPassword extends AppCompatActivity {
            //         public void onResponse(Call<MessageResponse> call1, Response<MessageResponse> response) {
            //             if (response.isSuccessful()) {
            //                 MessageResponse data = response.body();
-            //                Log.d("SendEmailVerification", "onResponse: Send email verification succesful - " );
+            //                //Log.d("SendEmailVerification", "onResponse: Send email verification succesful - " );
             //            }
             //        }
              //       @Override
              //       public void onFailure(Call<MessageResponse> call, Throwable t) {
               //          Toast.makeText(getApplicationContext(), "Send email verification fail " , Toast.LENGTH_SHORT).show();
-             //           Log.d("Response_Error", "onFailure: " + t.getMessage());
+             //           //Log.d("Response_Error", "onFailure: " + t.getMessage());
              //      }
           //      });
         //    }

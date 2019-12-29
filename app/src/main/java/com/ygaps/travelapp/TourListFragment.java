@@ -135,14 +135,14 @@ public class TourListFragment extends Fragment {
                         getData = getActiveTour(getData);
                         tourList.addAll(getData);
                         adapter.notifyDataSetChanged();
-                        Log.d("zzz", "onResponse: " + tourList);
+                        //Log.d("zzz", "onResponse: " + tourList);
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<TourListResponse> call, Throwable t) {
-                Log.d("Response_Error", "onFailure: " + t.getMessage());
+                //Log.d("Response_Error", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -176,7 +176,7 @@ public class TourListFragment extends Fragment {
 
             @Override
             public void onFailure(Call<TourListResponse> call, Throwable t) {
-                Log.d("Response_Error", "onFailure: " + t.getMessage());
+                //Log.d("Response_Error", "onFailure: " + t.getMessage());
             }
         });
     }

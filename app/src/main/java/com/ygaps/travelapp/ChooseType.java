@@ -62,7 +62,7 @@ public class ChooseType extends AppCompatActivity {
                 public void onResponse(Call<SendEmailVerificationResponse> call, Response<SendEmailVerificationResponse> response) {
                     if (!response.isSuccessful()) {
                         Toast.makeText(getApplicationContext(), "Verify OTP fail" , Toast.LENGTH_SHORT).show();
-                        Log.d("VerifyOTP", "onResponse: Verify OTP successfull - " + response.message());
+                        //Log.d("VerifyOTP", "onResponse: Verify OTP successfull - " + response.message());
                         return;
                     }
 
@@ -70,7 +70,7 @@ public class ChooseType extends AppCompatActivity {
 
                     if (data != null) {
                         Toast.makeText(getApplicationContext(), "Verify OTP successful", Toast.LENGTH_SHORT).show();
-                        Log.d("VerifyOTP", "onResponse: Verify OTP success"+ data.getUserId() + " " + data.getSendTo() + " " + data.getExpiredOn());
+                        //Log.d("VerifyOTP", "onResponse: Verify OTP success"+ data.getUserId() + " " + data.getSendTo() + " " + data.getExpiredOn());
                     }
                     Intent intent = new Intent(getApplication(), VerifyCode.class);
                     intent.putExtra("USER_ID", data.getUserId());
@@ -81,7 +81,7 @@ public class ChooseType extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<SendEmailVerificationResponse> call, Throwable t) {
                     Toast.makeText(getApplicationContext(), "Send verify code fail " , Toast.LENGTH_SHORT).show();
-                    Log.d("VerifyCode", "onResponse: Send verify code fail - " + t.getMessage());
+                    //Log.d("VerifyCode", "onResponse: Send verify code fail - " + t.getMessage());
                 }
             });
             }
@@ -96,7 +96,7 @@ public class ChooseType extends AppCompatActivity {
                     public void onResponse(Call<SendEmailVerificationResponse> call, Response<SendEmailVerificationResponse> response) {
                         if (!response.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "Verify OTP fail" , Toast.LENGTH_SHORT).show();
-                            Log.d("VerifyOTP", "onResponse: Verify OTP successfull - " + response.message());
+                            //Log.d("VerifyOTP", "onResponse: Verify OTP successfull - " + response.message());
                             return;
                         }
 
@@ -104,7 +104,7 @@ public class ChooseType extends AppCompatActivity {
 
                         if (data != null) {
                             Toast.makeText(getApplicationContext(), "Verify OTP successful", Toast.LENGTH_SHORT).show();
-                            Log.d("VerifyOTP", "onResponse: Verify OTP success"+ data.getUserId() + " " + data.getSendTo() + " " + data.getExpiredOn());
+                            //Log.d("VerifyOTP", "onResponse: Verify OTP success"+ data.getUserId() + " " + data.getSendTo() + " " + data.getExpiredOn());
                         }
                         Intent intent = new Intent(getApplication(), VerifyCode.class);
                         intent.putExtra("USER_ID", data.getUserId());
@@ -115,7 +115,7 @@ public class ChooseType extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<SendEmailVerificationResponse> call, Throwable t) {
                         Toast.makeText(getApplicationContext(), "Send verify code fail " , Toast.LENGTH_SHORT).show();
-                        Log.d("VerifyCode", "onResponse: Send verify code fail - " + t.getMessage());
+                        //Log.d("VerifyCode", "onResponse: Send verify code fail - " + t.getMessage());
                     }
                 });
             }

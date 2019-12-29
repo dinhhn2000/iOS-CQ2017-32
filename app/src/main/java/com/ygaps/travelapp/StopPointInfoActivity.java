@@ -101,7 +101,7 @@ public class StopPointInfoActivity extends AppCompatActivity implements DatePick
                     Date date = formatter.parse(dateInString);
                     arriveDateData = date.getTime();
                     arriveAt[0] += arriveDateData;
-                    Log.d("arriveDate", "onDateSet: " + arriveDateData);
+                    //Log.d("arriveDate", "onDateSet: " + arriveDateData);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -166,7 +166,7 @@ public class StopPointInfoActivity extends AppCompatActivity implements DatePick
                                 TextView arriveTimeTV = findViewById(R.id.arriveTimeTV);
                                 arriveTimeTV.setText(hourOfDay + ":" + minute);
                                 arriveAt[0] += (hourOfDay * 3600 + minute * 60) * 1000;
-                                Log.d("arriveTime", "onDateSet: " + (hourOfDay * 3600 + minute * 60) * 1000);
+                                //Log.d("arriveTime", "onDateSet: " + (hourOfDay * 3600 + minute * 60) * 1000);
                             }
                         }, mHour, mMinute, false);
                 timePickerDialog.show();

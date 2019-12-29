@@ -60,19 +60,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TourInfoActivity extends AppCompatActivity {
     private static int RESULT_LOAD_IMAGE = 0;
-    private static int RESULT_START_LOCATION = 1;
-    private static int RESULT_DEST_LOCATION = 2;
+//    private static int RESULT_START_LOCATION = 1;
+//    private static int RESULT_DEST_LOCATION = 2;
     private DatePickerDialog.OnDateSetListener startDateSetListener;
     private DatePickerDialog.OnDateSetListener endDateSetListener;
     private String imageBase64 = "";
-    private long temp;
     // Input data
     private long startTime = -1;
     private long endTime = -1;
-    private double startLat = -1;
-    private double startLong = -1;
-    private double endLat = -1;
-    private double endLong = -1;
+//    private double startLat = -1;
+//    private double startLong = -1;
+//    private double endLat = -1;
+//    private double endLong = -1;
     private long tourId;
     private int status;
 
@@ -130,7 +129,7 @@ public class TourInfoActivity extends AppCompatActivity {
 
         tourId = intent.getLongExtra("TOUR_ID", 0);
 
-        Log.d("TourInfoResponse", "TourID:  " + tourId);
+        //Log.d("TourInfoResponse", "TourID:  " + tourId);
         String token = sharedPreferences.getString("token", "");
 
         Call<getTourInfoResponse> call = client.getTour(token, tourId);
@@ -140,7 +139,7 @@ public class TourInfoActivity extends AppCompatActivity {
             public void onResponse(Call<getTourInfoResponse> call, Response<getTourInfoResponse> response) {
                 if (!response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Error code: " + response.code(), Toast.LENGTH_SHORT).show();
-                    Log.d("TourInfoResponse", "onResponse: Response fail - " + response.message());
+                    //Log.d("TourInfoResponse", "onResponse: Response fail - " + response.message());
                     return;
                 }
                 status = response.body().getStatus();
@@ -164,28 +163,25 @@ public class TourInfoActivity extends AppCompatActivity {
                 start_date.setText(Start);
                 end_date.setText(End);
 
-                if (IsPrivate = true) {
+                if (IsPrivate == true) {
                     is_private.setChecked(true);
                 } else is_private.setChecked(false);
 
-                Log.d("TourInfoResponse", "response start date + end date " + startDate + " " + endDate);
-                Log.d("TourInfoResponse", data.toString());
+                //Log.d("TourInfoResponse", "response start date + end date " + startDate + " " + endDate);
+                //Log.d("TourInfoResponse", data.toString());
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
                 if (data == null) {
-                    Log.d("TourInfoResponse", "response fail " + response.message());
+                    //Log.d("TourInfoResponse", "response fail " + response.message());
                     return;
                 }
-
-
             }
 
             @Override
             public void onFailure(Call<getTourInfoResponse> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.d("UserInfoResponse", "onResponse: UserInfoResponse fail - " + t.getMessage());
+                //Log.d("UserInfoResponse", "onResponse: UserInfoResponse fail - " + t.getMessage());
             }
-
         });
 
 
@@ -301,24 +297,24 @@ public class TourInfoActivity extends AppCompatActivity {
             }
         };
         // HANDLE PIN LOCATION
-        ImageButton startLocation = findViewById(R.id.startLocation);
-        ImageButton destLocation = findViewById(R.id.destinationLocation);
-
-        startLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplication(), GetLocationActivity.class);
-                startActivityForResult(intent, RESULT_START_LOCATION);
-            }
-        });
-
-        destLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplication(), GetLocationActivity.class);
-                startActivityForResult(intent, RESULT_DEST_LOCATION);
-            }
-        });
+//        ImageButton startLocation = findViewById(R.id.startLocation);
+//        ImageButton destLocation = findViewById(R.id.destinationLocation);
+//
+//        startLocation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplication(), GetLocationActivity.class);
+//                startActivityForResult(intent, RESULT_START_LOCATION);
+//            }
+//        });
+//
+//        destLocation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplication(), GetLocationActivity.class);
+//                startActivityForResult(intent, RESULT_DEST_LOCATION);
+//            }
+//        });
         updateInfoTour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -341,21 +337,21 @@ public class TourInfoActivity extends AppCompatActivity {
                         status);
 
                 String token = sharedPreferences.getString("token", "");
-                Log.d("Update Tour Info", " Update data " + tour_name + startTime + endTime + startLong + startLat + endLat + endLong);
+//                //Log.d("Update Tour Info", " Update data " + tour_name + startTime + endTime + startLong + startLat + endLat + endLong);
                 Call<UpdateTourResponse> call = client.updateTour(token, updateTourRequest);
                 call.enqueue(new Callback<UpdateTourResponse>() {
                     @Override
                     public void onResponse(Call<UpdateTourResponse> call, Response<UpdateTourResponse> response) {
                         if (!response.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "Error code: " + response.code(), Toast.LENGTH_SHORT).show();
-                            Log.d("Update Tour", "onResponse: Create fail - " + response.message());
+                            //Log.d("Update Tour", "onResponse: Create fail - " + response.message());
                             return;
                         }
                         UpdateTourResponse data = response.body();
 
                         if (data != null && data.getStartDate() != 0 && data.getEndDate() != 0) {
                             Toast.makeText(getApplicationContext(), "Create tout successful", Toast.LENGTH_SHORT).show();
-                            Log.d("Update Tour", "onResponse: Create success");
+                            //Log.d("Update Tour", "onResponse: Create success");
 
                         }
                     }
@@ -363,7 +359,7 @@ public class TourInfoActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<UpdateTourResponse> call, Throwable t) {
                         Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.d("Update Tour", "onResponse: Update fail - " + t.getMessage());
+                        //Log.d("Update Tour", "onResponse: Update fail - " + t.getMessage());
 
                     }
                 });
@@ -385,7 +381,7 @@ public class TourInfoActivity extends AppCompatActivity {
                     public void onResponse(Call<UpdateTourResponse> call, Response<UpdateTourResponse> response) {
                         if (!response.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "Error code: " + response.code(), Toast.LENGTH_SHORT).show();
-                            Log.d("Update Tour", "Finish Response fail - " + response.message());
+                            //Log.d("Update Tour", "Finish Response fail - " + response.message());
                             return;
                         }
                         UpdateTourResponse data = response.body();
@@ -398,7 +394,7 @@ public class TourInfoActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<UpdateTourResponse> call, Throwable t) {
                         Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.d("Update Tour", "Finish Response fail - " + t.getMessage());
+                        //Log.d("Update Tour", "Finish Response fail - " + t.getMessage());
 
                     }
                 });
@@ -418,7 +414,7 @@ public class TourInfoActivity extends AppCompatActivity {
                     public void onResponse(Call<UpdateTourResponse> call, Response<UpdateTourResponse> response) {
                         if (!response.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "Error code: " + response.code(), Toast.LENGTH_SHORT).show();
-                            Log.d("Update Tour", "Finish Response fail - " + response.message());
+                            //Log.d("Update Tour", "Finish Response fail - " + response.message());
                             return;
                         }
                         Intent intent = new Intent(getApplication(), MainActivity.class);
@@ -429,7 +425,7 @@ public class TourInfoActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<UpdateTourResponse> call, Throwable t) {
                         Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.d("Update Tour", "Finish Response fail - " + t.getMessage());
+                        //Log.d("Update Tour", "Finish Response fail - " + t.getMessage());
 
                     }
                 });
@@ -489,27 +485,27 @@ public class TourInfoActivity extends AppCompatActivity {
 
                 //Use your Base64 String as you wish
                 imageBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
-                Log.d("Base64", imageBase64);
+                //Log.d("Base64", imageBase64);
             }
         }
 
-        if (requestCode == RESULT_START_LOCATION && resultCode == RESULT_OK && data != null) {
-            TextView startLocationTV = findViewById(R.id.startLocationTV);
-            startLocationTV.setMovementMethod(new ScrollingMovementMethod());
-            startLong = data.getDoubleExtra("LONG", -1);
-            startLat = data.getDoubleExtra("LAT", -1);
-            String startLocale = String.format("%.3f", startLat) + '-' + String.format("%.3f", startLong);
-            startLocationTV.setText(startLocale);
-        }
-
-        if (requestCode == RESULT_DEST_LOCATION && resultCode == RESULT_OK && data != null) {
-            TextView destinationLocationTV = findViewById(R.id.destinationLocationTV);
-            destinationLocationTV.setMovementMethod(new ScrollingMovementMethod());
-            endLat = data.getDoubleExtra("LAT", -1);
-            endLong = data.getDoubleExtra("LONG", -1);
-            String endLocale = String.format("%.3f", endLat) + '-' + String.format("%.3f", endLong);
-            destinationLocationTV.setText(endLocale);
-        }
+//        if (requestCode == RESULT_START_LOCATION && resultCode == RESULT_OK && data != null) {
+//            TextView startLocationTV = findViewById(R.id.startLocationTV);
+//            startLocationTV.setMovementMethod(new ScrollingMovementMethod());
+//            startLong = data.getDoubleExtra("LONG", -1);
+//            startLat = data.getDoubleExtra("LAT", -1);
+//            String startLocale = String.format("%.3f", startLat) + '-' + String.format("%.3f", startLong);
+//            startLocationTV.setText(startLocale);
+//        }
+//
+//        if (requestCode == RESULT_DEST_LOCATION && resultCode == RESULT_OK && data != null) {
+//            TextView destinationLocationTV = findViewById(R.id.destinationLocationTV);
+//            destinationLocationTV.setMovementMethod(new ScrollingMovementMethod());
+//            endLat = data.getDoubleExtra("LAT", -1);
+//            endLong = data.getDoubleExtra("LONG", -1);
+//            String endLocale = String.format("%.3f", endLat) + '-' + String.format("%.3f", endLong);
+//            destinationLocationTV.setText(endLocale);
+//        }
 
 
     }

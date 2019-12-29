@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Log.d("initial_fragment", "onNavigationItemSelected: " + item.getItemId());
+                //Log.d("initial_fragment", "onNavigationItemSelected: " + item.getItemId());
                 switch (item.getItemId()) {
                     case R.id.navigation_tour:
                         setFragment(tourListFragment);

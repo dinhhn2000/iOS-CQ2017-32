@@ -100,7 +100,7 @@ public class TourListActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<TourListResponse> call, Throwable t) {
-                Log.d("Response_Error", "onFailure: " + t.getMessage());
+                //Log.d("Response_Error", "onFailure: " + t.getMessage());
             }
         });
     }

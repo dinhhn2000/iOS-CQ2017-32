@@ -290,14 +290,14 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
                     public void onResponse(Call<CreateTourResponse> call, Response<CreateTourResponse> response) {
                         if (!response.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "Error code: " + response.code(), Toast.LENGTH_SHORT).show();
-                            Log.d("createTour", "onResponse: Create fail - " + response.message());
+                            //Log.d("createTour", "onResponse: Create fail - " + response.message());
                             return;
                         }
                         CreateTourResponse data = response.body();
 
                         if (data != null && data.getStartDate() != 0 && data.getEndDate() != 0) {
                             Toast.makeText(getApplicationContext(), "Create tout successful", Toast.LENGTH_SHORT).show();
-                            Log.d("createTour", "onResponse: Create success");
+                            //Log.d("createTour", "onResponse: Create success");
                             Intent intent = new Intent(getApplication(), AddStopPointActivity.class);
                             startActivity(intent);
                         }
@@ -306,7 +306,7 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
                     @Override
                     public void onFailure(Call<CreateTourResponse> call, Throwable t) {
                         Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.d("createTour", "onResponse: Create fail - " + t.getMessage());
+                        //Log.d("createTour", "onResponse: Create fail - " + t.getMessage());
                     }
                 });
             }
@@ -339,7 +339,7 @@ public class CreateTourActivity extends AppCompatActivity implements DatePickerD
 
                 //Use your Base64 String as you wish
                 imageBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
-                Log.d("Base64", imageBase64);
+                //Log.d("Base64", imageBase64);
             }
         }
 

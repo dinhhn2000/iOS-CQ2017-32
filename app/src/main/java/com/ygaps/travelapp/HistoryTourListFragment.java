@@ -90,7 +90,7 @@ public class HistoryTourListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                Toast.makeText(getApplicationContext(), tourList.get(position).toString(), Toast.LENGTH_SHORT).show();
-                Log.d("personal", "onItemClick: " + tourList.get(position).toString());
+               //Log.d("personal", "onItemClick: " + tourList.get(position).toString());
                 Intent intent = new Intent(getActivity().getBaseContext(), AddStopPointActivity.class);
                 intent.putExtra("TOUR_ID", tourList.get(position).getId());
                 startActivity(intent);
@@ -118,14 +118,14 @@ public class HistoryTourListFragment extends Fragment {
                         getData = getHistoryTours(getData);
                         tourList.addAll(getData);
                         adapter.notifyDataSetChanged();
-                        Log.d("zzz", "onResponse: " + tourList);
+                       //Log.d("zzz", "onResponse: " + tourList);
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<TourListResponse> call, Throwable t) {
-                Log.d("Response_Error", "onFailure: " + t.getMessage());
+               //Log.d("Response_Error", "onFailure: " + t.getMessage());
             }
         });
     }

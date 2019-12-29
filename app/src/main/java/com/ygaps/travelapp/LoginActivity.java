@@ -33,6 +33,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static android.provider.Contacts.SettingsColumns.KEY;
+
 public class LoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager = CallbackManager.Factory.create();
 

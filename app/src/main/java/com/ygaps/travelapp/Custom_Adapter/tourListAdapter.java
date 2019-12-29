@@ -2,6 +2,7 @@ package com.ygaps.travelapp.Custom_Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ygaps.travelapp.R;
+import com.ygaps.travelapp.StopPointListActivity;
 import com.ygaps.travelapp.utils.Tour;
 
 import java.util.ArrayList;
@@ -48,7 +50,7 @@ public class tourListAdapter extends ArrayAdapter<Tour> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        Tour tour = arrTour.get(position);
+        final Tour tour = arrTour.get(position);
         viewHolder.avatar.setImageDrawable(context.getDrawable(R.mipmap.beach));
         viewHolder.location.setText(tour.getName());
 
@@ -82,7 +84,10 @@ public class tourListAdapter extends ArrayAdapter<Tour> {
         viewHolder.stopPointListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(context, StopPointListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("TOUR_ID", tour.getId());
+                context.startActivity(intent);
             }
         });
 

@@ -349,8 +349,8 @@
 
                 <Button
                     android:id="@+id/listComment"
-                    android:layout_width="265dp"
-                    android:layout_height="33dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_weight="3"
@@ -363,13 +363,13 @@
 
                 <Button
                     android:id="@+id/members"
-                    android:layout_width="265dp"
-                    android:layout_height="33dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_weight="3"
                     android:background="@drawable/border_rounded"
                     android:backgroundTint="@color/colorPrimary"
-                    android:text="Members"
+                    android:text="Creating"
                     android:textAllCaps="false"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp" />
@@ -379,27 +379,36 @@
 
             <Button
             android:id="@+id/ConfirmTourInfo"
-            android:layout_width="373dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:background="@drawable/border_rounded"
             android:backgroundTint="@color/colorPrimary"
             android:text="Update Tour"
-
             android:textColor="#FFFFFF"
             android:textSize="20sp" />
 
             <Button
                 android:id="@+id/finishTrip"
-                android:layout_width="373dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/border_rounded"
                 android:backgroundTint="@color/colorPrimary"
                 android:text="Finish"
-
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+            <Button
+                android:id="@+id/deleteTrip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/border_rounded"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="Delete"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp" />
         </LinearLayout>

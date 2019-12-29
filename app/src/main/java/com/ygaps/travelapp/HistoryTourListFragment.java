@@ -98,22 +98,6 @@ public class HistoryTourListFragment extends Fragment {
             }
         });
 
-        EditText searchEditText = view.findViewById(R.id.personalTourListEditText);
-        searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    performSearch();
-                    return true;
-                }
-                return false;
-            }
-
-            private void performSearch() {
-
-            }
-        });
-
         return view;
     }
 

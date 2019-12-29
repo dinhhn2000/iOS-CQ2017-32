@@ -95,6 +95,8 @@ public class TourInfoActivity extends AppCompatActivity {
         final EditText minCost = findViewById(R.id.minCostEditText);
         final Button updateInfoTour = findViewById(R.id.ConfirmTourInfo);
         final Button finish_trip = findViewById(R.id.finishTrip);
+        final Button delete_trip = findViewById(R.id.deleteTrip);
+
         Intent intent = this.getIntent();
         Bundle db = getIntent().getExtras();
 
@@ -377,6 +379,39 @@ public class TourInfoActivity extends AppCompatActivity {
                 });
             }
         });
+        delete_trip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String token = sharedPreferences.getString("token", "");
+                String id = Long.toString(tourId);
+
+                UpdateTourRequest finishTripRequest = new UpdateTourRequest( id,-1);
+                Call<UpdateTourResponse> call = client.updateTour(token, finishTripRequest);
+                call.enqueue(new Callback<UpdateTourResponse>() {
+                    @Override
+                    public void onResponse(Call<UpdateTourResponse> call, Response<UpdateTourResponse> response) {
+                        if (!response.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "Error code: " + response.code(), Toast.LENGTH_SHORT).show();
+                            Log.d("Update Tour", "Finish Response fail - " + response.message());
+                            return;
+                        }
+                        UpdateTourResponse data = response.body();
+
+                        Intent intent = new Intent(getApplication(), MainActivity.class);
+                        startActivity(intent);
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<UpdateTourResponse> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.d("Update Tour", "Finish Response fail - " + t.getMessage());
+
+                    }
+                });
+            }
+        });
+
     }
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
